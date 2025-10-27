@@ -177,7 +177,7 @@ export default function HeroSearch() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="grid gap-6 lg:gap-8 lg:grid-cols-2 items-center min-h-[65vh] py-8 lg:py-0">
           {/* Content */}
-          <div className="space-y-4 sm:space-y-6 flex flex-col justify-center">
+          <div className="space-y-4 sm:space-y-6 flex flex-col justify-center max-w-2xl lg:max-w-none">
             <div className="space-y-3 sm:space-y-4">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-tight" style={{ color:'rgba(255, 255, 255, 0.9)' }}>
                 Find student housing near your university
@@ -190,7 +190,7 @@ export default function HeroSearch() {
 
             {/* Search Form */}
             <form onSubmit={handleSearch} className="space-y-4 text-white">
-              <div className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
                 <Input
                   placeholder="Search by university or city"
                   value={searchQuery}
@@ -198,12 +198,12 @@ export default function HeroSearch() {
                   aria-label="Search by university or city"
                   className="w-full bg-white/20 border-white/30 text-white placeholder-white/70 focus:bg-white/30 focus:border-white/50 h-12 text-base"
                 />
-                <Button type="submit" className="w-full h-12 text-base font-medium">
+                <Button type="submit" className="w-full sm:w-auto h-12 text-base font-medium">
                   Search
                 </Button>
               </div>
               
-              <div className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <Select
                   options={[
                     { value: '', label: 'Select University' },
@@ -241,7 +241,7 @@ export default function HeroSearch() {
           {/* Visual Element - Hidden on mobile, shown on desktop */}
           <div className="hidden lg:block relative flex items-center justify-center min-h-[400px]">
             {/* Floating Cards */}
-            <div className="absolute -top-4 -left-4 rounded-2xl bg-white shadow-sm border border-gray-100 p-4 w-48 animate-fade-in">
+            <div className="absolute -top-4 -left-4 rounded-2xl bg-white shadow-lg border border-gray-100 p-6 w-56 animate-fade-in">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                   <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -255,7 +255,7 @@ export default function HeroSearch() {
               </div>
             </div>
             
-            <div className="absolute -bottom-4 -right-4 rounded-2xl bg-white shadow-sm border border-gray-100 p-4 w-48 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+            <div className="absolute -bottom-4 -right-4 rounded-2xl bg-white shadow-lg border border-gray-100 p-6 w-56 animate-fade-in" style={{ animationDelay: '0.5s' }}>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                   <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
