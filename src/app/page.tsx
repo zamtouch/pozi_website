@@ -58,8 +58,8 @@ export default function Home() {
 
         // Fetch featured properties (max 4)
         const properties = await fetchFeaturedProperties();
-        console.log('Fetched featured properties count:', properties.length);
-        console.log('Featured properties:', properties);
+        // console.log('Fetched featured properties count:', properties.length);
+        // console.log('Featured properties:', properties);
         setFeaturedProperties(properties);
       } catch (error) {
         console.error('Error fetching data:', error);

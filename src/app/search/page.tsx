@@ -56,13 +56,13 @@ function SearchPageContent() {
             let results: Property[] = [];
             
             if (query || university || amenities.length > 0) {
-              console.log('Searching with:', { query, university, amenities });
+              // console.log('Searching with:', { query, university, amenities });
               results = await searchProperties(query, university, amenities);
             } else {
               results = await fetchProperties();
             }
             
-            console.log('Search results:', results.length, 'properties found');
+            // console.log('Search results:', results.length, 'properties found');
             setProperties(results);
           } catch (error) {
             console.error('Error searching properties:', error);

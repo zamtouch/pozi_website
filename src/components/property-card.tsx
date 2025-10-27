@@ -93,7 +93,7 @@ export default function PropertyCard({ property, universityData, className }: Pr
   })();
 
   // Debug: Log photo information (uncomment for debugging)
-  console.log(`Property ${id} - Featured Image:`, featured_image, 'Main Photo URL:', mainPhoto);
+  // console.log(`Property ${id} - Featured Image:`, featured_image, 'Main Photo URL:', mainPhoto);
   const availableText = rooms_available === 1 ? 'room' : 'rooms';
   const totalText = total_rooms === 1 ? 'room' : 'rooms';
 

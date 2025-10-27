@@ -62,8 +62,8 @@ export async function fetchProperties(): Promise<Property[]> {
     const data: DirectusResponse<Property> = await response.json();
     
     // Debug: Log the raw data structure
-    console.log('All properties from Directus:', data);
-    console.log('Properties count:', data.data?.length || 0);
+    // console.log('All properties from Directus:', data);
+    // console.log('Properties count:', data.data?.length || 0);
     
     // Transform the data to include full image URLs
     const transformedData = data.data?.map(property => ({
@@ -88,8 +88,8 @@ export async function fetchFeaturedProperties(): Promise<Property[]> {
     }
     const data: DirectusResponse<Property> = await response.json();
     
-    console.log('Featured properties from Directus:', data);
-    console.log('Featured properties count:', data.data?.length || 0);
+    // console.log('Featured properties from Directus:', data);
+    // console.log('Featured properties count:', data.data?.length || 0);
     
     // Transform the data to include full image URLs
     const transformedData = data.data?.map(property => ({
@@ -116,10 +116,10 @@ export async function fetchFeaturedPropertiesFiltered(): Promise<Property[]> {
     const data: DirectusResponse<Property> = await response.json();
     
     // Debug: Log the raw data structure
-    console.log('Raw Directus data:', data);
-    if (data.data && data.data.length > 0) {
-      console.log('First property amenities:', data.data[0].amenities, 'Type:', typeof data.data[0].amenities);
-    }
+    // console.log('Raw Directus data:', data);
+    // if (data.data && data.data.length > 0) {
+    //   console.log('First property amenities:', data.data[0].amenities, 'Type:', typeof data.data[0].amenities);
+    // }
     
     return data.data || [];
   } catch (error) {
@@ -137,17 +137,17 @@ export async function searchProperties(
   try {
     let url = `${DIRECTUS_BASE_URL}/items/properties?filter[approved]=1&fields=*,university.*`;
     
-    console.log('Search properties called with:', { query, university, amenities });
+    // console.log('Search properties called with:', { query, university, amenities });
     
     if (query) {
       url += `&filter[title][_contains]=${encodeURIComponent(query)}`;
-      console.log('Added title filter for query:', query);
+      // console.log('Added title filter for query:', query);
     }
     
     // Handle university filter - need to get university ID from slug
     if (university) {
       try {
-        console.log('Looking up university ID for slug:', university);
+        // console.log('Looking up university ID for slug:', university);
         // First, get the university ID from the slug
         const universityResponse = await fetch(`${DIRECTUS_BASE_URL}/items/universities?filter[slug]=${encodeURIComponent(university)}`);
         if (universityResponse.ok) {
@@ -155,7 +155,7 @@ export async function searchProperties(
           if (universityData.data && universityData.data.length > 0) {
             const universityId = universityData.data[0].id;
             url += `&filter[university]=${universityId}`;
-            console.log('Added university filter for ID:', universityId);
+            // console.log('Added university filter for ID:', universityId);
           }
         } else {
           console.error('Failed to fetch university data:', universityResponse.status);
@@ -169,18 +169,18 @@ export async function searchProperties(
     if (amenities && amenities.length > 0) {
       amenities.forEach(amenity => {
         url += `&filter[amenities][_contains]=${amenity}`;
-        console.log('Added amenity filter for:', amenity);
+        // console.log('Added amenity filter for:', amenity);
       });
     }
     
-    console.log('Final search URL:', url);
+    // console.log('Final search URL:', url);
     
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data: DirectusResponse<Property> = await response.json();
-    console.log('Search returned', data.data?.length || 0, 'properties');
+    // console.log('Search returned', data.data?.length || 0, 'properties');
     
     // Transform the data to include full image URLs
     const transformedData = data.data?.map(property => ({
