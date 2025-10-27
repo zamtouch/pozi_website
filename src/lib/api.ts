@@ -82,7 +82,7 @@ export async function fetchProperties(): Promise<Property[]> {
 
 export async function fetchFeaturedProperties(): Promise<Property[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&limit=3&fields=*,university.*`);
+    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&limit=4&fields=*,university.*`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
