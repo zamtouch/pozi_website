@@ -77,9 +77,8 @@ const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), {
   ssr: false
 });
 
-const DivIcon = dynamic(() => import('react-leaflet').then((mod) => mod.DivIcon), {
-  ssr: false
-});
+// DivIcon is from core Leaflet, not react-leaflet
+// We'll create it directly using L.DivIcon when Leaflet is loaded
 
 interface MapComponentProps {
   latitude: number | string | null;
