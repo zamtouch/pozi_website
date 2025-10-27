@@ -26,13 +26,18 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           className={cn(
             'select',
             error && 'border-red-300 focus:border-red-500 focus:ring-red-500',
+            variant === 'white' && 'text-white bg-transparent border-white/30 focus:border-white/50 focus:ring-white/20',
             className
           )}
           ref={ref}
           {...props}
         >
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option 
+              key={option.value} 
+              value={option.value}
+              className={variant === 'white' ? 'text-gray-900 bg-white' : 'text-gray-900 bg-white'}
+            >
               {option.label}
             </option>
           ))}

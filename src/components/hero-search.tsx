@@ -133,7 +133,7 @@ export default function HeroSearch() {
       
       <section 
         className="flex items-center relative"
-        style={{ minHeight: '65vh' }}
+        style={{ minHeight: '75vh' }}
       >
         {/* Ken Burns Background */}
         <div 
@@ -217,7 +217,7 @@ export default function HeroSearch() {
                   label="Filter by University"
                   variant="white"
                   className="w-full bg-white/20 border-white/30 text-white"
-                  style={{ padding: '12px', borderRadius: '8px', color: 'white' }}
+                  style={{ padding: '12px', borderRadius: '8px' }}
                 />
                 <Button variant="outline" className="w-full h-12 border-white/30 text-white hover:bg-white/20 hover:border-white/50">
                   Advanced Filters
