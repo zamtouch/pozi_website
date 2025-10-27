@@ -174,15 +174,15 @@ export default function HeroSearch() {
         </div>
       )}
 
-      <div className="mx-auto max-w-7xl px-4 w-full relative z-10">
-        <div className="grid gap-8 lg:grid-cols-2 items-center min-h-[65vh]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div className="grid gap-6 lg:gap-8 lg:grid-cols-2 items-center min-h-[65vh] py-8 lg:py-0">
           {/* Content */}
-          <div className="space-y-6 flex flex-col justify-center">
-            <div className="space-y-4">
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-tight" style={{ color:'rgba(255, 255, 255, 0.65)' }}>
+          <div className="space-y-4 sm:space-y-6 flex flex-col justify-center">
+            <div className="space-y-3 sm:space-y-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-tight" style={{ color:'rgba(255, 255, 255, 0.9)' }}>
                 Find student housing near your university
               </h1>
-              <p className="text-lg text-white max-w-lg">
+              <p className="text-base sm:text-lg text-white/90 max-w-lg leading-relaxed">
                 Discover verified accommodation options with simple search, 
                 direct applications, and student-first experience.
               </p>
@@ -190,20 +190,20 @@ export default function HeroSearch() {
 
             {/* Search Form */}
             <form onSubmit={handleSearch} className="space-y-4 text-white">
-              <div className="grid gap-4 sm:grid-cols-[1fr_auto] text-white">
+              <div className="space-y-4">
                 <Input
                   placeholder="Search by university or city"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   aria-label="Search by university or city"
-                  className="bg-white/20 border-white/30 text-white placeholder-white/70 focus:bg-white/30 focus:border-white/50"
+                  className="w-full bg-white/20 border-white/30 text-white placeholder-white/70 focus:bg-white/30 focus:border-white/50 h-12 text-base"
                 />
-                <Button type="submit" className="w-full sm:w-auto">
+                <Button type="submit" className="w-full h-12 text-base font-medium">
                   Search
                 </Button>
               </div>
               
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-4">
                 <Select
                   options={[
                     { value: '', label: 'Select University' },
@@ -216,24 +216,30 @@ export default function HeroSearch() {
                   onChange={(e) => setSelectedUniversity(e.target.value)}
                   label="Filter by University"
                   variant="white"
-                  className="bg-black"
-                  style={{ padding:10, borderRadius:10, color:'#ddd' }}
+                  className="w-full bg-white/20 border-white/30 text-white"
+                  style={{ padding: '12px', borderRadius: '8px', color: 'white' }}
                 />
-                <div className="flex items-end">
-                  <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/20 hover:border-white/50">
-                    Advanced Filters
-                  </Button>
-                </div>
+                <Button variant="outline" className="w-full h-12 border-white/30 text-white hover:bg-white/20 hover:border-white/50">
+                  Advanced Filters
+                </Button>
               </div>
             </form>
 
-      
+            {/* Mobile Verified Badge */}
+            <div className="lg:hidden flex items-center justify-center pt-4">
+              <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-3 flex items-center space-x-3">
+                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span className="text-sm font-medium text-gray-900">Verified Properties Checked</span>
+              </div>
+            </div>
           </div>
 
-          {/* Visual Element */}
-          <div className="relative flex items-center justify-center min-h-[400px]">
-      
-            
+          {/* Visual Element - Hidden on mobile, shown on desktop */}
+          <div className="hidden lg:block relative flex items-center justify-center min-h-[400px]">
             {/* Floating Cards */}
             <div className="absolute -top-4 -left-4 rounded-2xl bg-white shadow-sm border border-gray-100 p-4 w-48 animate-fade-in">
               <div className="flex items-center space-x-3">
