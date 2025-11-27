@@ -307,10 +307,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         return true;
       } else {
+        // Store error message for display
+        const errorMessage = data.error || 'Invalid email or password';
+        console.error('Login failed:', errorMessage);
+        // Store error in localStorage so login page can access it
+        localStorage.setItem('login_error', errorMessage);
         return false;
       }
     } catch (error) {
       console.error('Login error:', error);
+      localStorage.setItem('login_error', 'An error occurred. Please try again.');
       return false;
     }
   };

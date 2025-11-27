@@ -20,6 +20,14 @@ export async function GET(
     imageId = imageId.split('?')[0];
     
     // Fetch the image from Directus using admin token
+    if (!config.directus.url || !config.directus.token) {
+      console.error('Directus configuration missing:', {
+        hasUrl: !!config.directus.url,
+        hasToken: !!config.directus.token,
+      });
+      return new NextResponse('Image service misconfigured', { status: 500 });
+    }
+    
     const imageUrl = `${config.directus.url}/assets/${imageId}`;
     
     const response = await fetch(imageUrl, {

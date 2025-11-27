@@ -68,6 +68,8 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    // Clear any previous error
+    localStorage.removeItem('login_error');
 
     try {
       const success = await login(email, password);
@@ -121,7 +123,10 @@ export default function LoginPage() {
           }
         }
       } else {
-        setError('Invalid email or password');
+        // Get error message from localStorage (set by login function)
+        const errorMessage = localStorage.getItem('login_error') || 'Invalid email or password';
+        setError(errorMessage);
+        localStorage.removeItem('login_error'); // Clear after reading
         setLoading(false);
       }
     } catch (err) {
