@@ -65,13 +65,13 @@ export async function GET(request: NextRequest) {
 
     // If 'student' field doesn't exist, try 'user' field
     if (favoritesResponse.status >= 400) {
-      let errorData = {};
+      let errorData: { errors?: Array<{ message?: string }> } = {};
       try {
         errorData = JSON.parse(favoritesResponse.body);
       } catch (e) {
         errorData = { errors: [{ message: favoritesResponse.body }] };
       }
-      const errorMessage = (errorData as any).errors?.[0]?.message || '';
+      const errorMessage = errorData.errors?.[0]?.message || '';
       
       if (errorMessage.includes('student') && errorMessage.includes('does not exist')) {
         console.log('⚠️ "student" field not found, trying "user" field...');
@@ -89,7 +89,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (favoritesResponse.status < 200 || favoritesResponse.status >= 300) {
-      let errorData = {};
+      let errorData: { errors?: Array<{ message?: string }> } = {};
       try {
         errorData = JSON.parse(favoritesResponse.body);
       } catch (e) {
@@ -253,7 +253,7 @@ export async function POST(request: NextRequest) {
 
     // If 'student' field doesn't exist, try 'user'
     if (checkResponse.status >= 400) {
-      let errorData = {};
+      let errorData: { errors?: Array<{ message?: string }> } = {};
       try {
         errorData = JSON.parse(checkResponse.body);
       } catch (e) {
@@ -316,7 +316,7 @@ export async function POST(request: NextRequest) {
 
     // If 'student' failed, try 'user'
     if (createResponse.status >= 400 && useStudentField) {
-      let errorData = {};
+      let errorData: { errors?: Array<{ message?: string }> } = {};
       try {
         errorData = JSON.parse(createResponse.body);
       } catch (e) {
@@ -341,7 +341,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (createResponse.status < 200 || createResponse.status >= 300) {
-      let errorData = {};
+      let errorData: { errors?: Array<{ message?: string }> } = {};
       try {
         errorData = JSON.parse(createResponse.body);
       } catch (e) {

@@ -53,9 +53,10 @@ export function calculateProfileCompletion(user: ProfileCompletionData): Profile
   let roleName = '';
   if (typeof user.role === 'object') {
     // Try multiple properties
-    roleName = user.role?.name || 
-               user.role?.id || 
-               (user.role as any)?.title ||
+    const roleObj = user.role as any;
+    roleName = roleObj?.name || 
+               roleObj?.id || 
+               roleObj?.title ||
                String(user.role) || 
                '';
   } else if (typeof user.role === 'string') {
@@ -145,7 +146,7 @@ export function calculateProfileCompletion(user: ProfileCompletionData): Profile
     const bankIdValue = user.bank_id;
     const hasBankId = bankIdValue !== null && 
                      bankIdValue !== undefined && 
-                     bankIdValue !== '' &&
+                     String(bankIdValue).trim() !== '' &&
                      !isNaN(Number(bankIdValue)) &&
                      Number(bankIdValue) > 0;
     

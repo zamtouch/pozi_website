@@ -50,6 +50,10 @@ interface Property {
     id: string;
     filename_download: string;
   } | null;
+  lease_agreement?: {
+    id: string;
+    filename_download: string;
+  } | null;
 }
 
 const AMENITIES = [
@@ -402,7 +406,7 @@ export default function EditPropertyPage() {
     }
   };
 
-  const getLeaseAgreementUrl = (leaseAgreement: Property['lease_agreement']) => {
+  const getLeaseAgreementUrl = (leaseAgreement: { id: string; filename_download?: string } | null | undefined) => {
     if (!leaseAgreement?.id) return null;
     return `/api/files/${leaseAgreement.id}`;
   };

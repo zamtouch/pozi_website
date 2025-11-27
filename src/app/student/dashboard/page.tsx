@@ -183,7 +183,7 @@ export default function StudentDashboard() {
         return <Badge variant="success">Approved</Badge>;
       case 'rejected':
       case 'declined':
-        return <Badge variant="destructive">Rejected</Badge>;
+        return <Badge variant="error">Rejected</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -433,7 +433,7 @@ export default function StudentDashboard() {
                     <p className="text-xs text-gray-500">Track your applications</p>
                   </div>
                   {applicationCount !== null && applicationCount > 0 && (
-                    <Badge variant="info" className="ml-auto">{applicationCount}</Badge>
+                    <Badge variant="primary" className="ml-auto">{applicationCount}</Badge>
                   )}
                 </Link>
                 

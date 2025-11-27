@@ -138,7 +138,8 @@ export default function PropertyPage() {
           }
           console.error('Failed to add favorite:', errorData);
           // Show user-friendly error message
-          alert(errorData.error || 'Failed to add property to favorites. Please try again.');
+          const errorMessage = (errorData as any).error || 'Failed to add property to favorites. Please try again.';
+          alert(errorMessage);
         }
       }
     } catch (err) {

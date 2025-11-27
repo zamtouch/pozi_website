@@ -89,7 +89,7 @@ const getStatusBadge = (status: string) => {
       return <Badge variant="success">Approved</Badge>;
     case 'rejected':
     case 'declined':
-      return <Badge variant="destructive">Rejected</Badge>;
+      return <Badge variant="error">Rejected</Badge>;
     default:
       return <Badge>{status}</Badge>;
   }
@@ -560,7 +560,7 @@ function ApplicationDetails({
         return <Badge variant="success">Approved</Badge>;
       case 'rejected':
       case 'declined':
-        return <Badge variant="destructive">Rejected</Badge>;
+        return <Badge variant="error">Rejected</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -705,7 +705,7 @@ function ApplicationDetails({
                   {application.collexia_integration_status === 'completed' ? (
                     <Badge variant="success">Completed</Badge>
                   ) : application.collexia_integration_status === 'failed' ? (
-                    <Badge variant="destructive">Failed</Badge>
+                    <Badge variant="error">Failed</Badge>
                   ) : (
                     <Badge variant="warning">{application.collexia_integration_status}</Badge>
                   )}
@@ -849,8 +849,8 @@ function ApplicationDetails({
               <Button
                 onClick={() => onStatusUpdate(application.id, 'rejected')}
                 disabled={updatingStatus === application.id}
-                variant="destructive"
-                className="flex-1"
+                variant="outline"
+                className="flex-1 border-red-500 text-red-600 hover:bg-red-50"
               >
                 {updatingStatus === application.id ? (
                   <>

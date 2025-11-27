@@ -175,7 +175,7 @@ export default function MyApplicationsPage() {
       case 'approved':
         return <Badge variant="success">Approved</Badge>;
       case 'rejected':
-        return <Badge variant="destructive">Rejected</Badge>;
+        return <Badge variant="error">Rejected</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -400,9 +400,9 @@ export default function MyApplicationsPage() {
                                 <span className="text-xs text-gray-600">Integration Status:</span>
                                 {application.collexia_integration_status === 'completed' ? (
                                   <Badge variant="success">Completed</Badge>
-                                ) : application.collexia_integration_status === 'failed' ? (
-                                  <Badge variant="destructive">Failed</Badge>
-                                ) : (
+                                  ) : application.collexia_integration_status === 'failed' ? (
+                                    <Badge variant="error">Failed</Badge>
+                                  ) : (
                                   <Badge variant="warning">{application.collexia_integration_status}</Badge>
                                 )}
                               </div>
@@ -510,8 +510,9 @@ export default function MyApplicationsPage() {
                         </Button>
                         {application.status !== 'approved' && application.status !== 'accepted' && (
                           <Button
-                            variant="destructive"
+                            variant="outline"
                             size="sm"
+                            className="border-red-500 text-red-600 hover:bg-red-50"
                             onClick={() => handleDeleteApplication(application.id)}
                             disabled={deletingId === application.id}
                           >

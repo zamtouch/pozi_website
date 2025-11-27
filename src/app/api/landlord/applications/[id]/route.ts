@@ -183,13 +183,14 @@ export async function PATCH(
         // Ensure collexiaResult has the proper structure
         if (collexiaResult && !collexiaResult.success) {
           // If setupCollexiaPaymentCollection returned a failure, ensure proper structure
+          const oldResult = collexiaResult as any;
           collexiaResult = {
             success: false,
-            error: collexiaResult.error || collexiaResult.message || 'Collexia integration failed',
+            error: oldResult.error || oldResult.message || 'Collexia integration failed',
             warning: 'Application approved but Collexia mandate registration failed. Please register manually.',
-            student: collexiaResult.student || { success: false },
-            property: collexiaResult.property || { success: false },
-            mandate: collexiaResult.mandate || { success: false },
+            student: oldResult.student || { success: false },
+            property: oldResult.property || { success: false },
+            mandate: oldResult.mandate || { success: false },
           };
         }
       } catch (collexiaError: any) {
