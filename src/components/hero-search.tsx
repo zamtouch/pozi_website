@@ -190,7 +190,7 @@ export default function HeroSearch() {
 
             {/* Search Form */}
             <form onSubmit={handleSearch} className="space-y-4 text-white">
-              <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
+              <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto]">
                 <Input
                   placeholder="Search by university or city"
                   value={searchQuery}
@@ -198,12 +198,6 @@ export default function HeroSearch() {
                   aria-label="Search by university or city"
                   className="w-full bg-white/20 border-white/30 text-white placeholder-white/70 focus:bg-white/30 focus:border-white/50 h-12 text-base"
                 />
-                <Button type="submit" className="w-full sm:w-auto h-12 text-base font-medium">
-                  Search
-                </Button>
-              </div>
-              
-              <div className="grid gap-4 sm:grid-cols-2">
                 <Select
                   options={[
                     { value: '', label: 'Select University' },
@@ -214,60 +208,19 @@ export default function HeroSearch() {
                   ]}
                   value={selectedUniversity}
                   onChange={(e) => setSelectedUniversity(e.target.value)}
-                  label="Filter by University"
                   variant="white"
                   className="w-full bg-white/20 border-white/30 text-white"
                   style={{ padding: '12px', borderRadius: '8px' }}
                 />
-                <Button variant="outline" className="w-full h-12 border-white/30 text-white hover:bg-white/20 hover:border-white/50">
-                  Advanced Filters
+                <Button type="submit" className="w-full sm:w-auto h-12 text-base font-medium">
+                  Search
                 </Button>
               </div>
             </form>
-
-            {/* Mobile Verified Badge */}
-            <div className="lg:hidden flex items-center justify-center pt-4">
-              <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-3 flex items-center space-x-3">
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <span className="text-sm font-medium text-gray-900">Verified Properties Checked</span>
-              </div>
-            </div>
           </div>
 
           {/* Visual Element - Hidden on mobile, shown on desktop */}
           <div className="hidden lg:block relative flex items-center justify-center min-h-[400px]">
-            {/* Floating Cards */}
-            <div className="absolute -top-4 -left-4 rounded-2xl bg-white shadow-lg border border-gray-100 p-6 w-56 animate-fade-in">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Verified</p>
-                  <p className="text-xs text-gray-500">Property checked</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="absolute -bottom-4 -right-4 rounded-2xl bg-white shadow-lg border border-gray-100 p-6 w-56 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Quick Apply</p>
-                  <p className="text-xs text-gray-500">Apply in minutes</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
