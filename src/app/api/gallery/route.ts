@@ -8,6 +8,14 @@ import { config } from '@/lib/config';
  */
 export async function GET(request: NextRequest) {
   try {
+    if (!config.directus.url || !config.directus.token) {
+      console.error('Directus configuration missing');
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category') || 'slider';
 
