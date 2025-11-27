@@ -1,7 +1,7 @@
 // Test script for new thumbnail layout (all 5 images as thumbnails)
 // Run with: node test-thumbnail-layout.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function testThumbnailLayout() {
   console.log('🖼️ Testing new thumbnail layout (all 5 images as thumbnails)...\n');
@@ -83,4 +83,9 @@ async function testThumbnailLayout() {
 
 // Run the test
 testThumbnailLayout();
+
+
+
+
+
 

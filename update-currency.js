@@ -1,7 +1,7 @@
 // Script to update currency from ZMW to NAD in Directus
 // Run with: node update-currency.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function updateCurrency() {
   console.log('💰 Updating currency from ZMW to NAD...\n');
@@ -23,7 +23,7 @@ async function updateCurrency() {
     console.log('\n📋 MANUAL UPDATE REQUIRED:');
     console.log('Since we cannot update via API (403 Forbidden), you need to update manually:');
     console.log('');
-    console.log('1. Go to Directus Admin Panel: https://pozi2.omaridigital.com/admin');
+    console.log('1. Go to Directus Admin Panel: https://app.pozi.com.na/admin');
     console.log('2. Navigate to: Content → Properties');
     console.log('3. Edit each property:');
     console.log('   - Change "currency" field from "ZMW" to "NAD"');
@@ -47,4 +47,9 @@ async function updateCurrency() {
 
 // Run the update
 updateCurrency();
+
+
+
+
+
 

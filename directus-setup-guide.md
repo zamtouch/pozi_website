@@ -36,7 +36,7 @@
 ## Step-by-Step Setup Instructions
 
 ### 1. Access Directus Admin Panel
-- Go to: https://pozi2.omaridigital.com/admin
+- Go to: https://app.pozi.com.na/admin
 - Login with your credentials
 
 ### 2. Navigate to Data Model
@@ -92,4 +92,9 @@ Use the test script provided to verify everything is working.
 1. Check that `photos` field is configured for multiple files
 2. Verify images are uploaded to the photos field
 3. Check Directus file permissions
+
+
+
+
+
 

@@ -1,7 +1,7 @@
 // Test script for Directus API endpoints
 // Run with: node test-directus-api.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function testAPI() {
   console.log('🧪 Testing Directus API endpoints...\n');
@@ -101,4 +101,9 @@ async function testAPI() {
 
 // Run the test
 testAPI();
+
+
+
+
+
 

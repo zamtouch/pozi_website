@@ -1,7 +1,7 @@
 // Test script for property detail page API integration
 // Run with: node test-property-detail.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function testPropertyDetail() {
   console.log('🏠 Testing property detail page API integration...\n');

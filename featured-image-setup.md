@@ -18,7 +18,7 @@
 You need to add a `featured_image` field to your properties collection:
 
 1. **Go to Directus Admin Panel**
-   - URL: https://pozi2.omaridigital.com/admin
+   - URL: https://app.pozi.com.na/admin
    - Navigate to: Settings → Data Model → Properties collection
 
 2. **Create Featured Image Field**
@@ -49,8 +49,8 @@ Ensure the `photos` field is properly configured:
 ```
 
 ### **Image URL Construction**
-- Featured Image: `https://pozi2.omaridigital.com/assets/{featured_image}`
-- Photo Gallery: `https://pozi2.omaridigital.com/assets/{photo-id}`
+- Featured Image: `https://app.pozi.com.na/assets/{featured_image}`
+- Photo Gallery: `https://app.pozi.com.na/assets/{photo-id}`
 
 ## Implementation Details
 
@@ -103,7 +103,7 @@ Ensure the `photos` field is properly configured:
 
 ### **Console Logs**
 ```
-Property 1 - Featured Image: file-id-123 Photos: ["file-id-456", "file-id-789"] Main Photo URL: https://pozi2.omaridigital.com/assets/file-id-123
+Property 1 - Featured Image: file-id-123 Photos: ["file-id-456", "file-id-789"] Main Photo URL: https://app.pozi.com.na/assets/file-id-123
 ```
 
 ## Benefits of This Structure
@@ -133,4 +133,9 @@ Property 1 - Featured Image: file-id-123 Photos: ["file-id-456", "file-id-789"] 
 2. Use WebP or AVIF formats
 3. Consider lazy loading for gallery images
 4. Implement image compression
+
+
+
+
+
 

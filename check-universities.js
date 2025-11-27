@@ -1,7 +1,7 @@
 // Script to check universities in Directus
 // Run with: node check-universities.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function checkUniversities() {
   console.log('🏫 Checking universities in Directus...\n');
@@ -64,4 +64,9 @@ async function checkUniversities() {
 
 // Run the check
 checkUniversities();
+
+
+
+
+
 

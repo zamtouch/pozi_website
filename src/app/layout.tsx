@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import { AuthProvider } from '@/lib/auth';
+import CleanupOrphanedFiles from '@/components/cleanup-orphaned-files';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -57,13 +59,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-white text-gray-900 antialiased">
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <AuthProvider>
+          <CleanupOrphanedFiles />
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

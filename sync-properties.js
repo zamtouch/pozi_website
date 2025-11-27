@@ -1,7 +1,7 @@
 // Comprehensive script to sync properties with expected data
 // Run with: node sync-properties.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function syncProperties() {
   console.log('🔄 Syncing properties with expected data...\n');
@@ -91,4 +91,9 @@ async function syncProperties() {
 
 // Run the sync
 syncProperties();
+
+
+
+
+
 

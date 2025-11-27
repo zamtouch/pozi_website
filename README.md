@@ -53,7 +53,7 @@ A modern, responsive student housing platform built for Namibian universities. F
 3. **Set up environment variables**
    Create a `.env.local` file:
    ```env
-   DIRECTUS_BASE_URL=https://pozi2.omaridigital.com
+   DIRECTUS_BASE_URL=https://app.pozi.com.na
    DIRECTUS_TOKEN=your_directus_token_here
    ```
 

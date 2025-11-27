@@ -1,18 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatPrice, formatDistance, calculateDistance, formatDistanceFromUniversity } from '@/lib/utils';
 import { fetchProperties, getAllPropertyImages, Property, fetchUniversities, University } from '@/lib/api';
 import MapComponent from '@/components/map-component';
+import { useAuth } from '@/lib/auth';
 
 
 export default function PropertyPage() {
   const params = useParams();
+  const router = useRouter();
+  const { isAuthenticated, isStudent } = useAuth();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showContactForm, setShowContactForm] = useState(false);
   const [property, setProperty] = useState<Property | null>(null);
@@ -20,6 +24,8 @@ export default function PropertyPage() {
   const [error, setError] = useState<string | null>(null);
   const [universities, setUniversities] = useState<University[]>([]);
   const [closestUniversity, setClosestUniversity] = useState<{university: University, distance: number} | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isTogglingFavorite, setIsTogglingFavorite] = useState(false);
 
   // Fetch property data from API
   useEffect(() => {
@@ -34,6 +40,10 @@ export default function PropertyPage() {
         
         if (foundProperty) {
           setProperty(foundProperty);
+          // Check if property is favorited
+          if (isAuthenticated) {
+            checkFavoriteStatus(propertyId);
+          }
         } else {
           setError('Property not found');
         }
@@ -48,7 +58,95 @@ export default function PropertyPage() {
     if (params.slug) {
       fetchProperty();
     }
-  }, [params.slug]);
+  }, [params.slug, isAuthenticated]);
+
+  // Check if property is in favorites
+  const checkFavoriteStatus = async (propertyId: number) => {
+    try {
+      const token = localStorage.getItem('directus_token');
+      const headers: HeadersInit = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const response = await fetch('/api/favorites', {
+        method: 'GET',
+        credentials: 'include',
+        headers,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const propertyIds = data.propertyIds || [];
+        setIsFavorite(propertyIds.includes(propertyId));
+      }
+    } catch (err) {
+      console.error('Error checking favorite status:', err);
+    }
+  };
+
+  // Toggle favorite status
+  const toggleFavorite = async () => {
+    if (!isAuthenticated) {
+      router.push('/auth/login');
+      return;
+    }
+
+    if (!property) return;
+
+    setIsTogglingFavorite(true);
+    try {
+      const token = localStorage.getItem('directus_token');
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      if (isFavorite) {
+        // Remove from favorites
+        const response = await fetch(`/api/favorites?property_id=${property.id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers,
+        });
+
+        if (response.ok) {
+          setIsFavorite(false);
+        } else {
+          const errorData = await response.json();
+          console.error('Failed to remove favorite:', errorData);
+        }
+      } else {
+        // Add to favorites
+        const response = await fetch('/api/favorites', {
+          method: 'POST',
+          credentials: 'include',
+          headers,
+          body: JSON.stringify({ property_id: property.id }),
+        });
+
+        if (response.ok) {
+          setIsFavorite(true);
+        } else {
+          let errorData = {};
+          try {
+            errorData = await response.json();
+          } catch (e) {
+            errorData = { error: `Failed to add favorite: ${response.status} ${response.statusText}` };
+          }
+          console.error('Failed to add favorite:', errorData);
+          // Show user-friendly error message
+          alert(errorData.error || 'Failed to add property to favorites. Please try again.');
+        }
+      }
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+    } finally {
+      setIsTogglingFavorite(false);
+    }
+  };
 
   // Fetch universities and calculate closest one
   useEffect(() => {
@@ -93,9 +191,6 @@ export default function PropertyPage() {
     }
   }, [property, universities]);
 
-  const handleApply = () => {
-    setShowContactForm(true);
-  };
 
   // Get all property images for gallery
   const propertyImages = property ? getAllPropertyImages(property) : [];
@@ -340,14 +435,52 @@ export default function PropertyPage() {
                 <CardTitle className="text-lg">Contact us</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-           
-
                 <div className="space-y-4">
-                  <Button onClick={handleApply} className="w-full" size="lg">
-                    Apply Now
-                  </Button>
-                  <Button variant="ghost" className="w-full" size="lg">
-                    Save to Favorites
+                  {isAuthenticated && isStudent ? (
+                    <Button asChild className="w-full" size="lg">
+                      <Link href={`/student/apply/${params.slug}`}>
+                        Apply Now
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button 
+                      onClick={() => router.push('/auth/login')} 
+                      className="w-full" 
+                      size="lg"
+                    >
+                      Login to Apply
+                    </Button>
+                  )}
+                  <Button 
+                    variant="ghost" 
+                    className="w-full" 
+                    size="lg"
+                    onClick={toggleFavorite}
+                    disabled={isTogglingFavorite || !isAuthenticated}
+                  >
+                    {isTogglingFavorite ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                        {isFavorite ? 'Removing...' : 'Adding...'}
+                      </>
+                    ) : (
+                      <>
+                        <svg 
+                          className={`w-5 h-5 mr-2 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} 
+                          fill={isFavorite ? 'currentColor' : 'none'} 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
+                          />
+                        </svg>
+                        {isFavorite ? 'Remove from Favorites' : 'Save to Favorites'}
+                      </>
+                    )}
                   </Button>
                 </div>
 

@@ -1,7 +1,7 @@
 // Check currency data from API
 // Run with: node check-currency.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function checkCurrency() {
   console.log('💰 Checking currency data from API...\n');
@@ -40,4 +40,9 @@ async function checkCurrency() {
 
 // Run the check
 checkCurrency();
+
+
+
+
+
 

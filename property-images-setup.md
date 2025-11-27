@@ -24,14 +24,14 @@ const mainPhoto = normalizedPhotos[0] ? getImageUrl(normalizedPhotos[0]) : '/pla
 ```
 
 The `getImageUrl()` function creates URLs like:
-`https://pozi2.omaridigital.com/assets/{file-id}`
+`https://app.pozi.com.na/assets/{file-id}`
 
 ## Steps to Add Property Images
 
 ### Option 1: Via Directus Admin Panel (Recommended)
 
 1. **Go to Directus Admin Panel**
-   - URL: https://pozi2.omaridigital.com/admin
+   - URL: https://app.pozi.com.na/admin
    - Login with your credentials
 
 2. **Navigate to Properties**
@@ -71,13 +71,13 @@ If the photos field isn't working properly:
 ### 1. **Check Console Logs**
 The PropertyCard component now logs photo information:
 ```
-Property 1 photos: [file-id-1, file-id-2] Normalized: [file-id-1, file-id-2] Main photo URL: https://pozi2.omaridigital.com/assets/file-id-1
+Property 1 photos: [file-id-1, file-id-2] Normalized: [file-id-1, file-id-2] Main photo URL: https://app.pozi.com.na/assets/file-id-1
 ```
 
 ### 2. **Test Image URLs**
 You can test image URLs directly:
 ```
-https://pozi2.omaridigital.com/assets/{file-id}
+https://app.pozi.com.na/assets/{file-id}
 ```
 
 ### 3. **Verify Display**
@@ -110,4 +110,9 @@ After adding images:
 - Images will have smooth hover effects
 - Fallback system will handle missing/broken images
 - Console will show proper image URLs and data
+
+
+
+
+
 

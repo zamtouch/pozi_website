@@ -129,7 +129,15 @@ export default function Footer() {
           <div className="mt-12 pt-8 border-t border-gray-100">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-sm text-gray-500">
-                © 2024 StudentRent. All rights reserved.
+                © 2024 StudentRent. All rights reserved. | Website by{' '}
+                <a
+                  href="https://omaridigital.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-gray-700 transition-colors duration-200 underline"
+                >
+                  Omari Digital
+                </a>
               </p>
               <div className="flex items-center space-x-6 mt-4 md:mt-0">
                 <Link

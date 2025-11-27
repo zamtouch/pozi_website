@@ -1,7 +1,7 @@
 // Test script for new image structure (featured_image + image_1,2,3,4)
 // Run with: node test-new-image-structure.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function testNewImageStructure() {
   console.log('🖼️ Testing new image structure (featured_image + image_1,2,3,4)...\n');
@@ -64,7 +64,7 @@ async function testNewImageStructure() {
     console.log('✅ photos: Legacy support for backward compatibility');
     
     console.log('\n📋 To add images to properties in Directus:');
-    console.log('1. Go to: https://pozi2.omaridigital.com/admin');
+    console.log('1. Go to: https://app.pozi.com.na/admin');
     console.log('2. Navigate to: Content → Properties');
     console.log('3. Edit each property');
     console.log('4. Add these fields:');
@@ -83,4 +83,9 @@ async function testNewImageStructure() {
 
 // Run the test
 testNewImageStructure();
+
+
+
+
+
 

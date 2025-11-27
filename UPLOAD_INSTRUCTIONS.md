@@ -10,7 +10,7 @@ This directory contains scripts to upload properties from the JSON file to your 
 
 ## Getting Your Directus API Token
 
-1. Go to your Directus admin panel: `https://pozi2.omaridigital.com/admin`
+1. Go to your Directus admin panel: `https://app.pozi.com.na/admin`
 2. Log in with your admin credentials
 3. Go to Settings → Access Tokens
 4. Create a new token with full permissions
@@ -126,7 +126,7 @@ The scripts will:
 
 1. Check the `upload-results.json` file for detailed error information
 2. Look at the console output for specific error messages
-3. Verify your Directus API is accessible: `https://pozi2.omaridigital.com`
+3. Verify your Directus API is accessible: `https://app.pozi.com.na`
 
 ## Results
 

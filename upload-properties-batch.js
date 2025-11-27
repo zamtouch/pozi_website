@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Directus API configuration
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 const API_TOKEN = process.env.DIRECTUS_TOKEN || ''; // Set this as environment variable
 const BATCH_SIZE = 5; // Upload 5 properties at a time
 

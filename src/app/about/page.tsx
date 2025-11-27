@@ -1,6 +1,12 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { getImageUrl } from '@/lib/api';
 
 const aboutBackgroundImage = '/about_pozi.webp';
 
@@ -38,25 +44,43 @@ const features = [
   },
 ];
 
-const team = [
-  {
-    name: 'Tendai Mhaka',
-    role: 'Founder & CEO',
-    bio: 'Former UNAM student who experienced the housing struggle firsthand. Passionate about solving student accommodation challenges.',
-  },
-  {
-    name: 'Sarah Nangolo',
-    role: 'Head of Operations',
-    bio: 'NUST graduate with extensive experience in property management and student services across Namibia.',
-  },
-  {
-    name: 'David Shikongo',
-    role: 'Lead Developer',
-    bio: 'Tech enthusiast and UNAM alumnus, building the platform that makes finding student housing effortless.',
-  },
-];
+interface TeamMember {
+  id: number;
+  status: string;
+  name: string;
+  role: string;
+  image: string | { id: string } | null;
+  order: number;
+}
 
 export default function AboutPage() {
+  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [isLoadingTeam, setIsLoadingTeam] = useState(true);
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const response = await fetch('/api/team', {
+          cache: 'no-store',
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data) {
+            setTeam(data.data);
+          }
+        } else {
+          console.error('Failed to fetch team members');
+        }
+      } catch (error) {
+        console.error('Error fetching team members:', error);
+      } finally {
+        setIsLoadingTeam(false);
+      }
+    };
+
+    fetchTeam();
+  }, []);
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -78,12 +102,11 @@ export default function AboutPage() {
               Professional, reliable, and designed specifically for the student experience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
-                Find Your Home
-              </Button>
-              <Button size="lg" variant="outline" className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 rounded-lg font-medium">
-                List Your Property
-              </Button>
+              <Link href="/search">
+                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+                  Find Your Home
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -166,12 +189,11 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
-                  Get Started
-                </Button>
-                <Button size="lg" variant="outline" className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 rounded-lg font-medium">
-                  Learn More
-                </Button>
+                <Link href="/search">
+                  <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+                    Start Searching
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="relative">
@@ -199,6 +221,27 @@ export default function AboutPage() {
         </div>
       </div>
 
+      {/* Group Photo Section */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative rounded-2xl overflow-hidden shadow-xl">
+            <Image
+              src={getImageUrl('8fabe372-b0cb-4370-ac4d-9ca55ec3b414')}
+              alt="POZI Team"
+              width={1400}
+              height={800}
+              className="w-full h-auto object-cover"
+              unoptimized
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-8 md:p-12">
+              <p className="text-white text-xl md:text-2xl font-light leading-relaxed max-w-3xl">
+                The POZI team - dedicated to making student housing accessible, safe, and affordable for every Namibian student.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Team Section */}
       <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-white">
         <div className="max-w-6xl mx-auto">
@@ -210,18 +253,46 @@ export default function AboutPage() {
               The passionate Namibians behind POZI, dedicated to improving student housing
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-3">
-            {team.map((member, index) => (
-              <div key={index} className="text-center p-8 border border-gray-200 rounded-lg">
-                <div className="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
-                  <div className="w-8 h-8 bg-green-600 rounded-full"></div>
-                </div>
-                <h3 className="text-xl font-medium text-gray-900 mb-2">{member.name}</h3>
-                <p className="text-green-600 font-medium mb-4">{member.role}</p>
-                <p className="text-gray-600 leading-relaxed font-light">{member.bio}</p>
-              </div>
-            ))}
-          </div>
+          {isLoadingTeam ? (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+              <p className="mt-4 text-gray-600">Loading team members...</p>
+            </div>
+          ) : team.length > 0 ? (
+            <div className="grid gap-12 md:grid-cols-2">
+              {team.map((member) => {
+                // Extract image ID - handle both string and object formats
+                const imageId = typeof member.image === 'string' 
+                  ? member.image 
+                  : member.image?.id || null;
+                
+                return (
+                  <div key={member.id} className="text-center p-10 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow duration-200">
+                    <div className="w-64 h-64 bg-gray-100 rounded-full mx-auto mb-8 flex items-center justify-center overflow-hidden">
+                      {imageId ? (
+                        <Image
+                          src={getImageUrl(imageId)}
+                          alt={member.name}
+                          width={256}
+                          height={256}
+                          className="w-full h-full object-cover rounded-full"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="w-32 h-32 bg-green-600 rounded-full"></div>
+                      )}
+                    </div>
+                    <h3 className="text-2xl font-medium text-gray-900 mb-3">{member.name}</h3>
+                    <p className="text-lg text-green-600 font-medium">{member.role}</p>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-600">No team members found.</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -237,12 +308,11 @@ export default function AboutPage() {
               Your perfect room is just a click away.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
-                Start Searching Now
-              </Button>
-              <Button size="lg" variant="outline" className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 rounded-lg font-medium">
-                List Your Property
-              </Button>
+              <Link href="/search">
+                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+                  Start Searching Now
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

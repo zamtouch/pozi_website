@@ -1,5 +1,5 @@
 // Directus API utilities
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 export interface Property {
   id: number;
@@ -65,15 +65,9 @@ export async function fetchProperties(): Promise<Property[]> {
     // console.log('All properties from Directus:', data);
     // console.log('Properties count:', data.data?.length || 0);
     
-    // Transform the data to include full image URLs
-    const transformedData = data.data?.map(property => ({
-      ...property,
-      featured_image: property.featured_image 
-        ? `${DIRECTUS_BASE_URL}/assets/${property.featured_image}`
-        : null
-    })) || [];
-    
-    return transformedData;
+    // Transform the data - keep image IDs, components will use getImageUrl() to get proxy URLs
+    // Don't convert to full URLs here, let components handle it via getImageUrl()
+    return data.data || [];
   } catch (error) {
     console.error('Error fetching properties:', error);
     return [];
@@ -91,15 +85,9 @@ export async function fetchFeaturedProperties(): Promise<Property[]> {
     // console.log('Featured properties from Directus:', data);
     // console.log('Featured properties count:', data.data?.length || 0);
     
-    // Transform the data to include full image URLs
-    const transformedData = data.data?.map(property => ({
-      ...property,
-      featured_image: property.featured_image 
-        ? `${DIRECTUS_BASE_URL}/assets/${property.featured_image}`
-        : null
-    })) || [];
-    
-    return transformedData;
+    // Transform the data - keep image IDs, components will use getImageUrl() to get proxy URLs
+    // Don't convert to full URLs here, let components handle it via getImageUrl()
+    return data.data || [];
   } catch (error) {
     console.error('Error fetching featured properties:', error);
     return [];
@@ -182,15 +170,9 @@ export async function searchProperties(
     const data: DirectusResponse<Property> = await response.json();
     // console.log('Search returned', data.data?.length || 0, 'properties');
     
-    // Transform the data to include full image URLs
-    const transformedData = data.data?.map(property => ({
-      ...property,
-      featured_image: property.featured_image 
-        ? `${DIRECTUS_BASE_URL}/assets/${property.featured_image}`
-        : null
-    })) || [];
-    
-    return transformedData;
+    // Transform the data - keep image IDs, components will use getImageUrl() to get proxy URLs
+    // Don't convert to full URLs here, let components handle it via getImageUrl()
+    return data.data || [];
   } catch (error) {
     console.error('Error searching properties:', error);
     return [];
@@ -231,7 +213,8 @@ export async function fetchGalleryImages(category: string): Promise<string[]> {
 
 // Get image URL from Directus asset ID
 export function getImageUrl(assetId: string): string {
-  return `${DIRECTUS_BASE_URL}/assets/${assetId}`;
+  // Use our proxy API route to handle authentication
+  return `/api/images/${assetId}`;
 }
 
 // Get property image URLs
@@ -245,7 +228,11 @@ export function getAllPropertyImages(property: Property): string[] {
   
   // Add featured image first (will be the active/selected thumbnail)
   if (property.featured_image) {
-    images.push(property.featured_image); // featured_image is already a full URL
+    // Extract ID from URL if it's a full URL, otherwise use as-is
+    const imageId = typeof property.featured_image === 'string' && property.featured_image.startsWith('http')
+      ? property.featured_image.match(/\/assets\/([^/?]+)/)?.[1] || property.featured_image
+      : property.featured_image;
+    images.push(getImageUrl(imageId));
   }
   
   // Add additional images in order: image_1, image_2, image_3, image_4

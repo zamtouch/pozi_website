@@ -58,19 +58,45 @@ export default function PropertyCard({ property, universityData, className }: Pr
       .filter(Boolean);
   })();
 
-  // Use featured_image as the main property image, fallback to image_1, then first photo, then placeholder
-  const mainPhoto = (() => {
-    if (featured_image) {
-      return featured_image; // featured_image is already a full URL from API
+  // Helper function to extract image ID from URL or object
+  const getImageId = (image: any): string | null => {
+    if (!image) return null;
+    
+    if (typeof image === 'string') {
+      // If it's a URL, extract the ID from it
+      if (image.startsWith('http')) {
+        // Extract ID from URL like: https://app.pozi.com.na/assets/{id}
+        const match = image.match(/\/assets\/([^/?]+)/);
+        return match ? match[1] : null;
+      }
+      // If it's just an ID string, return it
+      return image;
     }
     
-    if (image_1) {
-      return getImageUrl(image_1);
+    // If it's an object with an id property
+    if (image.id) {
+      return image.id;
+    }
+    
+    return null;
+  };
+
+  // Use featured_image as the main property image, fallback to image_1, then first photo, then placeholder
+  const mainPhoto = (() => {
+    const featuredImageId = getImageId(featured_image);
+    if (featuredImageId) {
+      return getImageUrl(featuredImageId);
+    }
+    
+    const image1Id = getImageId(image_1);
+    if (image1Id) {
+      return getImageUrl(image1Id);
     }
     
     const normalizedPhotos = Array.isArray(photos) ? photos : [];
     if (normalizedPhotos[0]) {
-      return getImageUrl(normalizedPhotos[0]);
+      const photoId = getImageId(normalizedPhotos[0]);
+      return photoId ? getImageUrl(photoId) : '/placeholder-property.svg';
     }
     
     return '/placeholder-property.svg';

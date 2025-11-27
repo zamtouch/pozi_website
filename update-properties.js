@@ -1,7 +1,7 @@
 // Script to update properties in Directus to match the expected data
 // Run with: node update-properties.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function updateProperties() {
   console.log('🔄 Updating properties in Directus...\n');
@@ -71,4 +71,9 @@ async function updateProperties() {
 
 // Run the update
 updateProperties();
+
+
+
+
+
 

@@ -1,7 +1,7 @@
 // Test script for property images with featured_image
 // Run with: node test-property-images.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function testPropertyImages() {
   console.log('🖼️ Testing property images with featured_image...\n');
@@ -67,4 +67,9 @@ async function testPropertyImages() {
 
 // Run the test
 testPropertyImages();
+
+
+
+
+
 

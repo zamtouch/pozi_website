@@ -1,7 +1,7 @@
 // Script to add sample images to properties
 // This will help test the image functionality
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function addSampleImages() {
   console.log('🖼️ Adding sample images to properties...\n');
@@ -49,4 +49,9 @@ async function addSampleImages() {
 
 // Run the check
 addSampleImages();
+
+
+
+
+
 

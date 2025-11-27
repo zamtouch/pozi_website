@@ -1,7 +1,7 @@
 // Script to help set up featured images in Directus
 // Run with: node setup-featured-images.js
 
-const DIRECTUS_BASE_URL = 'https://pozi2.omaridigital.com';
+const DIRECTUS_BASE_URL = 'https://app.pozi.com.na';
 
 async function setupFeaturedImages() {
   console.log('🖼️ Setting up featured images for properties...\n');
@@ -39,7 +39,7 @@ async function setupFeaturedImages() {
     }
 
     console.log('\n📋 NEXT STEPS:');
-    console.log('1. Go to Directus Admin Panel: https://pozi2.omaridigital.com/admin');
+    console.log('1. Go to Directus Admin Panel: https://app.pozi.com.na/admin');
     console.log('2. Navigate to: Settings → Data Model → Properties collection');
     console.log('3. Add a new field:');
     console.log('   - Field Name: featured_image');
@@ -57,4 +57,9 @@ async function setupFeaturedImages() {
 
 // Run the setup
 setupFeaturedImages();
+
+
+
+
+
 

@@ -263,7 +263,7 @@ export default function MapComponent({ latitude, longitude, address, title }: Ma
         <Marker 
           position={[lat, lng]}
           icon={typeof window !== 'undefined' && (window as any).L ? new (window as any).L.DivIcon({
-            html: createCustomIcon(title.length > 15 ? title.substring(0, 15) + '...' : title, '#ef4444', true).html,
+            html: createCustomIcon((title || 'Property').length > 15 ? (title || 'Property').substring(0, 15) + '...' : (title || 'Property'), '#ef4444', true).html,
             className: 'custom-div-icon',
             iconSize: [45, 45],
             iconAnchor: [22, 22],
@@ -272,8 +272,8 @@ export default function MapComponent({ latitude, longitude, address, title }: Ma
         >
           <Popup>
             <div className="p-2 min-w-[200px]">
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">{title}</h3>
-              <p className="text-gray-600 text-xs mb-2">{address}</p>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">{title || 'Property'}</h3>
+              <p className="text-gray-600 text-xs mb-2">{address || 'No address'}</p>
               <div className="mt-2 text-xs text-gray-500 space-y-1">
                 <div>📍 {lat.toFixed(6)}, {lng.toFixed(6)}</div>
                 <a 
