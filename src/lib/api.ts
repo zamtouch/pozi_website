@@ -55,19 +55,19 @@ export interface University {
 // Fetch properties from Directus
 export async function fetchProperties(): Promise<Property[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?limit=100&fields=*,university.*`);
+    const response = await fetch('/api/properties?limit=100');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data: DirectusResponse<Property> = await response.json();
+    const data = await response.json();
     
     // Debug: Log the raw data structure
-    // console.log('All properties from Directus:', data);
-    // console.log('Properties count:', data.data?.length || 0);
+    // console.log('All properties from API:', data);
+    // console.log('Properties count:', data.properties?.length || 0);
     
     // Transform the data - keep image IDs, components will use getImageUrl() to get proxy URLs
     // Don't convert to full URLs here, let components handle it via getImageUrl()
-    return data.data || [];
+    return data.properties || [];
   } catch (error) {
     console.error('Error fetching properties:', error);
     return [];
@@ -76,18 +76,18 @@ export async function fetchProperties(): Promise<Property[]> {
 
 export async function fetchFeaturedProperties(): Promise<Property[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&limit=4&fields=*,university.*`);
+    const response = await fetch('/api/properties?featured=1&limit=4');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data: DirectusResponse<Property> = await response.json();
+    const data = await response.json();
     
-    // console.log('Featured properties from Directus:', data);
-    // console.log('Featured properties count:', data.data?.length || 0);
+    // console.log('Featured properties from API:', data);
+    // console.log('Featured properties count:', data.properties?.length || 0);
     
     // Transform the data - keep image IDs, components will use getImageUrl() to get proxy URLs
     // Don't convert to full URLs here, let components handle it via getImageUrl()
-    return data.data || [];
+    return data.properties || [];
   } catch (error) {
     console.error('Error fetching featured properties:', error);
     return [];
@@ -97,19 +97,19 @@ export async function fetchFeaturedProperties(): Promise<Property[]> {
 // Fetch featured properties (alternative with featured filter)
 export async function fetchFeaturedPropertiesFiltered(): Promise<Property[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&fields=*,university.*`);
+    const response = await fetch('/api/properties?featured=1');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data: DirectusResponse<Property> = await response.json();
+    const data = await response.json();
     
     // Debug: Log the raw data structure
-    // console.log('Raw Directus data:', data);
-    // if (data.data && data.data.length > 0) {
-    //   console.log('First property amenities:', data.data[0].amenities, 'Type:', typeof data.data[0].amenities);
+    // console.log('Raw API data:', data);
+    // if (data.properties && data.properties.length > 0) {
+    //   console.log('First property amenities:', data.properties[0].amenities, 'Type:', typeof data.properties[0].amenities);
     // }
     
-    return data.data || [];
+    return data.properties || [];
   } catch (error) {
     console.error('Error fetching featured properties:', error);
     return [];
@@ -123,56 +123,38 @@ export async function searchProperties(
   amenities?: string[]
 ): Promise<Property[]> {
   try {
-    let url = `${DIRECTUS_BASE_URL}/items/properties?filter[approved]=1&fields=*,university.*`;
+    const params = new URLSearchParams();
     
     // console.log('Search properties called with:', { query, university, amenities });
     
     if (query) {
-      url += `&filter[title][_contains]=${encodeURIComponent(query)}`;
-      // console.log('Added title filter for query:', query);
+      params.append('search', query);
     }
     
-    // Handle university filter - need to get university ID from slug
+    // Handle university filter - pass slug directly, API will handle ID lookup
     if (university) {
-      try {
-        // console.log('Looking up university ID for slug:', university);
-        // First, get the university ID from the slug
-        const universityResponse = await fetch(`${DIRECTUS_BASE_URL}/items/universities?filter[slug]=${encodeURIComponent(university)}`);
-        if (universityResponse.ok) {
-          const universityData = await universityResponse.json();
-          if (universityData.data && universityData.data.length > 0) {
-            const universityId = universityData.data[0].id;
-            url += `&filter[university]=${universityId}`;
-            // console.log('Added university filter for ID:', universityId);
-          }
-        } else {
-          console.error('Failed to fetch university data:', universityResponse.status);
-        }
-      } catch (error) {
-        console.error('Error fetching university ID:', error);
-      }
+      params.append('university', university);
     }
     
     // Add amenity filters (check if amenity exists in the amenities array)
     if (amenities && amenities.length > 0) {
       amenities.forEach(amenity => {
-        url += `&filter[amenities][_contains]=${amenity}`;
-        // console.log('Added amenity filter for:', amenity);
+        params.append('amenities', amenity);
       });
     }
     
-    // console.log('Final search URL:', url);
+    // console.log('Final search URL:', `/api/properties?${params.toString()}`);
     
-    const response = await fetch(url);
+    const response = await fetch(`/api/properties?${params.toString()}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data: DirectusResponse<Property> = await response.json();
-    // console.log('Search returned', data.data?.length || 0, 'properties');
+    const data = await response.json();
+    // console.log('Search returned', data.properties?.length || 0, 'properties');
     
     // Transform the data - keep image IDs, components will use getImageUrl() to get proxy URLs
     // Don't convert to full URLs here, let components handle it via getImageUrl()
-    return data.data || [];
+    return data.properties || [];
   } catch (error) {
     console.error('Error searching properties:', error);
     return [];
@@ -182,13 +164,13 @@ export async function searchProperties(
 // Fetch universities
 export async function fetchUniversities(): Promise<University[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/universities`);
+    const response = await fetch('/api/universities');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data: DirectusResponse<University> = await response.json();
+    const data = await response.json();
     
-    return data.data || [];
+    return data.universities || [];
   } catch (error) {
     console.error('Error fetching universities:', error);
     return [];
@@ -198,13 +180,13 @@ export async function fetchUniversities(): Promise<University[]> {
 // Fetch gallery images
 export async function fetchGalleryImages(category: string): Promise<string[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/gallery?filter[category]=${category}`);
+    const response = await fetch(`/api/gallery?category=${encodeURIComponent(category)}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data: DirectusResponse<GalleryItem> = await response.json();
+    const data = await response.json();
     
-    return data.data.map(item => `${DIRECTUS_BASE_URL}/assets/${item.featured_image}`);
+    return data.images || [];
   } catch (error) {
     console.error(`Error fetching ${category} gallery images:`, error);
     return [];
