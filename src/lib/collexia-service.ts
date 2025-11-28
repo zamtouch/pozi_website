@@ -40,6 +40,7 @@ interface CollexiaResponse<T = any> {
   data?: T;
   errors?: any;
   timestamp?: string;
+  fullError?: any;
 }
 
 class CollexiaService {
