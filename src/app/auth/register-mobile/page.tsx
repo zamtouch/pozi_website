@@ -32,6 +32,9 @@ export default function RegisterMobilePage() {
     // Bank Account Details (only for students)
     accountNumber: '',
     bankId: '',
+    accountType: '1', // Default to Current/Cheque
+    idNumber: '',
+    idType: '1', // Default to RSA ID
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -119,6 +122,9 @@ export default function RegisterMobilePage() {
           // Bank Account Details (students only)
           account_number: formData.userType === 'student' ? formData.accountNumber : undefined,
           bank_id: formData.userType === 'student' ? (formData.bankId ? parseInt(formData.bankId) : undefined) : undefined,
+          account_type: formData.userType === 'student' ? (formData.accountType ? parseInt(formData.accountType) : 1) : undefined,
+          id_number: formData.userType === 'student' ? formData.idNumber : undefined,
+          id_type: formData.userType === 'student' ? (formData.idType ? parseInt(formData.idType) : 1) : undefined,
         }),
       });
 
@@ -416,51 +422,100 @@ export default function RegisterMobilePage() {
                     />
                   </div>
 
-                  {/* Bank Account Details */}
+                  {/* Bank Account Information Section */}
                   <div className="border-t border-gray-200 pt-5 mt-5">
-                    <h3 className="text-lg font-semibold text-teal-700 mb-2">Bank Account Details</h3>
-                    <p className="text-sm text-gray-600 mb-4">Required for payment collection. Please provide your bank account information.</p>
-                  </div>
-
-                  <div>
-                    <label htmlFor="accountNumber" className="block text-sm font-semibold text-gray-700 mb-2">
-                      Bank Account Number *
-                    </label>
-                    <input
-                      id="accountNumber"
-                      name="accountNumber"
-                      type="text"
-                      required={isStudent}
-                      value={formData.accountNumber}
-                      onChange={handleChange}
-                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
-                      placeholder="e.g., 62001543455"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="bankId" className="block text-sm font-semibold text-gray-700 mb-2">
-                      Bank * <span className="text-xs font-normal text-gray-500">(Select your bank)</span>
-                    </label>
-                    <select
-                      id="bankId"
-                      name="bankId"
-                      required={isStudent}
-                      value={formData.bankId}
-                      onChange={handleChange}
-                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
-                    >
-                      <option value="">Select Bank</option>
-                      <option value="64">Bank Windhoek</option>
-                      <option value="65">FNB Namibia</option>
-                      <option value="66">TrustCo Bank</option>
-                      <option value="67">Bank Atlántico</option>
-                      <option value="68">BankBIC</option>
-                      <option value="69">Bank of Namibia</option>
-                      <option value="70">Letshego Bank Namibia</option>
-                      <option value="71">Nedbank Namibia</option>
-                      <option value="72">Standard Bank Namibia</option>
-                    </select>
+                    <h3 className="text-lg font-semibold text-teal-700 mb-4">Bank Account Information</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Required for automatic rent payment collection via Collexia. Your bank account will be used to collect monthly rent payments.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="accountNumber" className="block text-sm font-semibold text-gray-700 mb-2">
+                          Bank Account Number * <span className="text-xs font-normal text-gray-500">(Your account number)</span>
+                        </label>
+                        <input
+                          id="accountNumber"
+                          name="accountNumber"
+                          type="text"
+                          required={isStudent}
+                          value={formData.accountNumber}
+                          onChange={handleChange}
+                          className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                          placeholder="e.g., 62001543455"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="bankId" className="block text-sm font-semibold text-gray-700 mb-2">
+                          Bank * <span className="text-xs font-normal text-gray-500">(Select your bank)</span>
+                        </label>
+                        <select
+                          id="bankId"
+                          name="bankId"
+                          required={isStudent}
+                          value={formData.bankId}
+                          onChange={handleChange}
+                          className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        >
+                          <option value="">Select Bank</option>
+                          <option value="64">Bank Windhoek</option>
+                          <option value="65">FNB Namibia</option>
+                          <option value="66">TrustCo Bank</option>
+                          <option value="67">Bank Atlántico</option>
+                          <option value="68">BankBIC</option>
+                          <option value="69">Bank of Namibia</option>
+                          <option value="70">Letshego Bank Namibia</option>
+                          <option value="71">Nedbank Namibia</option>
+                          <option value="72">Standard Bank Namibia</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="accountType" className="block text-sm font-semibold text-gray-700 mb-2">
+                          Account Type <span className="text-xs font-normal text-gray-500">(Optional)</span>
+                        </label>
+                        <select
+                          id="accountType"
+                          name="accountType"
+                          value={formData.accountType}
+                          onChange={handleChange}
+                          className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        >
+                          <option value="1">Current (Cheque)</option>
+                          <option value="2">Savings</option>
+                          <option value="3">Transmission</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="idNumber" className="block text-sm font-semibold text-gray-700 mb-2">
+                          ID Number <span className="text-xs font-normal text-gray-500">(Optional - for mandate)</span>
+                        </label>
+                        <input
+                          id="idNumber"
+                          name="idNumber"
+                          type="text"
+                          value={formData.idNumber}
+                          onChange={handleChange}
+                          className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                          placeholder="Your ID number"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="idType" className="block text-sm font-semibold text-gray-700 mb-2">
+                          ID Type <span className="text-xs font-normal text-gray-500">(Optional)</span>
+                        </label>
+                        <select
+                          id="idType"
+                          name="idType"
+                          value={formData.idType}
+                          onChange={handleChange}
+                          className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        >
+                          <option value="1">RSA ID</option>
+                          <option value="2">Passport</option>
+                          <option value="3">Temp ID</option>
+                          <option value="4">Business</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                 </>
               )}
