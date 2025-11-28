@@ -6,36 +6,18 @@ const footerSections = [
     title: 'StudentRent',
     links: [
       { name: 'About Us', href: '/about' },
-      { name: 'How It Works', href: '/how-it-works' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Press', href: '/press' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { name: 'Terms of Service', href: '/terms' },
-      { name: 'Privacy Policy', href: '/privacy' },
-      { name: 'Cookie Policy', href: '/cookies' },
-      { name: 'Disclaimer', href: '/disclaimer' },
     ],
   },
   {
     title: 'For Property Owners',
     links: [
-      { name: 'List Your Property', href: '/list-property' },
-      { name: 'Owner Dashboard', href: '/owner-dashboard' },
-      { name: 'Pricing', href: '/pricing' },
-      { name: 'Resources', href: '/resources' },
+      { name: 'List Your Property', href: '/auth/register' },
     ],
   },
   {
     title: 'Support',
     links: [
-      { name: 'Help Center', href: '/help' },
       { name: 'Contact Us', href: '/contact' },
-      { name: 'Safety', href: '/safety' },
-      { name: 'Report Issue', href: '/report' },
     ],
   },
 ];
@@ -139,26 +121,6 @@ export default function Footer() {
                   Omari Digital
                 </a>
               </p>
-              <div className="flex items-center space-x-6 mt-4 md:mt-0">
-                <Link
-                  href="/terms"
-                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"
-                >
-                  Terms
-                </Link>
-                <Link
-                  href="/privacy"
-                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"
-                >
-                  Privacy
-                </Link>
-                <Link
-                  href="/cookies"
-                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"
-                >
-                  Cookies
-                </Link>
-              </div>
             </div>
           </div>
         </div>

@@ -13,29 +13,10 @@ import { searchProperties, fetchProperties, fetchUniversities, Property, Univers
 
 // University options will be loaded dynamically from API
 
-const priceRanges = [
-  { value: '', label: 'Any Price' },
-  { value: '0-1000', label: 'Under N$ 1,000' },
-  { value: '1000-2000', label: 'N$ 1,000 - 2,000' },
-  { value: '2000-3000', label: 'N$ 2,000 - 3,000' },
-  { value: '3000+', label: 'Over N$ 3,000' },
-];
-
-const amenityOptions = [
-  { value: 'wifi', label: 'Wi-Fi' },
-  { value: 'furnished', label: 'Furnished' },
-  { value: 'parking', label: 'Parking' },
-  { value: 'security', label: 'Security' },
-  { value: 'air_conditioning', label: 'Air Conditioning' },
-  { value: 'study_desk', label: 'Study Desk' },
-];
-
 function SearchPageContent() {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [selectedUniversity, setSelectedUniversity] = useState(searchParams.get('university') || '');
-  const [selectedPriceRange, setSelectedPriceRange] = useState('');
-  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState('relevance');
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,21 +29,19 @@ function SearchPageContent() {
   const debouncedSearch = useCallback(
     (() => {
       let timeoutId: NodeJS.Timeout;
-      return (query: string, university: string, amenities: string[]) => {
+      return (query: string, university: string) => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(async () => {
           setIsLoading(true);
           try {
             let results: Property[] = [];
             
-            if (query || university || amenities.length > 0) {
-              // console.log('Searching with:', { query, university, amenities });
-              results = await searchProperties(query, university, amenities);
+            if (query || university) {
+              results = await searchProperties(query, university, []);
             } else {
               results = await fetchProperties();
             }
             
-            // console.log('Search results:', results.length, 'properties found');
             setProperties(results);
           } catch (error) {
             console.error('Error searching properties:', error);
@@ -104,31 +83,16 @@ function SearchPageContent() {
 
   // Fetch properties on component mount and when search params change
   useEffect(() => {
-    debouncedSearch(searchQuery, selectedUniversity, selectedAmenities);
-  }, [searchQuery, selectedUniversity, selectedAmenities, debouncedSearch]);
-
-  const handleAmenityToggle = (amenity: string) => {
-    const newAmenities = selectedAmenities.includes(amenity) 
-      ? selectedAmenities.filter(a => a !== amenity)
-      : [...selectedAmenities, amenity];
-    
-    setSelectedAmenities(newAmenities);
-    
-    // Trigger immediate search when amenities change
-    setTimeout(() => {
-      debouncedSearch(searchQuery, selectedUniversity, newAmenities);
-    }, 0);
-  };
+    debouncedSearch(searchQuery, selectedUniversity);
+  }, [searchQuery, selectedUniversity, debouncedSearch]);
 
   const handleSearch = () => {
-    debouncedSearch(searchQuery, selectedUniversity, selectedAmenities);
+    debouncedSearch(searchQuery, selectedUniversity);
   };
 
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedUniversity('');
-    setSelectedPriceRange('');
-    setSelectedAmenities([]);
     setSortBy('relevance');
   };
 
@@ -187,40 +151,10 @@ function SearchPageContent() {
                       setSelectedUniversity(e.target.value);
                       // Trigger immediate search when university changes
                       setTimeout(() => {
-                        debouncedSearch(searchQuery, e.target.value, selectedAmenities);
+                        debouncedSearch(searchQuery, e.target.value);
                       }, 0);
                     }}
                   />
-                </div>
-
-                {/* Price Range Filter */}
-                <div>
-                  <Select
-                    label="Price Range"
-                    options={priceRanges}
-                    value={selectedPriceRange}
-                    onChange={(e) => setSelectedPriceRange(e.target.value)}
-                  />
-                </div>
-
-                {/* Amenities Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-ink mb-3">
-                    Amenities
-                  </label>
-                  <div className="space-y-2">
-                    {amenityOptions.map((amenity) => (
-                      <label key={amenity.value} className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          checked={selectedAmenities.includes(amenity.value)}
-                          onChange={() => handleAmenityToggle(amenity.value)}
-                          className="rounded border-gray-300 text-brand-600 focus:ring-brand-500"
-                        />
-                        <span className="text-sm text-gray-700">{amenity.label}</span>
-                      </label>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Action Buttons */}
@@ -267,27 +201,12 @@ function SearchPageContent() {
             </div>
 
             {/* Active Filters */}
-            {(selectedUniversity || selectedPriceRange || selectedAmenities.length > 0) && (
+            {selectedUniversity && (
               <div className="mb-6">
                 <div className="flex flex-wrap gap-2">
-                  {selectedUniversity && (
-                    <Badge variant="secondary">
-                      University: {universities.find(u => u.slug === selectedUniversity)?.name || selectedUniversity}
-                    </Badge>
-                  )}
-                  {selectedPriceRange && (
-                    <Badge variant="secondary">
-                      Price: {priceRanges.find(p => p.value === selectedPriceRange)?.label}
-                    </Badge>
-                  )}
-                  {selectedAmenities.map((amenityValue) => {
-                    const amenity = amenityOptions.find(a => a.value === amenityValue);
-                    return (
-                      <Badge key={amenityValue} variant="secondary">
-                        {amenity?.label || amenityValue}
-                      </Badge>
-                    );
-                  })}
+                  <Badge variant="secondary">
+                    University: {universities.find(u => u.slug === selectedUniversity)?.name || selectedUniversity}
+                  </Badge>
                 </div>
               </div>
             )}
@@ -366,4 +285,3 @@ export default function SearchPage() {
     </Suspense>
   );
 }
-

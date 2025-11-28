@@ -413,7 +413,7 @@ export default function Home() {
               <a href="/search">Start Searching</a>
             </Button>
             <Button size="lg" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20" asChild>
-              <a href="/list-property">List Your Property</a>
+              <a href="/auth/register">List Your Property</a>
             </Button>
           </div>
         </div>
