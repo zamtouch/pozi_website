@@ -95,7 +95,7 @@ After setting up your `.env.local` file, verify it's working:
    ```powershell
    npm run dev
    ```
-   Visit `http://localhost:3000/auth/register` and try creating an account.
+   Visit `https://pozi.com.na/auth/register` and try creating an account.
 
 ## 🔒 Security Notes
 
@@ -113,7 +113,7 @@ DIRECTUS_TOKEN=abc123xyz...
 DIRECTUS_ADMIN_TOKEN=abc123xyz...
 
 # Application
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=https://pozi.com.na
 
 # SendGrid
 SENDGRID_API_KEY=SG.abc123...

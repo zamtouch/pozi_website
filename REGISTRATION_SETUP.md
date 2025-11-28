@@ -31,7 +31,7 @@ npm run dev
 ```
 
 ### 2. Test Student Registration
-1. Navigate to: `http://localhost:3000/auth/register`
+1. Navigate to: `https://pozi.com.na/auth/register`
 2. Select "Student" as user type
 3. Fill in basic information:
    - First Name
@@ -55,7 +55,7 @@ npm run dev
 7. Click "Create account"
 
 ### 3. Test Landlord Registration
-1. Navigate to: `http://localhost:3000/auth/register`
+1. Navigate to: `https://pozi.com.na/auth/register`
 2. Select "Landlord / Property Owner" as user type
 3. Fill in basic information only (no additional fields should appear)
 4. Check "I agree to terms"
@@ -144,9 +144,10 @@ The registration system is fully implemented and ready for testing. All fields e
 
 **Next Steps**:
 1. Start the dev server: `npm run dev`
-2. Test registration at: `http://localhost:3000/auth/register`
+2. Test registration at: `https://pozi.com.na/auth/register`
 3. Verify data in Directus admin panel
 4. Check email verification flow
+
 
 
 

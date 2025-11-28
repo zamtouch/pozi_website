@@ -49,7 +49,7 @@ class CollexiaService {
   constructor() {
     // Use environment variable or default to production Collexia API endpoint
     // Default: https://collexia.pozi.com.na (production server)
-    // For local dev, set COLLEXIA_API_URL=http://localhost:3000 in .env.local
+    // For local dev, set COLLEXIA_API_URL=https://pozi.com.na in .env.local
     // Can be overridden via COLLEXIA_API_URL or NEXT_PUBLIC_COLLEXIA_API_URL
     this.baseUrl = process.env.COLLEXIA_API_URL || 
                    process.env.NEXT_PUBLIC_COLLEXIA_API_URL || 

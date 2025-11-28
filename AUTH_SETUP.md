@@ -23,8 +23,8 @@ DIRECTUS_TOKEN=your-admin-static-token
 DIRECTUS_ADMIN_TOKEN=your-admin-static-token
 
 # Application URLs
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=https://pozi.com.na
+PUBLIC_APP_URL=https://pozi.com.na
 
 # SendGrid Email Configuration (Required for email features)
 SENDGRID_API_KEY=your-sendgrid-api-key

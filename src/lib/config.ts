@@ -11,7 +11,7 @@ export const config = {
     token: process.env.NEXT_PUBLIC_DIRECTUS_TOKEN || process.env.DIRECTUS_TOKEN || process.env.DIRECTUS_ADMIN_TOKEN || '',
   },
   app: {
-    url: process.env.NEXT_PUBLIC_APP_URL || process.env.PUBLIC_APP_URL || 'http://localhost:3000',
+    url: process.env.NEXT_PUBLIC_APP_URL || process.env.PUBLIC_APP_URL || 'https://pozi.com.na',
   },
   sendgrid: {
     apiKey: process.env.SENDGRID_API_KEY || '',

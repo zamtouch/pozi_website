@@ -63,7 +63,7 @@ A modern, responsive student housing platform built for Namibian universities. F
    ```
 
 5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [https://pozi.com.na](https://pozi.com.na)
 
 ## 🗂️ Project Structure
 

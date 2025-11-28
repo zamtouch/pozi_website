@@ -65,7 +65,7 @@ async function testPropertyDetail() {
     
     console.log('\n🔗 Test URLs:');
     data.data.forEach(property => {
-      console.log(`   http://localhost:3000/property/${property.id}`);
+      console.log(`   https://pozi.com.na/property/${property.id}`);
     });
 
   } catch (error) {

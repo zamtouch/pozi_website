@@ -5,7 +5,7 @@
 
 require('dotenv').config({ path: '.env.local' });
 
-const API_BASE = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const API_BASE = process.env.NEXT_PUBLIC_APP_URL || 'https://pozi.com.na';
 const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL || process.env.DIRECTUS_URL || 'https://app.pozi.com.na';
 const API_TOKEN = process.env.DIRECTUS_TOKEN || process.env.DIRECTUS_ADMIN_TOKEN || '';
 
@@ -128,10 +128,11 @@ async function testRegistrationFlow() {
   console.log('📋 Next steps:');
   console.log('   1. Run: node setup-student-fields.js (if fields are missing)');
   console.log('   2. Run: node setup-registration-permissions.js (to set permissions)');
-  console.log('   3. Test registration at: http://localhost:3000/auth/register\n');
+  console.log('   3. Test registration at: https://pozi.com.na/auth/register\n');
 }
 
 testRegistrationFlow().catch(console.error);
+
 
 
 

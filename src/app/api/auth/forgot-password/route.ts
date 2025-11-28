@@ -5,7 +5,7 @@ import { sendgridSendPasswordResetEmail } from '@/lib/auth-utils/sendgrid';
 import { config } from '@/lib/config';
 
 const TOKEN_EXPIRY_MINUTES = parseInt(process.env.TOKEN_EXPIRY_MINUTES || '1440', 10);
-const PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.PUBLIC_APP_URL || 'http://localhost:3000';
+const PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.PUBLIC_APP_URL || 'https://pozi.com.na';
 
 export async function POST(request: NextRequest) {
   try {

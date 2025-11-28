@@ -29,6 +29,9 @@ export default function RegisterMobilePage() {
     responsibleIdNumber: '',
     responsibleCell: '',
     responsibleOccupation: '',
+    // Bank Account Details (only for students)
+    accountNumber: '',
+    bankId: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -78,6 +81,8 @@ export default function RegisterMobilePage() {
         { name: 'responsibleIdNumber', label: 'Responsible Person ID Number' },
         { name: 'responsibleCell', label: 'Responsible Person Cell Number' },
         { name: 'responsibleOccupation', label: 'Responsible Person Occupation' },
+        { name: 'accountNumber', label: 'Bank Account Number' },
+        { name: 'bankId', label: 'Bank' },
       ];
 
       for (const field of requiredFields) {
@@ -111,6 +116,9 @@ export default function RegisterMobilePage() {
           responsible_id_number: formData.userType === 'student' ? formData.responsibleIdNumber : undefined,
           responsible_cell: formData.userType === 'student' ? formData.responsibleCell : undefined,
           responsible_occupation: formData.userType === 'student' ? formData.responsibleOccupation : undefined,
+          // Bank Account Details (students only)
+          account_number: formData.userType === 'student' ? formData.accountNumber : undefined,
+          bank_id: formData.userType === 'student' ? (formData.bankId ? parseInt(formData.bankId) : undefined) : undefined,
         }),
       });
 
@@ -406,6 +414,53 @@ export default function RegisterMobilePage() {
                       className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
                       placeholder="Occupation"
                     />
+                  </div>
+
+                  {/* Bank Account Details */}
+                  <div className="border-t border-gray-200 pt-5 mt-5">
+                    <h3 className="text-lg font-semibold text-teal-700 mb-2">Bank Account Details</h3>
+                    <p className="text-sm text-gray-600 mb-4">Required for payment collection. Please provide your bank account information.</p>
+                  </div>
+
+                  <div>
+                    <label htmlFor="accountNumber" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Bank Account Number *
+                    </label>
+                    <input
+                      id="accountNumber"
+                      name="accountNumber"
+                      type="text"
+                      required={isStudent}
+                      value={formData.accountNumber}
+                      onChange={handleChange}
+                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                      placeholder="e.g., 62001543455"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="bankId" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Bank * <span className="text-xs font-normal text-gray-500">(Select your bank)</span>
+                    </label>
+                    <select
+                      id="bankId"
+                      name="bankId"
+                      required={isStudent}
+                      value={formData.bankId}
+                      onChange={handleChange}
+                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                    >
+                      <option value="">Select Bank</option>
+                      <option value="64">Bank Windhoek</option>
+                      <option value="65">FNB Namibia</option>
+                      <option value="66">TrustCo Bank</option>
+                      <option value="67">Bank Atlántico</option>
+                      <option value="68">BankBIC</option>
+                      <option value="69">Bank of Namibia</option>
+                      <option value="70">Letshego Bank Namibia</option>
+                      <option value="71">Nedbank Namibia</option>
+                      <option value="72">Standard Bank Namibia</option>
+                    </select>
                   </div>
                 </>
               )}

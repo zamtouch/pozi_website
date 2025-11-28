@@ -37,7 +37,7 @@ async function testSendGrid() {
 
   // Test sending an email
   const testEmail = process.argv[2] || 'test@example.com';
-  const testLink = 'http://localhost:3000/auth/verify?t=test_token_12345';
+  const testLink = 'https://pozi.com.na/auth/verify?t=test_token_12345';
 
   const payload = {
     personalizations: [{

@@ -9,7 +9,7 @@ const STUDENT_ROLE_ID = process.env.STUDENT_ROLE_ID || '';
 const LANDLORD_ROLE_ID = process.env.LANDLORD_ROLE_ID || '';
 const DEFAULT_ROLE_ID = process.env.DEFAULT_ROLE_ID || STUDENT_ROLE_ID; // Fallback to student
 const TOKEN_EXPIRY_MINUTES = parseInt(process.env.TOKEN_EXPIRY_MINUTES || '1440', 10); // 24 hours
-const PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.PUBLIC_APP_URL || 'http://localhost:3000';
+const PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.PUBLIC_APP_URL || 'https://pozi.com.na';
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,6 +29,9 @@ export async function POST(request: NextRequest) {
       responsible_id_number,
       responsible_cell,
       responsible_occupation,
+      // Bank Account Details (students only)
+      account_number,
+      bank_id,
     } = body;
 
     // Validation
@@ -87,6 +90,10 @@ export async function POST(request: NextRequest) {
       userData.responsible_id_number = responsible_id_number || null;
       userData.responsible_cell = responsible_cell || null;
       userData.responsible_occupation = responsible_occupation || null;
+      
+      // Bank Account Details (required for students)
+      userData.account_number = account_number || null;
+      userData.bank_id = bank_id ? parseInt(String(bank_id)) : null;
       
       // File uploads are not required during signup - users will complete profile later
       // Files will be uploaded via the profile completion page after email verification

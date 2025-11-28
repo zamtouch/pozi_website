@@ -30,8 +30,8 @@ NEXT_PUBLIC_DIRECTUS_TOKEN=
 # APPLICATION URLs
 # =============================================================================
 # Public URL of your application (used for email links)
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_URL=https://pozi.com.na
+PUBLIC_APP_URL=https://pozi.com.na
 
 # =============================================================================
 # SENDGRID EMAIL CONFIGURATION (Required for email features)
