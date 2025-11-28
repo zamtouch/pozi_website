@@ -25,6 +25,9 @@ export default function RegisterPage() {
     // Bank Account Details (only for students)
     accountNumber: '',
     bankId: '',
+    accountType: '1', // Default to Current/Cheque
+    idNumber: '',
+    idType: '1', // Default to RSA ID
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -117,6 +120,9 @@ export default function RegisterPage() {
           // Bank Account Details (students only)
           account_number: formData.userType === 'student' ? formData.accountNumber : undefined,
           bank_id: formData.userType === 'student' ? (formData.bankId ? parseInt(formData.bankId) : undefined) : undefined,
+          account_type: formData.userType === 'student' ? (formData.accountType ? parseInt(formData.accountType) : 1) : undefined,
+          id_number: formData.userType === 'student' ? formData.idNumber : undefined,
+          id_type: formData.userType === 'student' ? (formData.idType ? parseInt(formData.idType) : 1) : undefined,
         }),
       });
 
@@ -471,8 +477,63 @@ export default function RegisterPage() {
                     <option value="">Select your bank</option>
                     <option value="64">Bank Windhoek</option>
                     <option value="65">FNB Namibia</option>
+                    <option value="66">TrustCo Bank</option>
+                    <option value="67">Bank Atlántico</option>
+                    <option value="68">BankBIC</option>
+                    <option value="69">Bank of Namibia</option>
+                    <option value="70">Letshego Bank Namibia</option>
                     <option value="71">Nedbank Namibia</option>
                     <option value="72">Standard Bank Namibia</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="accountType" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Account Type <span className="text-xs font-normal text-gray-500">(Optional)</span>
+                  </label>
+                  <select
+                    id="accountType"
+                    name="accountType"
+                    value={formData.accountType}
+                    onChange={handleChange}
+                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  >
+                    <option value="1">Current (Cheque)</option>
+                    <option value="2">Savings</option>
+                    <option value="3">Transmission</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="idNumber" className="block text-sm font-semibold text-gray-700 mb-2">
+                    ID Number <span className="text-xs font-normal text-gray-500">(Optional - for mandate)</span>
+                  </label>
+                  <input
+                    id="idNumber"
+                    name="idNumber"
+                    type="text"
+                    value={formData.idNumber}
+                    onChange={handleChange}
+                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                    placeholder="Your ID number"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="idType" className="block text-sm font-semibold text-gray-700 mb-2">
+                    ID Type <span className="text-xs font-normal text-gray-500">(Optional)</span>
+                  </label>
+                  <select
+                    id="idType"
+                    name="idType"
+                    value={formData.idType}
+                    onChange={handleChange}
+                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  >
+                    <option value="1">RSA ID</option>
+                    <option value="2">Passport</option>
+                    <option value="3">Temp ID</option>
+                    <option value="4">Business</option>
                   </select>
                 </div>
 

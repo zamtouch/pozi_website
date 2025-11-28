@@ -32,6 +32,9 @@ export async function POST(request: NextRequest) {
       // Bank Account Details (students only)
       account_number,
       bank_id,
+      account_type,
+      id_number,
+      id_type,
     } = body;
 
     // Validation
@@ -94,6 +97,9 @@ export async function POST(request: NextRequest) {
       // Bank Account Details (required for students)
       userData.account_number = account_number || null;
       userData.bank_id = bank_id ? parseInt(String(bank_id)) : null;
+      userData.account_type = account_type ? parseInt(String(account_type)) : 1; // Default to Current/Cheque
+      userData.id_number = id_number || null;
+      userData.id_type = id_type ? parseInt(String(id_type)) : 1; // Default to RSA ID
       
       // File uploads are not required during signup - users will complete profile later
       // Files will be uploaded via the profile completion page after email verification
