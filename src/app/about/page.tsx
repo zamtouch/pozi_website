@@ -103,9 +103,9 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/search">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
-                  Find Your Home
-                </Button>
+              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+                Find Your Home
+              </Button>
               </Link>
             </div>
           </div>
@@ -190,9 +190,9 @@ export default function AboutPage() {
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/search">
-                  <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
                     Start Searching
-                  </Button>
+                </Button>
                 </Link>
               </div>
             </div>
@@ -284,14 +284,14 @@ export default function AboutPage() {
                     </div>
                     <h3 className="text-2xl font-medium text-gray-900 mb-3">{member.name}</h3>
                     <p className="text-lg text-green-600 font-medium">{member.role}</p>
-                  </div>
+                </div>
                 );
               })}
-            </div>
+              </div>
           ) : (
             <div className="text-center py-12">
               <p className="text-gray-600">No team members found.</p>
-            </div>
+          </div>
           )}
         </div>
       </div>
@@ -309,9 +309,9 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/search">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
-                  Start Searching Now
-                </Button>
+              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+                Start Searching Now
+              </Button>
               </Link>
             </div>
           </div>

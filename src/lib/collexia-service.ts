@@ -39,7 +39,6 @@ interface CollexiaResponse<T = any> {
   message: string;
   data?: T;
   errors?: any;
-  fullError?: any;
   timestamp?: string;
 }
 

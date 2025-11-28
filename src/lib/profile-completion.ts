@@ -215,3 +215,11 @@ export function canApplyForProperties(user: ProfileCompletionData): boolean {
   return result.isComplete;
 }
 
+
+
+
+
+
+
+
+

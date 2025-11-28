@@ -68,31 +68,29 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    // Clear any previous error
-    localStorage.removeItem('login_error');
 
     try {
       const success = await login(email, password);
       if (success) {
         // Direct check: hit /users/me and check for missing bank fields
-        const token = localStorage.getItem('directus_token');
-        if (token) {
-          try {
+          const token = localStorage.getItem('directus_token');
+          if (token) {
+            try {
             const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'https://app.pozi.com.na';
             const response = await fetch(`${DIRECTUS_URL}/users/me?fields=id,email,role.name,role.id,account_number,bank_id`, {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-              },
-            });
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                },
+              });
 
-            if (response.ok) {
+              if (response.ok) {
               const userData = await response.json();
               const user = userData.data;
               
               // Check if user is a student
               const roleName = (user.role?.name || user.role || '').toLowerCase();
               const isStudent = roleName.includes('student');
-              
+                
               // Check for missing bank fields
               const missingAccountNumber = !user.account_number || String(user.account_number).trim().length === 0;
               const missingBankId = !user.bank_id || user.bank_id === null || user.bank_id === undefined;
@@ -114,19 +112,16 @@ export default function LoginPage() {
               
               // Otherwise, let normal redirect handle it
               if (isStudent) {
-                router.push('/student/dashboard');
+                  router.push('/student/dashboard');
               }
-            }
-          } catch (err) {
+              }
+            } catch (err) {
             console.error('Error checking user data:', err);
             // Continue with normal flow if check fails
+            }
           }
-        }
       } else {
-        // Get error message from localStorage (set by login function)
-        const errorMessage = localStorage.getItem('login_error') || 'Invalid email or password';
-        setError(errorMessage);
-        localStorage.removeItem('login_error'); // Clear after reading
+        setError('Invalid email or password');
         setLoading(false);
       }
     } catch (err) {
@@ -149,91 +144,91 @@ export default function LoginPage() {
             </h2>
             <p className="text-gray-600 font-light">
               Sign in to your account to continue
-            </p>
-          </div>
-          
+          </p>
+        </div>
+        
           <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
+          {error && (
               <div className="rounded-lg bg-red-50 border border-red-200 p-4">
-                <div className="text-sm text-red-700">{error}</div>
-              </div>
-            )}
-            
+              <div className="text-sm text-red-700">{error}</div>
+            </div>
+          )}
+          
             <div className="space-y-5">
-              <div>
+            <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   placeholder="you@example.com"
-                />
-              </div>
-              
-              <div>
+              />
+            </div>
+            
+            <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  Password
-                </label>
+                Password
+              </label>
                 <div className="relative">
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                    autoComplete="current-password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                     className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    placeholder="Enter your password"
-                  />
-                  <button
-                    type="button"
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
                       <EyeSlashIcon className="h-5 w-5" />
-                    ) : (
+                  ) : (
                       <EyeIcon className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
+                  )}
+                </button>
               </div>
             </div>
+          </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
                   className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                />
+              />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-600">
-                  Remember me
-                </label>
-              </div>
+                Remember me
+              </label>
+            </div>
 
-              <div className="text-sm">
+            <div className="text-sm">
                 <Link href="/auth/forgot-password" className="font-medium text-green-600 hover:text-green-500">
                   Forgot password?
-                </Link>
-              </div>
+              </Link>
             </div>
+          </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+            >
                 {loading ? (
                   <span className="flex items-center">
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -245,8 +240,8 @@ export default function LoginPage() {
                 ) : (
                   'Sign in'
                 )}
-              </button>
-            </div>
+            </button>
+          </div>
 
             <div className="text-center">
               <p className="text-sm text-gray-600">
@@ -256,7 +251,7 @@ export default function LoginPage() {
                 </Link>
               </p>
             </div>
-          </form>
+        </form>
         </div>
       </div>
 

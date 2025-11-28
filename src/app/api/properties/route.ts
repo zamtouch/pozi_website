@@ -9,14 +9,6 @@ import { getAuthToken } from '@/lib/auth-utils/server-auth';
  */
 export async function GET(request: NextRequest) {
   try {
-    if (!config.directus.url || !config.directus.token) {
-      console.error('Directus configuration missing');
-      return NextResponse.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
-      );
-    }
-
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search');
     const university = searchParams.get('university');
@@ -24,7 +16,6 @@ export async function GET(request: NextRequest) {
     const maxPrice = searchParams.get('maxPrice');
     const rooms = searchParams.get('rooms');
     const featured = searchParams.get('featured');
-    const limit = searchParams.get('limit');
 
     // Build Directus query parameters
     const propertiesParams = new URLSearchParams();
@@ -44,32 +35,9 @@ export async function GET(request: NextRequest) {
       propertiesParams.append('filter[_or][2][description][_contains]', search);
     }
 
-    // Add university filter - handle both ID and slug
+    // Add university filter
     if (university) {
-      // Check if it's a numeric ID or a slug
-      const isNumericId = /^\d+$/.test(university);
-      if (isNumericId) {
-        propertiesParams.append('filter[university][_eq]', university);
-      } else {
-        // It's a slug, need to look up the university ID
-        try {
-          const universityResponse = await httpJson(
-            'GET',
-            `${config.directus.url}/items/universities?filter[slug][_eq]=${encodeURIComponent(university)}&fields=id`,
-            null,
-            [`Authorization: Bearer ${config.directus.token}`]
-          );
-          if (universityResponse.status >= 200 && universityResponse.status < 300) {
-            const universityData = JSON.parse(universityResponse.body);
-            if (universityData.data && universityData.data.length > 0) {
-              const universityId = universityData.data[0].id;
-              propertiesParams.append('filter[university][_eq]', universityId.toString());
-            }
-          }
-        } catch (error) {
-          console.error('Error fetching university ID from slug:', error);
-        }
-      }
+      propertiesParams.append('filter[university][_eq]', university);
     }
 
     // Add price filters
@@ -85,10 +53,8 @@ export async function GET(request: NextRequest) {
       propertiesParams.append('filter[rooms_available][_gte]', rooms);
     }
 
-    // Set limit if provided, or default to 5 for featured
-    if (limit) {
-      propertiesParams.append('limit', limit);
-    } else if (featured === '1' || featured === 'true') {
+    // Limit to 5 if featured, otherwise no limit
+    if (featured === '1' || featured === 'true') {
       propertiesParams.append('limit', '5');
     }
 
