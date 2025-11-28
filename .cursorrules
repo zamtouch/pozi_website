@@ -1,0 +1,55 @@
+# Cursor Rules for POZI Project
+
+## Build and Deployment Rules
+
+### Pre-Push Build Verification
+**CRITICAL**: Before pushing any changes to git, ALWAYS verify that the project is build-ready and will not result in Vercel deployment errors:
+
+1. **Run Build Check**: Execute `npm run build` in the `web` directory to ensure:
+   - TypeScript compilation succeeds without errors
+   - All imports and dependencies are resolved
+   - No syntax errors or type errors exist
+   - Next.js static page generation completes successfully
+   - No missing environment variables that would cause build failures
+
+2. **Verify Build Output**: Check that the build completes with exit code 0 and shows:
+   - ✓ Compiled successfully
+   - ✓ Running TypeScript (with no errors)
+   - ✓ Collecting page data (completes without errors)
+   - ✓ Generating static pages (completes successfully)
+
+3. **Fix All Errors**: If any build errors are found:
+   - Fix TypeScript errors immediately
+   - Resolve missing imports or dependencies
+   - Fix syntax errors
+   - Address any type mismatches
+   - Ensure all required environment variables are documented
+
+4. **Never Push Broken Builds**: Do NOT commit or push changes if:
+   - Build fails with errors
+   - TypeScript compilation fails
+   - There are unresolved imports
+   - Static page generation fails
+   - Any linter errors that would block deployment
+
+5. **Build Command**: The build verification command is:
+   ```bash
+   cd web && npm run build
+   ```
+
+### General Development Rules
+
+- Always check for linting errors using `read_lints` before committing
+- Ensure all TypeScript types are properly defined
+- Verify that all API routes handle errors gracefully
+- Test that all pages can be statically generated or rendered correctly
+- Ensure environment variables are properly configured for production builds
+
+### Error Prevention
+
+- When fixing build errors, address the root cause, not just symptoms
+- If a build error appears, check the entire error stack trace
+- Verify that all file paths are correct and files exist
+- Ensure all imports use correct paths (relative vs absolute)
+- Check that all components are properly exported and imported
+
