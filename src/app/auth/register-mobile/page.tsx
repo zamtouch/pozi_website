@@ -3,6 +3,15 @@
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
+// Extend Window interface for React Native WebView
+declare global {
+  interface Window {
+    ReactNativeWebView?: {
+      postMessage: (message: string) => void;
+    };
+  }
+}
+
 export default function RegisterMobilePage() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -444,7 +453,16 @@ export default function RegisterMobilePage() {
       {showSuccessModal && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setShowSuccessModal(false)}
+          onClick={() => {
+            setShowSuccessModal(false);
+            // Send message to React Native WebView if embedded
+            if (window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'REGISTRATION_SUCCESS',
+                message: 'Account created successfully'
+              }));
+            }
+          }}
         >
           <div 
             className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform transition-all scale-100"
@@ -461,7 +479,16 @@ export default function RegisterMobilePage() {
                 Please check your email for the activation code to verify your account.
               </p>
               <button
-                onClick={() => setShowSuccessModal(false)}
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  // Send message to React Native WebView if embedded
+                  if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({
+                      type: 'REGISTRATION_SUCCESS',
+                      message: 'Account created successfully'
+                    }));
+                  }
+                }}
                 className="w-full bg-gradient-to-r from-teal-600 to-blue-600 text-white font-semibold py-4 px-6 rounded-xl hover:from-teal-700 hover:to-blue-700 transition-all transform hover:scale-[1.02] shadow-lg active:scale-[0.98]"
               >
                 Close
