@@ -1,9 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import '@/app/globals.css';
-import { AuthProvider } from '@/lib/auth';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Register - POZI Student Living',
@@ -15,13 +10,7 @@ export default function RegisterMobileLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className={inter.className}>
-      <body className="bg-white text-gray-900 antialiased">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </body>
-    </html>
-  );
+  // This layout just passes through children - no header/footer
+  // The ConditionalLayout in root layout will handle excluding header/footer
+  return <>{children}</>;
 }

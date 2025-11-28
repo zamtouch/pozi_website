@@ -12,8 +12,14 @@ export default function ConditionalLayout({
   const pathname = usePathname();
   
   // Routes that should NOT have header and footer
+  // Check exact match or starts with (to handle query params)
   const excludeRoutes = ['/auth/register-mobile1'];
-  const shouldExclude = excludeRoutes.some(route => pathname?.startsWith(route));
+  const shouldExclude = excludeRoutes.some(route => {
+    if (!pathname) return false;
+    // Remove query params for comparison
+    const cleanPath = pathname.split('?')[0];
+    return cleanPath === route || cleanPath.startsWith(route + '/');
+  });
 
   if (shouldExclude) {
     return <>{children}</>;
