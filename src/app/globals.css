@@ -6,6 +6,10 @@
 /* Base styles */
 :root {
   color-scheme: light;
+  /* Pozi Brand Colors */
+  --pozi-green: #005b42;
+  --pozi-pink: #fce7f3;
+  --pozi-yellow-green: #f0f9d8;
 }
 
 /* Smooth scrolling */
@@ -34,6 +38,45 @@ html {
 
 .pozi-green {
   background-color: #005b42;
+}
+
+/* Pozi brand color utilities */
+.pozi-pink {
+  background-color: var(--pozi-pink);
+}
+
+.pozi-yellow-green {
+  background-color: var(--pozi-yellow-green);
+}
+
+/* Smiley icon animation */
+@keyframes smileyBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+}
+
+.animate-smiley {
+  animation: smileyBounce 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
 /* Fade in animation for property images */

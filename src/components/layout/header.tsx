@@ -39,7 +39,7 @@ export default function Header() {
   const showAuthenticated = !isLoading && (isAuthenticated || hasCookie);
 
   return (
-    <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
+    <header className="border-b-2 border-b-pink-200 bg-gradient-to-r from-white via-yellow-50/30 to-white sticky top-0 z-50">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}

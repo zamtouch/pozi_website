@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import SmileyIcon from '@/components/ui/smiley-icon';
 
 const footerSections = [
   {
@@ -24,7 +25,7 @@ const footerSections = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-100 bg-white">
+    <footer className="border-t-4 border-t-pink-200 bg-gradient-to-b from-white via-yellow-50/20 to-white">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="py-12">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">

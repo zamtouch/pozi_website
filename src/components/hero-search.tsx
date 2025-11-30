@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
+import SmileyIcon from '@/components/ui/smiley-icon';
 import { fetchGalleryImages, fetchUniversities, University } from '@/lib/api';
 
 
@@ -132,9 +133,12 @@ export default function HeroSearch() {
       `}</style>
       
       <section 
-        className="flex items-center relative"
+        className="flex items-center relative overflow-hidden"
         style={{ minHeight: '75vh' }}
       >
+        {/* Brand color accents */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-pink-300/15 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none z-0"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow-300/15 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none z-0"></div>
         {/* Ken Burns Background */}
         <div 
           className="absolute inset-0"
@@ -214,6 +218,10 @@ export default function HeroSearch() {
 
           {/* Visual Element - Hidden on mobile, shown on desktop */}
           <div className="hidden lg:block relative flex items-center justify-center min-h-[400px]">
+            {/* Floating Smiley Icon */}
+            <div className="absolute top-1/2 right-8 transform -translate-y-1/2">
+              <SmileyIcon size={80} color="pink" className="drop-shadow-lg animate-float" />
+            </div>
           </div>
         </div>
       </div>

@@ -12,10 +12,10 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', loading = false, children, disabled, asChild = false, ...props }, ref) => {
     const variants = {
-      primary: 'pozi-green hover:bg-green-700 text-white font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 flex items-center justify-center',
-      secondary: 'bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 flex items-center justify-center',
-      outline: 'border border-gray-300 hover:border-gray-400 text-gray-900 font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 flex items-center justify-center',
-      ghost: 'hover:bg-gray-100 text-gray-900 font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 flex items-center justify-center',
+      primary: 'text-white font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center justify-center',
+      secondary: 'text-gray-900 font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center justify-center',
+      outline: 'border border-gray-300 hover:border-gray-400 text-gray-900 font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center justify-center',
+      ghost: 'hover:bg-gray-100 text-gray-900 font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center justify-center',
     };
 
     const sizes = {
@@ -23,18 +23,33 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       md: 'h-11 px-4 text-sm',
       lg: 'h-12 px-6 text-base',
     };
+    
+    // Darker yellow-green for buttons (#d4c84a)
+    const getButtonStyle = () => {
+      if (variant === 'primary' || variant === 'secondary') {
+        return {
+          backgroundColor: '#d4c84a',
+          color: variant === 'primary' ? 'white' : '#111827',
+        };
+      }
+      return {};
+    };
 
     const buttonClasses = cn(
       variants[variant],
       sizes[size],
       loading && 'opacity-50 cursor-not-allowed',
       disabled && 'opacity-50 cursor-not-allowed',
+      (variant === 'primary' || variant === 'secondary') && 'hover:brightness-110',
       className
     );
+    
+    const buttonStyle = getButtonStyle();
 
     if (asChild && React.isValidElement(children)) {
       return React.cloneElement(children, {
         className: cn(buttonClasses, (children.props as any).className),
+        style: { ...buttonStyle, ...((children.props as any).style || {}) },
         disabled: disabled || loading,
         ...props,
       } as any);
@@ -43,6 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={buttonClasses}
+        style={buttonStyle}
         disabled={disabled || loading}
         ref={ref}
         {...props}

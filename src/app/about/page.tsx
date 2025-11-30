@@ -88,11 +88,11 @@ export default function AboutPage() {
         <div className="w-full px-4 sm:px-6 lg:px-8 py-24">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-6 py-3 mb-8">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-green-700 font-medium text-sm">About us | Pozi Living</span>
+   
+              <span className="text-green-700 font-medium text-sm">About us</span>
             </div>
             <h1 className="text-5xl md:text-6xl font-light text-white mb-8 leading-tight">
-              Student Housing
+             Your Pozi
               <span className="block font-medium text-green-300">
                 Made Simple
               </span>
@@ -222,25 +222,7 @@ export default function AboutPage() {
       </div>
 
       {/* Group Photo Section */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative rounded-2xl overflow-hidden shadow-xl">
-            <Image
-              src={getImageUrl('8fabe372-b0cb-4370-ac4d-9ca55ec3b414')}
-              alt="POZI Team"
-              width={1400}
-              height={800}
-              className="w-full h-auto object-cover"
-              unoptimized
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-8 md:p-12">
-              <p className="text-white text-xl md:text-2xl font-light leading-relaxed max-w-3xl">
-                The POZI team - dedicated to making student housing accessible, safe, and affordable for every Namibian student.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+  
 
       {/* Team Section */}
       <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-white">
