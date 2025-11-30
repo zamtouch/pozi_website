@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PropertyCard from '@/components/property-card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -15,7 +14,6 @@ import { searchProperties, fetchProperties, fetchUniversities, Property, Univers
 
 function SearchPageContent() {
   const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [selectedUniversity, setSelectedUniversity] = useState(searchParams.get('university') || '');
   const [sortBy, setSortBy] = useState('relevance');
   const [properties, setProperties] = useState<Property[]>([]);
@@ -29,15 +27,15 @@ function SearchPageContent() {
   const debouncedSearch = useCallback(
     (() => {
       let timeoutId: NodeJS.Timeout;
-      return (query: string, university: string) => {
+      return (university: string) => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(async () => {
           setIsLoading(true);
           try {
             let results: Property[] = [];
             
-            if (query || university) {
-              results = await searchProperties(query, university, []);
+            if (university) {
+              results = await searchProperties('', university, []);
             } else {
               results = await fetchProperties();
             }
@@ -83,15 +81,14 @@ function SearchPageContent() {
 
   // Fetch properties on component mount and when search params change
   useEffect(() => {
-    debouncedSearch(searchQuery, selectedUniversity);
-  }, [searchQuery, selectedUniversity, debouncedSearch]);
+    debouncedSearch(selectedUniversity);
+  }, [selectedUniversity, debouncedSearch]);
 
   const handleSearch = () => {
-    debouncedSearch(searchQuery, selectedUniversity);
+    debouncedSearch(selectedUniversity);
   };
 
   const clearFilters = () => {
-    setSearchQuery('');
     setSelectedUniversity('');
     setSortBy('relevance');
   };
@@ -118,23 +115,6 @@ function SearchPageContent() {
               </CardHeader>
               
               <CardContent className={`space-y-6 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-                {/* Search Input */}
-                <div>
-                  <label className="block text-sm font-medium text-ink mb-2">
-                    Search
-                  </label>
-                  <Input
-                    placeholder="Search properties..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleSearch();
-                      }
-                    }}
-                  />
-                </div>
-
                 {/* University Filter */}
                 <div>
                   <Select
@@ -151,7 +131,7 @@ function SearchPageContent() {
                       setSelectedUniversity(e.target.value);
                       // Trigger immediate search when university changes
                       setTimeout(() => {
-                        debouncedSearch(searchQuery, e.target.value);
+                        debouncedSearch(e.target.value);
                       }, 0);
                     }}
                   />

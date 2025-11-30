@@ -180,7 +180,7 @@ export default function HeroSearch() {
           <div className="space-y-4 sm:space-y-6 flex flex-col justify-center max-w-2xl lg:max-w-none">
             <div className="space-y-3 sm:space-y-4">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-tight leading-tight" style={{ color:'rgba(255, 255, 255, 0.9)' }}>
-                Find student housing near your university
+                Your Campus. Your Crew. Your Pozi.
               </h1>
               <p className="text-base sm:text-lg text-white/90 max-w-lg leading-relaxed">
                 Discover verified accommodation options with simple search, 
@@ -190,14 +190,7 @@ export default function HeroSearch() {
 
             {/* Search Form */}
             <form onSubmit={handleSearch} className="space-y-4 text-white">
-              <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto]">
-                <Input
-                  placeholder="Search by university or city"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  aria-label="Search by university or city"
-                  className="w-full bg-white/20 border-white/30 text-white placeholder-white/70 focus:bg-white/30 focus:border-white/50 h-12 text-base"
-                />
+              <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
                 <Select
                   options={[
                     { value: '', label: 'Select University' },
