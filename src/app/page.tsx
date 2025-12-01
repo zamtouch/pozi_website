@@ -1,11 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import HeroSearch from '@/components/hero-search';
 import PropertyCard from '@/components/property-card';
 import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import SmileyIcon from '@/components/ui/smiley-icon';
+import CheckmarkIcon from '@/components/ui/checkmark-icon';
+import SmileyFaceIcon from '@/components/ui/smiley-face-icon';
+import GraduationCapIcon from '@/components/ui/graduation-cap-icon';
 import { fetchFeaturedProperties, fetchGalleryImages, Property } from '@/lib/api';
 
 
@@ -13,30 +16,17 @@ const features = [
   {
     title: 'Verified listings',
     description: 'All properties reviewed before going live.',
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: <Image src="/verified.png" alt="Verified" width={128} height={128} />,
   },
   {
     title: 'Direct applications',
     description: 'Contact owners and apply in minutes.',
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: <Image src="/direct.png" alt="Application" width={128} height={128} />,
   },
   {
     title: 'Student-first',
     description: 'Built for campus-life convenience.',
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-      </svg>
-    ),
+    icon: <Image src="/student_first.png" alt="Student" width={128} height={128} />,
   },
 ];
 
@@ -97,7 +87,7 @@ export default function Home() {
           <div className="text-center space-y-4">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900">Featured Properties</h2>
             <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Discover student accommodations near major learning centers
+              Discover student accommodations near major learning centers and universities.
             </p>
           </div>
           
@@ -363,12 +353,8 @@ export default function Home() {
             {features.map((feature, index) => {
               return (
                 <div key={index} className="text-center space-y-4">
-                  <div className="w-20 h-20 mx-auto flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full border-4 flex items-center justify-center bg-transparent" style={{ borderColor: '#005b42' }}>
-                      <div style={{ color: '#005b42' }}>
-                        {feature.icon}
-                      </div>
-                    </div>
+                  <div className="w-40 h-40 mx-auto flex items-center justify-center">
+                    {feature.icon}
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-xl md:text-2xl font-semibold" style={{ color: '#005b42' }}>{feature.title}</h3>

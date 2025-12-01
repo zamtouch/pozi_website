@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
-import SmileyIcon from '@/components/ui/smiley-icon';
 import { fetchGalleryImages, fetchUniversities, University } from '@/lib/api';
 
 
@@ -218,9 +218,15 @@ export default function HeroSearch() {
 
           {/* Visual Element - Hidden on mobile, shown on desktop */}
           <div className="hidden lg:block relative flex items-center justify-center min-h-[400px]">
-            {/* Floating Smiley Icon */}
+            {/* Floating Design Image */}
             <div className="absolute top-1/2 right-8 transform -translate-y-1/2">
-              <SmileyIcon size={80} color="pink" className="drop-shadow-lg animate-float" />
+              <Image 
+                src="/design.png" 
+                alt="Pozi Design" 
+                width={160} 
+                height={160} 
+                className="drop-shadow-lg animate-float" 
+              />
             </div>
           </div>
         </div>
