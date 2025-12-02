@@ -15,7 +15,8 @@ interface FavoriteProperty extends Property {
 }
 
 export default function SavedPropertiesPage() {
-  const { user, isAuthenticated, isStudent, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isStudent, isGraduate, isLoading: authLoading } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
   const [properties, setProperties] = useState<FavoriteProperty[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,15 +42,15 @@ export default function SavedPropertiesPage() {
 
       if (!isAuth) {
         router.push('/auth/login');
-      } else if (isAuth && !isStudent) {
-        if (user?.role && !isStudent) {
+      } else if (isAuth && !isStudentOrGraduate) {
+        if (user?.role && !isStudentOrGraduate) {
           router.push('/');
         }
       } else {
         fetchSavedProperties();
       }
     }
-  }, [authLoading, hasChecked, isAuthenticated, hasCookie, isStudent, router, user]);
+  }, [authLoading, hasChecked, isAuthenticated, hasCookie, isStudentOrGraduate, router, user]);
 
   const fetchSavedProperties = async () => {
     setIsLoading(true);
@@ -233,7 +234,7 @@ export default function SavedPropertiesPage() {
                         View Details
                       </Link>
                     </Button>
-                    {isAuthenticated && isStudent && (
+                    {isAuthenticated && isStudentOrGraduate && (
                       <Button asChild className="flex-1" size="sm" variant="outline">
                         <Link href={`/student/apply/${property.id}`}>
                           Apply Now

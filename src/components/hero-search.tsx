@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
-import { fetchGalleryImages, fetchUniversities, University } from '@/lib/api';
+import { fetchGalleryImages, fetchUniversities, fetchTowns, fetchResidentials, University, Town, Residential } from '@/lib/api';
 
 
 const popularSearches = [
@@ -17,13 +17,19 @@ const popularSearches = [
 ];
 
 export default function HeroSearch() {
+  const [activeTab, setActiveTab] = useState<'student' | 'graduate'>('student');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedUniversity, setSelectedUniversity] = useState('');
+  const [selectedTown, setSelectedTown] = useState('');
+  const [selectedResidential, setSelectedResidential] = useState('');
   const [sliderImages, setSliderImages] = useState<string[]>([]);
   const [isLoadingImages, setIsLoadingImages] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [universities, setUniversities] = useState<University[]>([]);
+  const [towns, setTowns] = useState<Town[]>([]);
+  const [residentials, setResidentials] = useState<Residential[]>([]);
   const [isLoadingUniversities, setIsLoadingUniversities] = useState(true);
+  const [isLoadingTowns, setIsLoadingTowns] = useState(true);
   const router = useRouter();
 
   // Fetch images from Directus
@@ -60,6 +66,40 @@ export default function HeroSearch() {
     fetchUniversitiesData();
   }, []);
 
+  // Fetch towns from Directus
+  useEffect(() => {
+    const fetchTownsData = async () => {
+      try {
+        const townsData = await fetchTowns();
+        setTowns(townsData);
+      } catch (error) {
+        console.error('Error fetching towns:', error);
+      } finally {
+        setIsLoadingTowns(false);
+      }
+    };
+
+    fetchTownsData();
+  }, []);
+
+  // Fetch residentials when town changes
+  useEffect(() => {
+    if (selectedTown) {
+      const fetchResidentialsData = async () => {
+        try {
+          const residentialsData = await fetchResidentials(parseInt(selectedTown));
+          setResidentials(residentialsData);
+        } catch (error) {
+          console.error('Error fetching residentials:', error);
+        }
+      };
+      fetchResidentialsData();
+    } else {
+      setResidentials([]);
+      setSelectedResidential('');
+    }
+  }, [selectedTown]);
+
   // Rotate images every 5 seconds
   useEffect(() => {
     if (sliderImages.length <= 1) return;
@@ -73,14 +113,26 @@ export default function HeroSearch() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const query = searchQuery.trim();
-    const university = selectedUniversity;
+    const searchParams = new URLSearchParams();
     
-    if (query || university) {
-      const searchParams = new URLSearchParams();
-      if (query) searchParams.set('q', query);
-      if (university) searchParams.set('university', university);
-      
+    if (activeTab === 'student') {
+      // Student search: by university
+      if (selectedUniversity) {
+        searchParams.set('university', selectedUniversity);
+        searchParams.set('type', 'student');
+      }
+    } else {
+      // Graduate search: by town and residential
+      if (selectedTown) {
+        searchParams.set('town', selectedTown);
+        searchParams.set('type', 'graduate');
+      }
+      if (selectedResidential) {
+        searchParams.set('residential', selectedResidential);
+      }
+    }
+    
+    if (searchParams.toString()) {
       router.push(`/search?${searchParams.toString()}`);
     }
   };
@@ -137,7 +189,7 @@ export default function HeroSearch() {
         style={{ minHeight: '75vh' }}
       >
         {/* Brand color accents */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-pink-300/15 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none z-0"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none z-0" style={{ backgroundColor: 'rgba(214, 226, 92, 0.15)' }}></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow-300/15 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none z-0"></div>
         {/* Ken Burns Background */}
         <div 
@@ -192,28 +244,213 @@ export default function HeroSearch() {
               </p>
             </div>
 
-            {/* Search Form */}
-            <form onSubmit={handleSearch} className="space-y-4 text-white">
-              <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
-                <Select
-                  options={[
-                    { value: '', label: 'Select University' },
-                    ...universities.map(uni => ({
-                      value: uni.slug,
-                      label: uni.name
-                    }))
-                  ]}
-                  value={selectedUniversity}
-                  onChange={(e) => setSelectedUniversity(e.target.value)}
-                  variant="white"
-                  className="w-full bg-white/20 border-white/30 text-white"
-                  style={{ padding: '12px', borderRadius: '8px' }}
-                />
-                <Button type="submit" className="w-full sm:w-auto h-12 text-base font-medium">
-                  Search
-                </Button>
+            {/* Search Form Container */}
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 border border-white/20">
+              {/* Tabs */}
+              <div className="flex space-x-1 mb-6 bg-gray-100 rounded-xl p-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab('student');
+                    setSelectedTown('');
+                    setSelectedResidential('');
+                  }}
+                  className={`flex-1 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 ${
+                    activeTab === 'student'
+                      ? 'bg-white shadow-md'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                  style={activeTab === 'student' ? { color: '#d6e25c' } : {}}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    I am a Student
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab('graduate');
+                    setSelectedUniversity('');
+                  }}
+                  className={`flex-1 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 ${
+                    activeTab === 'graduate'
+                      ? 'bg-white text-yellow-600 shadow-md'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    I am a Graduate
+                  </span>
+                </button>
               </div>
-            </form>
+
+              {/* Search Form */}
+              <form onSubmit={handleSearch} className="space-y-4">
+                {activeTab === 'student' ? (
+                  // Student Search: University
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <span className="flex items-center gap-2">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#d6e25c' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          </svg>
+                          Select University
+                        </span>
+                      </label>
+                      <Select
+                        options={[
+                          { value: '', label: 'Choose a university...' },
+                          ...universities.map(uni => ({
+                            value: uni.slug,
+                            label: uni.name
+                          }))
+                        ]}
+                        value={selectedUniversity}
+                        onChange={(e) => setSelectedUniversity(e.target.value)}
+                        className="w-full bg-white border-2 border-gray-200 text-gray-900 transition-colors"
+                        style={{
+                          padding: '14px',
+                          borderRadius: '12px',
+                          fontSize: '15px',
+                          '--hover-border': '#d6e25c',
+                          '--focus-border': '#d6e25c',
+                        } as React.CSSProperties}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = '#d6e25c';
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = '#e5e7eb';
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = '#d6e25c';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (document.activeElement !== e.currentTarget) {
+                            e.currentTarget.style.borderColor = '#e5e7eb';
+                          }
+                        }}
+                        disabled={isLoadingUniversities}
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full h-14 text-base font-semibold text-gray-900 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl font-bold" 
+                      style={{ 
+                        backgroundColor: '#d6e25c',
+                        border: 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#c4d04a';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#d6e25c';
+                      }}
+                      disabled={!selectedUniversity || isLoadingUniversities}
+                    >
+                      {isLoadingUniversities ? (
+                        <span className="flex items-center gap-2">
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                          Loading...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                          Search Properties
+                        </span>
+                      )}
+                    </Button>
+                  </div>
+                ) : (
+                  // Graduate Search: Town and Residential
+                  <div className="space-y-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="relative">
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          <span className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Select Town
+                          </span>
+                        </label>
+                        <Select
+                          options={[
+                            { value: '', label: 'Choose a town...' },
+                            ...towns.map(town => ({
+                              value: town.id.toString(),
+                              label: town.town_name
+                            }))
+                          ]}
+                          value={selectedTown}
+                          onChange={(e) => setSelectedTown(e.target.value)}
+                          className="w-full bg-white border-2 border-gray-200 text-gray-900 hover:border-yellow-400 focus:border-yellow-500 transition-colors"
+                          style={{ padding: '14px', borderRadius: '12px', fontSize: '15px' }}
+                          disabled={isLoadingTowns}
+                        />
+                      </div>
+                      <div className="relative">
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          <span className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            Residential Area
+                          </span>
+                        </label>
+                        <Select
+                          options={[
+                            { value: '', label: selectedTown ? 'Choose residential area...' : 'Select town first' },
+                            ...residentials.map(residential => ({
+                              value: residential.id.toString(),
+                              label: typeof residential.residential_town === 'object' 
+                                ? residential.residential_town.town_name 
+                                : residential.residential_name
+                            }))
+                          ]}
+                          value={selectedResidential}
+                          onChange={(e) => setSelectedResidential(e.target.value)}
+                          className="w-full bg-white border-2 border-gray-200 text-gray-900 hover:border-yellow-400 focus:border-yellow-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          style={{ padding: '14px', borderRadius: '12px', fontSize: '15px' }}
+                          disabled={!selectedTown || residentials.length === 0 || isLoadingTowns}
+                        />
+                      </div>
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full h-14 text-base font-semibold text-gray-900 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl font-bold" 
+                      style={{ 
+                        backgroundColor: '#d6e25c',
+                        border: 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#c4d04a';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#d6e25c';
+                      }}
+                      disabled={!selectedTown}
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        Search Properties
+                      </span>
+                    </Button>
+                  </div>
+                )}
+              </form>
+            </div>
           </div>
 
           {/* Visual Element - Hidden on mobile, shown on desktop */}

@@ -48,7 +48,8 @@ interface CompletionData {
 }
 
 export default function StudentProfilePage() {
-  const { user, isAuthenticated, isStudent, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isStudent, isGraduate, isLoading: authLoading } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
   
   const [loading, setLoading] = useState(true);
@@ -62,7 +63,7 @@ export default function StudentProfilePage() {
 
   useEffect(() => {
     if (!authLoading) {
-      if (!isAuthenticated || !isStudent) {
+      if (!isAuthenticated || !isStudentOrGraduate) {
         router.push('/auth/login');
         return;
       }

@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/lib/auth';
-import { fetchUniversities, University } from '@/lib/api';
+import { fetchUniversities, fetchTowns, fetchResidentials, University, Town, Residential } from '@/lib/api';
 import MapPicker from '@/components/map-picker';
 
 interface Property {
@@ -54,6 +54,8 @@ interface Property {
     id: string;
     filename_download: string;
   } | null;
+  town?: number | { id: number; town_name: string } | null;
+  residential?: number | { id: number; residential_name: string; residential_town: number } | null;
 }
 
 const AMENITIES = [
@@ -78,6 +80,8 @@ export default function EditPropertyPage() {
   const [success, setSuccess] = useState(false);
   const [property, setProperty] = useState<Property | null>(null);
   const [universities, setUniversities] = useState<University[]>([]);
+  const [towns, setTowns] = useState<Town[]>([]);
+  const [residentials, setResidentials] = useState<Residential[]>([]);
   const [uploadingImages, setUploadingImages] = useState<Record<string, boolean>>({});
   const [deletingImages, setDeletingImages] = useState<Record<string, boolean>>({});
   const [imageCacheKey, setImageCacheKey] = useState(Date.now());
@@ -95,6 +99,8 @@ export default function EditPropertyPage() {
     rooms_available: '',
     total_rooms: '',
     university: '',
+    town: '',
+    residential: '',
     amenities: [] as string[],
   });
 
@@ -108,8 +114,18 @@ export default function EditPropertyPage() {
     if (params.id && isAuthenticated) {
       fetchProperty();
       fetchUniversitiesData();
+      fetchTownsData();
     }
   }, [params.id, isAuthenticated]);
+
+  useEffect(() => {
+    // Fetch residentials when town changes
+    if (formData.town) {
+      fetchResidentialsData(parseInt(formData.town));
+    } else {
+      setResidentials([]);
+    }
+  }, [formData.town]);
 
   const fetchProperty = async (showLoading = true) => {
     try {
@@ -150,6 +166,9 @@ export default function EditPropertyPage() {
         setProperty(prop);
         
         // Populate form with existing data
+        const townId = typeof prop.town === 'object' ? prop.town?.id : prop.town;
+        const residentialId = typeof prop.residential === 'object' ? prop.residential?.id : prop.residential;
+        
         setFormData({
           title: prop.title || '',
           description: prop.description || '',
@@ -162,8 +181,15 @@ export default function EditPropertyPage() {
           rooms_available: prop.rooms_available?.toString() || '',
           total_rooms: prop.total_rooms?.toString() || '',
           university: prop.university?.id?.toString() || '',
+          town: townId?.toString() || '',
+          residential: residentialId?.toString() || '',
           amenities: Array.isArray(prop.amenities) ? prop.amenities : [],
         });
+
+        // Fetch residentials if town is set
+        if (townId) {
+          fetchResidentialsData(townId);
+        }
       } else {
         const errorData = await response.json();
         setError(errorData.error || 'Failed to load property');
@@ -183,6 +209,24 @@ export default function EditPropertyPage() {
       setUniversities(universitiesData);
     } catch (error) {
       console.error('Error fetching universities:', error);
+    }
+  };
+
+  const fetchTownsData = async () => {
+    try {
+      const townsData = await fetchTowns();
+      setTowns(townsData);
+    } catch (error) {
+      console.error('Error fetching towns:', error);
+    }
+  };
+
+  const fetchResidentialsData = async (townId: number) => {
+    try {
+      const residentialsData = await fetchResidentials(townId);
+      setResidentials(residentialsData);
+    } catch (error) {
+      console.error('Error fetching residentials:', error);
     }
   };
 
@@ -432,6 +476,8 @@ export default function EditPropertyPage() {
         title: formData.title,
         description: formData.description,
         price_per_month: parseFloat(formData.price_per_month) || 0,
+        town: formData.town ? parseInt(formData.town) : null,
+        residential: formData.residential ? parseInt(formData.residential) : null,
         currency: formData.currency,
         address: formData.address,
         rooms_available: parseInt(formData.rooms_available) || 0,
@@ -868,7 +914,45 @@ export default function EditPropertyPage() {
                   ))}
                 </select>
               </div>
-
+              <div>
+                <Label htmlFor="town">Town *</Label>
+                <select
+                  id="town"
+                  name="town"
+                  value={formData.town}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  required
+                >
+                  <option value="">Select Town</option>
+                  {towns.map(town => (
+                    <option key={town.id} value={town.id}>
+                      {town.town_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="residential">Residential Area *</Label>
+                <select
+                  id="residential"
+                  name="residential"
+                  value={formData.residential}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  required
+                  disabled={!formData.town}
+                >
+                  <option value="">{formData.town ? 'Select Residential Area' : 'Select Town first'}</option>
+                  {residentials.map(residential => (
+                    <option key={residential.id} value={residential.id}>
+                      {typeof residential.residential_town === 'object' 
+                        ? residential.residential_town.town_name 
+                        : residential.residential_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <Label htmlFor="distance_from_campus">Distance from Campus (meters)</Label>
                 <Input

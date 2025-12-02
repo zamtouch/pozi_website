@@ -30,7 +30,8 @@ interface Application {
 }
 
 export default function StudentDashboard() {
-  const { user, isAuthenticated, isStudent, isLoading, logout } = useAuth();
+  const { user, isAuthenticated, isStudent, isGraduate, isLoading, logout } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
   const [hasChecked, setHasChecked] = useState(false);
   const [hasCookie, setHasCookie] = useState(false);
@@ -59,10 +60,10 @@ export default function StudentDashboard() {
       if (!isAuth) {
         console.log('❌ No cookie or auth, redirecting to login');
         router.push('/auth/login');
-      } else if (isAuth && !isStudent) {
-        // Only redirect if we know the role and it's not student
+      } else if (isAuth && !isStudentOrGraduate) {
+        // Only redirect if we know the role and it's not student or graduate
         // If role is unknown, allow access (will be validated on API calls)
-        if (user?.role && !isStudent) {
+        if (user?.role && !isStudentOrGraduate) {
           console.log('❌ Not a student, redirecting to home');
           router.push('/');
         } else {
@@ -74,7 +75,7 @@ export default function StudentDashboard() {
         checkProfileCompletion();
       }
     }
-  }, [isLoading, isAuthenticated, isStudent, hasCookie, router, hasChecked, user]);
+  }, [isLoading, isAuthenticated, isStudentOrGraduate, hasCookie, router, hasChecked, user]);
 
   const checkProfileCompletion = async () => {
     try {

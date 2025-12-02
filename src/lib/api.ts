@@ -24,6 +24,8 @@ export interface Property {
   featured: number; // 0 or 1 in Directus
   owner?: any | null;
   university?: any | null;
+  town?: number | { id: number; town_name: string } | null;
+  residential?: number | { id: number; residential_name: string; residential_town: number } | null;
 }
 
 export interface DirectusResponse<T> {
@@ -52,10 +54,27 @@ export interface University {
   image: string | null;
 }
 
+export interface Town {
+  id: number;
+  status: string;
+  town_name: string;
+  date_created?: string;
+  date_updated?: string | null;
+}
+
+export interface Residential {
+  id: number;
+  status: string;
+  residential_name: string;
+  residential_town: number | { id: number; town_name: string };
+  date_created?: string;
+  date_updated?: string | null;
+}
+
 // Fetch properties from Directus
 export async function fetchProperties(): Promise<Property[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?limit=100&fields=*,university.*`);
+    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?limit=100&fields=*,university.*,town.*,residential.*`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -76,7 +95,7 @@ export async function fetchProperties(): Promise<Property[]> {
 
 export async function fetchFeaturedProperties(): Promise<Property[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&limit=4&fields=*,university.*`);
+    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&limit=4&fields=*,university.*,town.*,residential.*`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -97,7 +116,7 @@ export async function fetchFeaturedProperties(): Promise<Property[]> {
 // Fetch featured properties (alternative with featured filter)
 export async function fetchFeaturedPropertiesFiltered(): Promise<Property[]> {
   try {
-    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&fields=*,university.*`);
+    const response = await fetch(`${DIRECTUS_BASE_URL}/items/properties?filter[featured]=1&filter[approved]=1&fields=*,university.*,town.*,residential.*`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -120,12 +139,14 @@ export async function fetchFeaturedPropertiesFiltered(): Promise<Property[]> {
 export async function searchProperties(
   query: string, 
   university?: string, 
-  amenities?: string[]
+  amenities?: string[],
+  town?: number,
+  residential?: number
 ): Promise<Property[]> {
   try {
-    let url = `${DIRECTUS_BASE_URL}/items/properties?filter[approved]=1&fields=*,university.*`;
+    let url = `${DIRECTUS_BASE_URL}/items/properties?filter[approved]=1&fields=*,university.*,town.*,residential.*`;
     
-    // console.log('Search properties called with:', { query, university, amenities });
+    // console.log('Search properties called with:', { query, university, amenities, town, residential });
     
     if (query) {
       url += `&filter[title][_contains]=${encodeURIComponent(query)}`;
@@ -151,6 +172,16 @@ export async function searchProperties(
       } catch (error) {
         console.error('Error fetching university ID:', error);
       }
+    }
+    
+    // Handle town filter
+    if (town) {
+      url += `&filter[town][_eq]=${town}`;
+    }
+    
+    // Handle residential filter
+    if (residential) {
+      url += `&filter[residential][_eq]=${residential}`;
     }
     
     // Add amenity filters (check if amenity exists in the amenities array)
@@ -191,6 +222,42 @@ export async function fetchUniversities(): Promise<University[]> {
     return data.data || [];
   } catch (error) {
     console.error('Error fetching universities:', error);
+    return [];
+  }
+}
+
+// Fetch towns
+export async function fetchTowns(): Promise<Town[]> {
+  try {
+    const response = await fetch(`${DIRECTUS_BASE_URL}/items/towns?filter[status][_eq]=published`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: DirectusResponse<Town> = await response.json();
+    
+    return data.data || [];
+  } catch (error) {
+    console.error('Error fetching towns:', error);
+    return [];
+  }
+}
+
+// Fetch residentials (optionally filtered by town)
+export async function fetchResidentials(townId?: number): Promise<Residential[]> {
+  try {
+    let url = `${DIRECTUS_BASE_URL}/items/residential?filter[status][_eq]=published`;
+    if (townId) {
+      url += `&filter[residential_town][_eq]=${townId}`;
+    }
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: DirectusResponse<Residential> = await response.json();
+    
+    return data.data || [];
+  } catch (error) {
+    console.error('Error fetching residentials:', error);
     return [];
   }
 }

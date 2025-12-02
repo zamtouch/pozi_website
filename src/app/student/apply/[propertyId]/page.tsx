@@ -35,7 +35,8 @@ interface UploadedDocument {
 }
 
 export default function ApplyPage() {
-  const { user, isAuthenticated, isStudent, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isStudent, isGraduate, isLoading: authLoading } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
@@ -96,8 +97,8 @@ export default function ApplyPage() {
 
       if (!isAuth) {
         router.push('/auth/login');
-      } else if (isAuth && !isStudent) {
-        if (user?.role && !isStudent) {
+      } else if (isAuth && !isStudentOrGraduate) {
+        if (user?.role && !isStudentOrGraduate) {
           router.push('/');
         }
       } else {
@@ -105,7 +106,7 @@ export default function ApplyPage() {
         fetchDefaults();
       }
     }
-  }, [authLoading, hasChecked, isAuthenticated, hasCookie, isStudent, router, user]);
+  }, [authLoading, hasChecked, isAuthenticated, hasCookie, isStudentOrGraduate, router, user]);
 
   const fetchDefaults = async () => {
     try {

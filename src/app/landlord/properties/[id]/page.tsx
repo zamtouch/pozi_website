@@ -60,6 +60,8 @@ interface Property {
     id: string;
     filename_download: string;
   } | null;
+  town?: number | { id: number; town_name: string } | null;
+  residential?: number | { id: number; residential_name: string; residential_town: number } | null;
 }
 
 export default function LandlordPropertyViewPage() {
@@ -544,6 +546,22 @@ export default function LandlordPropertyViewPage() {
                   <span className="text-gray-600">Rooms Available</span>
                   <span className="font-medium">{property.rooms_available} / {property.total_rooms}</span>
                 </div>
+                {property.town && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Town</span>
+                    <span className="font-medium">
+                      {typeof property.town === 'object' ? property.town.town_name : 'N/A'}
+                    </span>
+                  </div>
+                )}
+                {property.residential && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Residential Area</span>
+                    <span className="font-medium">
+                      {typeof property.residential === 'object' ? property.residential.residential_name : 'N/A'}
+                    </span>
+                  </div>
+                )}
                 {property.university && (
                   <div className="flex justify-between">
                     <span className="text-gray-600">Near University</span>

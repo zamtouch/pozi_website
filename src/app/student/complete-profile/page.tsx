@@ -6,7 +6,8 @@ import { useAuth } from '@/lib/auth';
 import { DocumentArrowUpIcon, XMarkIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 export default function CompleteProfilePage() {
-  const { user, isAuthenticated, isStudent, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isStudent, isGraduate, isLoading: authLoading } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
   
   const [loading, setLoading] = useState(true);
@@ -52,7 +53,7 @@ export default function CompleteProfilePage() {
 
   useEffect(() => {
     if (!authLoading) {
-      if (!isAuthenticated || !isStudent) {
+      if (!isAuthenticated || !isStudentOrGraduate) {
         router.push('/auth/login');
         return;
       }

@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     // Build Directus query parameters
     const propertiesParams = new URLSearchParams();
     propertiesParams.append('filter[approved][_eq]', '1'); // Only show approved properties
-    propertiesParams.append('fields', '*,featured_image.*,image_1.*,image_2.*,image_3.*,image_4.*,university.*');
+    propertiesParams.append('fields', '*,featured_image.*,image_1.*,image_2.*,image_3.*,image_4.*,university.*,town.*,residential.*');
     propertiesParams.append('sort', '-date_created');
 
     // Add featured filter if requested
@@ -181,6 +181,12 @@ export async function POST(request: NextRequest) {
     }
     if (body.university) {
       propertyData.university = parseInt(body.university);
+    }
+    if (body.town) {
+      propertyData.town = parseInt(body.town);
+    }
+    if (body.residential) {
+      propertyData.residential = parseInt(body.residential);
     }
 
     // Add image fields if provided

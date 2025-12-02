@@ -9,7 +9,7 @@ interface SmileyIconProps {
 
 const colorMap = {
   green: '#005b42',
-  pink: '#fce7f3',
+  pink: '#d6e25c',
   'yellow-green': '#f0f9d8',
   yellow: '#fbbf24',
 };

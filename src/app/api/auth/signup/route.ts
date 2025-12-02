@@ -6,6 +6,7 @@ import { config } from '@/lib/config';
 
 // Role IDs for different user types (student rentals)
 const STUDENT_ROLE_ID = process.env.STUDENT_ROLE_ID || '';
+const GRADUATE_ROLE_ID = process.env.GRADUATE_ROLE_ID || '';
 const LANDLORD_ROLE_ID = process.env.LANDLORD_ROLE_ID || '';
 const DEFAULT_ROLE_ID = process.env.DEFAULT_ROLE_ID || STUDENT_ROLE_ID; // Fallback to student
 const TOKEN_EXPIRY_MINUTES = parseInt(process.env.TOKEN_EXPIRY_MINUTES || '1440', 10); // 24 hours
@@ -59,12 +60,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Determine role ID based on user type (student or landlord)
+    // Determine role ID based on user type (student, graduate, or landlord)
     let roleId = DEFAULT_ROLE_ID;
     if (user_type === 'landlord' || user_type === 'property_owner') {
       roleId = LANDLORD_ROLE_ID || DEFAULT_ROLE_ID;
     } else if (user_type === 'student') {
       roleId = STUDENT_ROLE_ID || DEFAULT_ROLE_ID;
+    } else if (user_type === 'graduate') {
+      roleId = GRADUATE_ROLE_ID || DEFAULT_ROLE_ID;
     }
 
     if (!roleId) {
@@ -84,8 +87,8 @@ export async function POST(request: NextRequest) {
       status: 'unverified',
     };
 
-    // Add student-specific fields if user is a student
-    if (user_type === 'student') {
+    // Add student/graduate-specific fields if user is a student or graduate
+    if (user_type === 'student' || user_type === 'graduate') {
       userData.responsible_first_name = responsible_first_name || null;
       userData.responsible_last_name = responsible_last_name || null;
       userData.responsible_relationship = responsible_relationship || null;

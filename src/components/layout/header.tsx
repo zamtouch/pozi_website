@@ -16,7 +16,8 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, isAuthenticated, isLoading, logout, isLandlord, isStudent } = useAuth();
+  const { user, isAuthenticated, isLoading, logout, isLandlord, isStudent, isGraduate } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   
   // Check for cookie directly as a fallback (for immediate UI update)
   const [hasCookie, setHasCookie] = useState(false);
@@ -39,7 +40,7 @@ export default function Header() {
   const showAuthenticated = !isLoading && (isAuthenticated || hasCookie);
 
   return (
-    <header className="border-b-2 border-b-pink-200 bg-white sticky top-0 z-50">
+    <header className="border-b-2 bg-white sticky top-0 z-50" style={{ borderBottomColor: 'rgba(214, 226, 92, 0.5)' }}>
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -86,9 +87,14 @@ export default function Header() {
                     Student
                   </span>
                 )}
+                {isGraduate && (
+                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                    Graduate
+                  </span>
+                )}
                 {/* My Account Button */}
                 <Button variant="outline" size="sm" asChild>
-                  <Link href={isLandlord ? '/landlord/dashboard' : isStudent ? '/student/dashboard' : '/'}>
+                  <Link href={isLandlord ? '/landlord/dashboard' : isStudentOrGraduate ? '/student/dashboard' : '/'}>
                     My Account
                   </Link>
                 </Button>
@@ -187,9 +193,16 @@ export default function Header() {
                       </span>
                     </div>
                   )}
+                  {isGraduate && (
+                    <div className="px-3 py-2">
+                      <span className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                        Graduate
+                      </span>
+                    </div>
+                  )}
                   {/* My Account Link */}
                   <Link
-                    href={isLandlord ? '/landlord/dashboard' : isStudent ? '/student/dashboard' : '/'}
+                    href={isLandlord ? '/landlord/dashboard' : isStudentOrGraduate ? '/student/dashboard' : '/'}
                     className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors duration-200"
                     onClick={() => setMobileMenuOpen(false)}
                   >

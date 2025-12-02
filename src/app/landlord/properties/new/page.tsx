@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/lib/auth';
-import { fetchUniversities, University } from '@/lib/api';
+import { fetchUniversities, fetchTowns, fetchResidentials, University, Town, Residential } from '@/lib/api';
 import MapPicker from '@/components/map-picker';
 
 const AMENITIES = [
@@ -35,6 +35,8 @@ export default function NewPropertyPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [universities, setUniversities] = useState<University[]>([]);
+  const [towns, setTowns] = useState<Town[]>([]);
+  const [residentials, setResidentials] = useState<Residential[]>([]);
   const [uploadingImages, setUploadingImages] = useState<Record<string, boolean>>({});
   const [uploadedImages, setUploadedImages] = useState<Record<string, UploadedImage>>({});
   const [formData, setFormData] = useState({
@@ -49,6 +51,8 @@ export default function NewPropertyPage() {
     rooms_available: '',
     total_rooms: '',
     university: '',
+    town: '',
+    residential: '',
     amenities: [] as string[],
   });
 
@@ -61,8 +65,19 @@ export default function NewPropertyPage() {
   useEffect(() => {
     if (isAuthenticated) {
       fetchUniversitiesData();
+      fetchTownsData();
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    // Fetch residentials when town changes
+    if (formData.town) {
+      fetchResidentialsData(parseInt(formData.town));
+    } else {
+      setResidentials([]);
+      setFormData(prev => ({ ...prev, residential: '' }));
+    }
+  }, [formData.town]);
 
   const fetchUniversitiesData = async () => {
     try {
@@ -70,6 +85,24 @@ export default function NewPropertyPage() {
       setUniversities(universitiesData);
     } catch (error) {
       console.error('Error fetching universities:', error);
+    }
+  };
+
+  const fetchTownsData = async () => {
+    try {
+      const townsData = await fetchTowns();
+      setTowns(townsData);
+    } catch (error) {
+      console.error('Error fetching towns:', error);
+    }
+  };
+
+  const fetchResidentialsData = async (townId: number) => {
+    try {
+      const residentialsData = await fetchResidentials(townId);
+      setResidentials(residentialsData);
+    } catch (error) {
+      console.error('Error fetching residentials:', error);
     }
   };
 
@@ -233,6 +266,12 @@ export default function NewPropertyPage() {
       }
       if (formData.university) {
         propertyData.university = parseInt(formData.university);
+      }
+      if (formData.town) {
+        propertyData.town = parseInt(formData.town);
+      }
+      if (formData.residential) {
+        propertyData.residential = parseInt(formData.residential);
       }
 
       // Add image IDs if uploaded
@@ -651,6 +690,45 @@ export default function NewPropertyPage() {
                   {universities.map(uni => (
                     <option key={uni.id} value={uni.id}>
                       {uni.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="town">Town *</Label>
+                <select
+                  id="town"
+                  name="town"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  value={formData.town}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Town</option>
+                  {towns.map(town => (
+                    <option key={town.id} value={town.id}>
+                      {town.town_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="residential">Residential Area *</Label>
+                <select
+                  id="residential"
+                  name="residential"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  value={formData.residential}
+                  onChange={handleChange}
+                  required
+                  disabled={!formData.town}
+                >
+                  <option value="">{formData.town ? 'Select Residential Area' : 'Select Town first'}</option>
+                  {residentials.map(residential => (
+                    <option key={residential.id} value={residential.id}>
+                      {typeof residential.residential_town === 'object' 
+                        ? residential.residential_town.town_name 
+                        : residential.residential_name}
                     </option>
                   ))}
                 </select>

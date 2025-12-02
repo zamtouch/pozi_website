@@ -339,7 +339,7 @@ export default function Home() {
       {/* Features Section - Why choose Pozi? */}
       <section 
         className="py-16 md:py-20 lg:py-24 relative overflow-hidden"
-        style={{ backgroundColor: '#fce7f3' }} // Scented Spring (25%)
+        style={{ backgroundColor: '#d6e25c' }} // Pozi Brand Pink/Yellow
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center space-y-3 mb-16">

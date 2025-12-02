@@ -53,6 +53,47 @@
 - Ensure all imports use correct paths (relative vs absolute)
 - Check that all components are properly exported and imported
 
+## Brand Colors
+
+### Pozi Brand Color Palette
+
+**CRITICAL**: Always use the exact brand color codes when implementing colors throughout the website:
+
+1. **Pozi Brand Yellow/Pink**: `#d6e25c`
+   - This is the primary brand color used for:
+     - All yellow elements (buttons, highlights, accents)
+     - All pink elements (replaced with this color)
+     - Search buttons
+     - Tab active states
+     - Form input focus/hover states
+     - Header and footer borders
+     - Brand accents and decorative elements
+
+2. **Pozi Green**: `#005b42`
+   - Primary brand color for:
+     - Main brand elements
+     - Headings and primary text
+     - Navigation elements
+
+3. **Pozi Yellow-Green**: `#f0f9d8`
+   - Light accent color for backgrounds
+
+### Color Usage Rules
+
+- **Never use generic Tailwind yellow or pink classes** (e.g., `yellow-500`, `pink-500`) - always use the brand color `#d6e25c`
+- When using the brand yellow/pink color:
+  - Use inline styles: `style={{ color: '#d6e25c' }}` or `style={{ backgroundColor: '#d6e25c' }}`
+  - For opacity/transparency: `rgba(214, 226, 92, 0.15)` for 15% opacity
+  - For hover states: Use a slightly darker shade like `#c4d04a`
+- Update CSS variables in `globals.css` and Tailwind config when brand colors change
+- Ensure all instances of pink and yellow colors are replaced with `#d6e25c`
+- Check for color usage in:
+  - Component files
+  - CSS files
+  - Tailwind config
+  - Inline styles
+  - CSS variables
+
 
 
 

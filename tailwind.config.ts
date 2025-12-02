@@ -22,12 +22,13 @@ const config: Config = {
           900: '#14532d',
           // Pozi brand colors
           primary: '#005b42', // Dark green (dominant)
-          pink: '#fce7f3', // Light pink
+          pink: '#d6e25c', // Pozi Brand Pink/Yellow
           'yellow-green': '#f0f9d8', // Light yellow-green
         },
         pozi: {
           green: '#005b42', // Green Oblivion (Primary - 50%)
-          pink: '#fce7f3', // Scented Spring (Secondary - 25%)
+          pink: '#d6e25c', // Pozi Brand Pink/Yellow
+          yellow: '#d6e25c', // Pozi Brand Yellow
           'yellow-green': '#f0f9d8', // Succulent Lime (Secondary - 25%)
         },
         ink: '#111827',

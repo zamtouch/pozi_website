@@ -38,7 +38,7 @@ export async function GET(
     // Always fetch fresh data - don't cache property queries
     const propertiesParams = new URLSearchParams();
     propertiesParams.append('filter[id][_eq]', propertyId);
-    propertiesParams.append('fields', '*,featured_image.*,image_1.*,image_2.*,image_3.*,image_4.*,lease_agreement.*,university.*,owner.id,owner.first_name,owner.last_name,owner.email');
+    propertiesParams.append('fields', '*,featured_image.*,image_1.*,image_2.*,image_3.*,image_4.*,lease_agreement.*,university.*,town.*,residential.*,owner.id,owner.first_name,owner.last_name,owner.email');
     // Add cache-busting to ensure fresh data
     propertiesParams.append('_', Date.now().toString());
     
@@ -324,7 +324,7 @@ export async function DELETE(
     // First, fetch the property to get all image IDs and verify ownership
     const propertiesParams = new URLSearchParams();
     propertiesParams.append('filter[id][_eq]', propertyId);
-    propertiesParams.append('fields', '*,featured_image.*,image_1.*,image_2.*,image_3.*,image_4.*,lease_agreement.*,owner.id,owner');
+    propertiesParams.append('fields', '*,featured_image.*,image_1.*,image_2.*,image_3.*,image_4.*,lease_agreement.*,town.*,residential.*,owner.id,owner');
     
     const propertyResponse = await httpJson(
       'GET',

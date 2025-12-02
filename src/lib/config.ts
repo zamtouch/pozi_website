@@ -28,6 +28,7 @@ export const config = {
   },
   roles: {
     student: process.env.STUDENT_ROLE_ID || '',
+    graduate: process.env.GRADUATE_ROLE_ID || '',
     landlord: process.env.LANDLORD_ROLE_ID || '',
     default: process.env.DEFAULT_ROLE_ID || process.env.STUDENT_ROLE_ID || '',
   },

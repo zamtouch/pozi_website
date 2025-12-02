@@ -25,7 +25,7 @@ const footerSections = [
 
 export default function Footer() {
   return (
-    <footer className="border-t-4 border-t-pink-200 bg-gradient-to-b from-white via-yellow-50/20 to-white">
+    <footer className="border-t-4 bg-gradient-to-b from-white via-yellow-50/20 to-white" style={{ borderTopColor: 'rgba(214, 226, 92, 0.5)' }}>
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="py-12">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6 max-w-6xl mx-auto">

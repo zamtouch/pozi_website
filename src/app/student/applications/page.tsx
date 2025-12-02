@@ -64,7 +64,8 @@ interface MandateStatus {
 }
 
 export default function MyApplicationsPage() {
-  const { user, isAuthenticated, isStudent, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isStudent, isGraduate, isLoading: authLoading } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,15 +93,15 @@ export default function MyApplicationsPage() {
 
       if (!isAuth) {
         router.push('/auth/login');
-      } else if (isAuth && !isStudent) {
-        if (user?.role && !isStudent) {
+      } else if (isAuth && !isStudentOrGraduate) {
+        if (user?.role && !isStudentOrGraduate) {
           router.push('/');
         }
       } else {
         fetchApplications();
       }
     }
-  }, [authLoading, hasChecked, isAuthenticated, hasCookie, isStudent, router, user]);
+  }, [authLoading, hasChecked, isAuthenticated, hasCookie, isStudentOrGraduate, router, user]);
 
   const fetchMandateStatuses = async () => {
     setLoadingMandateStatus(true);

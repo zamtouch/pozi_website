@@ -24,12 +24,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       lg: 'h-12 px-6 text-base',
     };
     
-    // Darker yellow-green for buttons (#d4c84a)
+    // Pozi brand yellow for buttons (#d6e25c)
     const getButtonStyle = () => {
       if (variant === 'primary' || variant === 'secondary') {
         return {
-          backgroundColor: '#d4c84a',
-          color: variant === 'primary' ? 'white' : '#111827',
+          backgroundColor: '#d6e25c',
+          color: variant === 'primary' ? '#111827' : '#111827',
         };
       }
       return {};

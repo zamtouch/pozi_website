@@ -21,6 +21,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isStudent: boolean;
+  isGraduate: boolean;
   isLandlord: boolean;
   isStaff: boolean;
   isAdmin: boolean;
@@ -299,9 +300,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.log('Login successful - User role:', data.user?.role);
         console.log('Normalized role:', normalizeRole(data.user?.role));
         
-        // Check profile completion for students immediately after login
+        // Check profile completion for students and graduates immediately after login
         const roleName = normalizeRole(data.user?.role);
-        if (roleName.includes('student')) {
+        if (roleName.includes('student') || roleName.includes('graduate')) {
           await checkProfileCompletionForStudent(data.static_token);
         }
         
@@ -338,6 +339,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   
   // Role checking - customized for student rentals
   const isStudent = normalizedRole === 'student' || normalizedRole.includes('student');
+  const isGraduate = normalizedRole === 'graduate' || normalizedRole.includes('graduate');
   // Property Admin, Property Owner, Landlord all map to landlord
   const isLandlord = normalizedRole === 'landlord' 
     || normalizedRole === 'property_owner' 
@@ -358,6 +360,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     login,
     logout,
     isStudent,
+    isGraduate,
     isLandlord,
     isStaff,
     isAdmin,

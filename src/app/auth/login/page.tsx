@@ -15,7 +15,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const { login, user, isAuthenticated, isStudent, isLandlord, isStaff, isAdmin } = useAuth();
+  const { login, user, isAuthenticated, isStudent, isGraduate, isLandlord, isStaff, isAdmin } = useAuth();
+  const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
 
   // Redirect if already authenticated
@@ -23,8 +24,8 @@ export default function LoginPage() {
     if (isAuthenticated && user) {
       if (isLandlord) {
         router.push('/landlord/dashboard');
-      } else if (isStudent) {
-        // Check profile completion for students
+      } else if (isStudentOrGraduate) {
+        // Check profile completion for students and graduates
         checkProfileCompletion();
       } else if (isStaff || isAdmin) {
         router.push('/admin/dashboard');
@@ -32,7 +33,7 @@ export default function LoginPage() {
         router.push('/');
       }
     }
-  }, [isAuthenticated, user, isLandlord, isStudent, isStaff, isAdmin, router]);
+  }, [isAuthenticated, user, isLandlord, isStudentOrGraduate, isStaff, isAdmin, router]);
 
   const checkProfileCompletion = async () => {
     try {
@@ -87,9 +88,11 @@ export default function LoginPage() {
               const userData = await response.json();
               const user = userData.data;
               
-              // Check if user is a student
+              // Check if user is a student or graduate
               const roleName = (user.role?.name || user.role || '').toLowerCase();
               const isStudent = roleName.includes('student');
+              const isGraduate = roleName.includes('graduate');
+              const isStudentOrGraduate = isStudent || isGraduate;
                 
               // Check for missing bank fields
               const missingAccountNumber = !user.account_number || String(user.account_number).trim().length === 0;
@@ -97,21 +100,23 @@ export default function LoginPage() {
               
               console.log('🔍 Login check:', {
                 isStudent,
+                isGraduate,
+                isStudentOrGraduate,
                 missingAccountNumber,
                 missingBankId,
                 account_number: user.account_number,
                 bank_id: user.bank_id,
               });
               
-              // If student and bank fields are missing, redirect to complete-profile
-              if (isStudent && (missingAccountNumber || missingBankId)) {
+              // If student/graduate and bank fields are missing, redirect to complete-profile
+              if (isStudentOrGraduate && (missingAccountNumber || missingBankId)) {
                 console.log('❌ Bank fields missing, redirecting to complete-profile');
                 window.location.href = '/student/complete-profile';
                 return;
               }
               
               // Otherwise, let normal redirect handle it
-              if (isStudent) {
+              if (isStudentOrGraduate) {
                   router.push('/student/dashboard');
               }
               }

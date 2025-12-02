@@ -280,7 +280,7 @@ export default function ContactPage() {
         {/* Business Hours */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 lg:p-12 mb-12">
           <div className="flex items-center gap-4 mb-8">
-            <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
+            <div className="p-3 rounded-xl" style={{ background: 'linear-gradient(to bottom right, #9333ea, #d6e25c)' }}>
               <ClockIcon className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">Business Hours</h3>

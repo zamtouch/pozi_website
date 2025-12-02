@@ -71,8 +71,8 @@ export default function RegisterPage() {
       return;
     }
 
-    // Student-specific validation
-    if (formData.userType === 'student') {
+    // Student and Graduate-specific validation (same requirements)
+    if (formData.userType === 'student' || formData.userType === 'graduate') {
       const requiredFields = [
         { name: 'responsibleFirstName', label: 'Responsible Person First Name' },
         { name: 'responsibleLastName', label: 'Responsible Person Last Name' },
@@ -110,19 +110,19 @@ export default function RegisterPage() {
           last_name: formData.lastName,
           user_type: formData.userType,
           // Person Responsible for Rent Details (students only)
-          responsible_first_name: formData.userType === 'student' ? formData.responsibleFirstName : undefined,
-          responsible_last_name: formData.userType === 'student' ? formData.responsibleLastName : undefined,
-          responsible_relationship: formData.userType === 'student' ? formData.responsibleRelationship : undefined,
-          responsible_email: formData.userType === 'student' ? formData.responsibleEmail : undefined,
-          responsible_id_number: formData.userType === 'student' ? formData.responsibleIdNumber : undefined,
-          responsible_cell: formData.userType === 'student' ? formData.responsibleCell : undefined,
-          responsible_occupation: formData.userType === 'student' ? formData.responsibleOccupation : undefined,
-          // Bank Account Details (students only)
-          account_number: formData.userType === 'student' ? formData.accountNumber : undefined,
-          bank_id: formData.userType === 'student' ? (formData.bankId ? parseInt(formData.bankId) : undefined) : undefined,
-          account_type: formData.userType === 'student' ? (formData.accountType ? parseInt(formData.accountType) : 1) : undefined,
-          id_number: formData.userType === 'student' ? formData.idNumber : undefined,
-          id_type: formData.userType === 'student' ? (formData.idType ? parseInt(formData.idType) : 1) : undefined,
+          responsible_first_name: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleFirstName : undefined,
+          responsible_last_name: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleLastName : undefined,
+          responsible_relationship: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleRelationship : undefined,
+          responsible_email: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleEmail : undefined,
+          responsible_id_number: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleIdNumber : undefined,
+          responsible_cell: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleCell : undefined,
+          responsible_occupation: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleOccupation : undefined,
+          // Bank Account Details (for students and graduates)
+          account_number: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.accountNumber : undefined,
+          bank_id: (formData.userType === 'student' || formData.userType === 'graduate') ? (formData.bankId ? parseInt(formData.bankId) : undefined) : undefined,
+          account_type: (formData.userType === 'student' || formData.userType === 'graduate') ? (formData.accountType ? parseInt(formData.accountType) : 1) : undefined,
+          id_number: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.idNumber : undefined,
+          id_type: (formData.userType === 'student' || formData.userType === 'graduate') ? (formData.idType ? parseInt(formData.idType) : 1) : undefined,
         }),
       });
 
@@ -160,7 +160,7 @@ export default function RegisterPage() {
     }
   };
 
-  const isStudent = formData.userType === 'student';
+  const isStudent = formData.userType === 'student' || formData.userType === 'graduate';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -198,6 +198,7 @@ export default function RegisterPage() {
                 className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-base transition-all"
               >
                 <option value="student">Student</option>
+                <option value="graduate">Graduate</option>
                 <option value="landlord">Landlord / Property Owner</option>
               </select>
             </div>
@@ -316,7 +317,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Person Responsible for Rent Details - Only for Students */}
+            {/* Person Responsible for Rent Details - For Students and Graduates */}
             {isStudent && (
               <>
                 <div className="border-t border-gray-200 pt-6 mt-6">
