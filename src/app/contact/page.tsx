@@ -22,6 +22,19 @@ interface DefaultsData {
   how_it_works_link?: string;
 }
 
+interface ContactMethod {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description: string;
+  action: () => void;
+  value: string;
+  color: string;
+  bgColor: string;
+  iconColor: string;
+  badge?: string;
+  badgeColor?: string;
+}
+
 export default function ContactPage() {
   const [defaults, setDefaults] = useState<DefaultsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -97,8 +110,7 @@ export default function ContactPage() {
     );
   }
 
-  const contactMethods = [
-
+  const contactMethods: ContactMethod[] = [
     {
       name: 'Email',
       icon: EnvelopeIcon,
