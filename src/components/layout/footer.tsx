@@ -28,9 +28,9 @@ export default function Footer() {
     <footer className="border-t-4 border-t-pink-200 bg-gradient-to-b from-white via-yellow-50/20 to-white">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="py-12">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6 max-w-6xl mx-auto">
             {/* Brand Section */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 flex flex-col items-center lg:items-start">
               <div className="flex items-center space-x-2 mb-4">
               <Link href="/" className="flex items-center space-x-2">
               <Image
@@ -44,11 +44,11 @@ export default function Footer() {
             </Link>
             
               </div>
-              <p className="text-gray-600 mb-6 max-w-sm">
+              <p className="text-gray-600 mb-6 max-w-sm text-center lg:text-left">
                 Find verified student accommodation near your university. 
                 Simple search, direct applications, and student-first experience.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 justify-center lg:justify-start">
                 <a
                   href="#"
                   className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
@@ -90,7 +90,7 @@ export default function Footer() {
 
             {/* Footer Links */}
             {footerSections.map((section) => (
-              <div key={section.title}>
+              <div key={section.title} className="text-center lg:text-left">
                 <h3 className="font-semibold text-gray-900 mb-4">{section.title}</h3>
                 <ul className="space-y-3">
                   {section.links.map((link) => (
@@ -110,11 +110,25 @@ export default function Footer() {
 
           {/* Bottom Section */}
           <div className="mt-12 pt-8 border-t border-gray-100">
-            <div className="flex flex-col md:flex-row justify-center items-center">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-4">
               <p className="text-sm text-gray-500">
                 © 2024 Pozi. All rights reserved Bare Investments
-             
               </p>
+              <div className="flex gap-4 text-sm">
+                <Link
+                  href="/privacy"
+                  className="text-gray-500 hover:text-gray-900 transition-colors duration-200"
+                >
+                  Privacy Policy
+                </Link>
+                <span className="text-gray-400">|</span>
+                <Link
+                  href="/terms"
+                  className="text-gray-500 hover:text-gray-900 transition-colors duration-200"
+                >
+                  Terms & Conditions
+                </Link>
+              </div>
             </div>
           </div>
         </div>

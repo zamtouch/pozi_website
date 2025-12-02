@@ -98,28 +98,7 @@ export default function ContactPage() {
   }
 
   const contactMethods = [
-    {
-      name: 'Live Chat',
-      icon: GlobeAltIcon,
-      description: 'Chat with our support team in real-time',
-      action: () => openLink(defaults?.live_chat_link),
-      color: 'from-red-500 to-pink-500',
-      bgColor: 'bg-red-50',
-      iconColor: 'text-red-600',
-      badge: '2 mins Reply',
-      badgeColor: 'bg-red-500',
-    },
-    {
-      name: 'WhatsApp',
-      icon: ChatBubbleLeftRightIcon,
-      description: 'Message us on WhatsApp for quick support',
-      action: handleWhatsApp,
-      color: 'from-green-500 to-emerald-500',
-      bgColor: 'bg-green-50',
-      iconColor: 'text-green-600',
-      badge: '2 mins Reply',
-      badgeColor: 'bg-green-500',
-    },
+
     {
       name: 'Email',
       icon: EnvelopeIcon,
