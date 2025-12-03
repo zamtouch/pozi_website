@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
+import ConditionalLayout from '@/components/layout/conditional-layout';
 import { AuthProvider } from '@/lib/auth';
 import CleanupOrphanedFiles from '@/components/cleanup-orphaned-files';
 
@@ -65,13 +64,9 @@ export default function RootLayout({
       <body className="bg-white text-gray-900 antialiased">
         <AuthProvider>
           <CleanupOrphanedFiles />
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
         </AuthProvider>
       </body>
     </html>

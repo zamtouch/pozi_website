@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/lib/auth';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { getImageUrl } from '@/lib/api';
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -18,10 +18,18 @@ export default function LoginPage() {
   const { login, user, isAuthenticated, isStudent, isGraduate, isLandlord, isStaff, isAdmin } = useAuth();
   const isStudentOrGraduate = isStudent || isGraduate;
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect');
 
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
+      // Check if there's a redirect parameter first
+      if (redirectTo) {
+        router.push(redirectTo);
+        return;
+      }
+      
       if (isLandlord) {
         router.push('/landlord/dashboard');
       } else if (isStudentOrGraduate) {
@@ -33,7 +41,7 @@ export default function LoginPage() {
         router.push('/');
       }
     }
-  }, [isAuthenticated, user, isLandlord, isStudentOrGraduate, isStaff, isAdmin, router]);
+  }, [isAuthenticated, user, isLandlord, isStudentOrGraduate, isStaff, isAdmin, router, redirectTo]);
 
   const checkProfileCompletion = async () => {
     try {
@@ -117,13 +125,28 @@ export default function LoginPage() {
               
               // Otherwise, let normal redirect handle it
               if (isStudentOrGraduate) {
-                  router.push('/student/dashboard');
+                  // Check if there's a redirect parameter
+                  if (redirectTo) {
+                    router.push(redirectTo);
+                  } else {
+                    router.push('/student/dashboard');
+                  }
+              } else if (redirectTo) {
+                // Redirect to requested page if not student/graduate
+                router.push(redirectTo);
               }
               }
             } catch (err) {
             console.error('Error checking user data:', err);
             // Continue with normal flow if check fails
+            // Still respect redirect if available
+            if (redirectTo) {
+              router.push(redirectTo);
             }
+            }
+          } else if (redirectTo) {
+            // If no token check needed, still respect redirect
+            router.push(redirectTo);
           }
       } else {
         setError('Invalid email or password');
@@ -275,6 +298,21 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
 

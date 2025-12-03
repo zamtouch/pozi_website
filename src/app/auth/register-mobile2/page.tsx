@@ -1,5 +1,8 @@
 'use client';
 
+// Force dynamic rendering - prevent static generation and caching
+export const dynamic = 'force-dynamic';
+
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
@@ -21,7 +24,7 @@ export default function RegisterMobilePage() {
     confirmPassword: '',
     userType: 'student',
     agreeToTerms: false,
-    // Person Responsible for Rent Details (only for students)
+    // Person Responsible for Rent Details (only for students and graduates)
     responsibleFirstName: '',
     responsibleLastName: '',
     responsibleRelationship: '',
@@ -29,7 +32,7 @@ export default function RegisterMobilePage() {
     responsibleIdNumber: '',
     responsibleCell: '',
     responsibleOccupation: '',
-    // Bank Account Details (only for students)
+    // Bank Account Details (only for students and graduates)
     accountNumber: '',
     bankId: '',
     accountType: '1', // Default to Current/Cheque
@@ -41,6 +44,7 @@ export default function RegisterMobilePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -74,8 +78,8 @@ export default function RegisterMobilePage() {
       return;
     }
 
-    // Student-specific validation
-    if (formData.userType === 'student') {
+    // Student and Graduate-specific validation (same requirements)
+    if (formData.userType === 'student' || formData.userType === 'graduate') {
       const requiredFields = [
         { name: 'responsibleFirstName', label: 'Responsible Person First Name' },
         { name: 'responsibleLastName', label: 'Responsible Person Last Name' },
@@ -111,20 +115,20 @@ export default function RegisterMobilePage() {
           first_name: formData.firstName,
           last_name: formData.lastName,
           user_type: formData.userType,
-          // Person Responsible for Rent Details (students only)
-          responsible_first_name: formData.userType === 'student' ? formData.responsibleFirstName : undefined,
-          responsible_last_name: formData.userType === 'student' ? formData.responsibleLastName : undefined,
-          responsible_relationship: formData.userType === 'student' ? formData.responsibleRelationship : undefined,
-          responsible_email: formData.userType === 'student' ? formData.responsibleEmail : undefined,
-          responsible_id_number: formData.userType === 'student' ? formData.responsibleIdNumber : undefined,
-          responsible_cell: formData.userType === 'student' ? formData.responsibleCell : undefined,
-          responsible_occupation: formData.userType === 'student' ? formData.responsibleOccupation : undefined,
-          // Bank Account Details (students only)
-          account_number: formData.userType === 'student' ? formData.accountNumber : undefined,
-          bank_id: formData.userType === 'student' ? (formData.bankId ? parseInt(formData.bankId) : undefined) : undefined,
-          account_type: formData.userType === 'student' ? (formData.accountType ? parseInt(formData.accountType) : 1) : undefined,
-          id_number: formData.userType === 'student' ? formData.idNumber : undefined,
-          id_type: formData.userType === 'student' ? (formData.idType ? parseInt(formData.idType) : 1) : undefined,
+          // Person Responsible for Rent Details (students and graduates)
+          responsible_first_name: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleFirstName : undefined,
+          responsible_last_name: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleLastName : undefined,
+          responsible_relationship: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleRelationship : undefined,
+          responsible_email: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleEmail : undefined,
+          responsible_id_number: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleIdNumber : undefined,
+          responsible_cell: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleCell : undefined,
+          responsible_occupation: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.responsibleOccupation : undefined,
+          // Bank Account Details (for students and graduates)
+          account_number: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.accountNumber : undefined,
+          bank_id: (formData.userType === 'student' || formData.userType === 'graduate') ? (formData.bankId ? parseInt(formData.bankId) : undefined) : undefined,
+          account_type: (formData.userType === 'student' || formData.userType === 'graduate') ? (formData.accountType ? parseInt(formData.accountType) : 1) : undefined,
+          id_number: (formData.userType === 'student' || formData.userType === 'graduate') ? formData.idNumber : undefined,
+          id_type: (formData.userType === 'student' || formData.userType === 'graduate') ? (formData.idType ? parseInt(formData.idType) : 1) : undefined,
         }),
       });
 
@@ -133,7 +137,21 @@ export default function RegisterMobilePage() {
       if (response.ok && data.success) {
         // Show success modal
         setError('');
+        
+        let message = 'Account created successfully!';
+        if (data.email_sent) {
+          message += ' Please check your email to verify your account.';
+        } else {
+          message += ' Please check your email for verification instructions.';
+        }
+        
+        setSuccessMessage(message);
         setShowSuccessModal(true);
+        
+        // Log verification link to console for development (not shown to user)
+        if (data.verification_link) {
+          console.log('Verification link (dev only):', data.verification_link);
+        }
       } else {
         // Show detailed error message
         const errorMsg = data.error || 'Failed to create account. Please try again.';
@@ -148,7 +166,7 @@ export default function RegisterMobilePage() {
     }
   };
 
-  const isStudent = formData.userType === 'student';
+  const isStudent = formData.userType === 'student' || formData.userType === 'graduate';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-blue-50 py-8 px-4">
@@ -180,6 +198,7 @@ export default function RegisterMobilePage() {
                   className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-base transition-all"
                 >
                   <option value="student">Student</option>
+                  <option value="graduate">Graduate</option>
                   <option value="landlord">Landlord / Property Owner</option>
                 </select>
               </div>
@@ -298,7 +317,7 @@ export default function RegisterMobilePage() {
                 </div>
               </div>
 
-              {/* Person Responsible for Rent Details - Only for Students */}
+              {/* Person Responsible for Rent Details - For Students and Graduates */}
               {isStudent && (
                 <>
                   <div className="border-t border-gray-200 pt-5 mt-5">
@@ -586,7 +605,7 @@ export default function RegisterMobilePage() {
                 Account Created!
               </h3>
               <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                Please check your email for the activation code to verify your account.
+                {successMessage || 'Please check your email for the activation code to verify your account.'}
               </p>
               <button
                 onClick={() => {

@@ -128,6 +128,13 @@ export default function Footer() {
                 >
                   Terms & Conditions
                 </Link>
+                <span className="text-gray-400">|</span>
+                <Link
+                  href="/delete-my-data"
+                  className="text-gray-500 hover:text-gray-900 transition-colors duration-200"
+                >
+                  Delete My Data
+                </Link>
               </div>
             </div>
           </div>
