@@ -4,7 +4,7 @@ export default function TermsConditionsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header Section */}
-      <section className="bg-gradient-to-r from-green-50 py-16" style={{ background: 'linear-gradient(to right, #f0fdf4, rgba(214, 226, 92, 0.1))' }}>
+      <section className="py-16" style={{ backgroundColor: '#fce7f3' }}>
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-semibold mb-4" style={{ color: '#005b42' }}>
             Terms & Conditions

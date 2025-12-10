@@ -186,7 +186,7 @@ export default function HeroSearch() {
       
       <section 
         className="flex items-center relative overflow-hidden"
-        style={{ minHeight: '75vh' }}
+        style={{ minHeight: '85vh' }}
       >
         {/* Brand color accents */}
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none z-0" style={{ backgroundColor: 'rgba(214, 226, 92, 0.15)' }}></div>
@@ -245,7 +245,7 @@ export default function HeroSearch() {
             </div>
 
             {/* Search Form Container */}
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 border border-white/20">
+            <div className="rounded-2xl p-6">
               {/* Tabs */}
               <div className="flex space-x-1 mb-6 bg-gray-100 rounded-xl p-1">
                 <button
@@ -260,7 +260,7 @@ export default function HeroSearch() {
                       ? 'bg-white shadow-md'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
-                  style={activeTab === 'student' ? { color: '#d6e25c' } : {}}
+                  style={activeTab === 'student' ? { color: '#005b42' } : {}}
                 >
                   <span className="flex items-center justify-center gap-2">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -277,9 +277,10 @@ export default function HeroSearch() {
                   }}
                   className={`flex-1 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 ${
                     activeTab === 'graduate'
-                      ? 'bg-white text-yellow-600 shadow-md'
+                      ? 'bg-white shadow-md'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
+                  style={activeTab === 'graduate' ? { color: '#005b42' } : {}}
                 >
                   <span className="flex items-center justify-center gap-2">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -296,9 +297,9 @@ export default function HeroSearch() {
                   // Student Search: University
                   <div className="space-y-4">
                     <div className="relative">
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-white mb-2">
                         <span className="flex items-center gap-2">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#d6e25c' }}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#ffffff' }}>
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                           </svg>
                           Select University
@@ -344,19 +345,22 @@ export default function HeroSearch() {
                       className="w-full h-14 text-base font-semibold text-gray-900 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl font-bold" 
                       style={{ 
                         backgroundColor: '#d6e25c',
-                        border: 'none'
+                        border: 'none',
+                        opacity: 1
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = '#c4d04a';
+                        e.currentTarget.style.opacity = '1';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = '#d6e25c';
+                        e.currentTarget.style.opacity = '1';
                       }}
                       disabled={!selectedUniversity || isLoadingUniversities}
                     >
                       {isLoadingUniversities ? (
                         <span className="flex items-center gap-2">
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
                           Loading...
                         </span>
                       ) : (
@@ -374,9 +378,9 @@ export default function HeroSearch() {
                   <div className="space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="relative">
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-white mb-2">
                           <span className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
@@ -399,9 +403,9 @@ export default function HeroSearch() {
                         />
                       </div>
                       <div className="relative">
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-white mb-2">
                           <span className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                             Residential Area

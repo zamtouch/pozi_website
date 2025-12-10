@@ -87,10 +87,7 @@ export default function AboutPage() {
       <div className="relative" style={{ backgroundImage: `url(${aboutBackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="w-full px-4 sm:px-6 lg:px-8 py-24">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-6 py-3 mb-8">
-   
-              <span className="text-green-700 font-medium text-sm">About us</span>
-            </div>
+        
             <h1 className="text-5xl md:text-6xl font-light text-white mb-8 leading-tight">
              Your Pozi
               <span className="block font-medium text-green-300">
@@ -103,7 +100,7 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/search">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+              <Button size="lg" className="text-white px-8 py-4 rounded-lg font-medium" style={{ backgroundColor: '#005b42' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#004a35'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#005b42'; }}>
                 Find Your Home
               </Button>
               </Link>
@@ -113,7 +110,7 @@ export default function AboutPage() {
       </div>
 
       {/* Stats Section */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-20" style={{ backgroundColor: '#fce7f3' }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-light text-gray-900 mb-4">
@@ -126,7 +123,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl font-light text-green-600 mb-2">
+                <div className="text-4xl font-light mb-2" style={{ color: '#005b42' }}>
                   {stat.number}
                 </div>
                 <div className="text-gray-600 font-medium">
@@ -161,15 +158,12 @@ export default function AboutPage() {
       </div>
 
       {/* Mission Section */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid gap-16 lg:grid-cols-2 items-center">
             <div className="space-y-8">
               <div>
-                <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Our Story
-                </div>
+            
                 <h2 className="text-4xl font-light text-gray-900 mb-6">
                   Born from Experience
                 </h2>
@@ -190,29 +184,35 @@ export default function AboutPage() {
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/search">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+                <Button size="lg" className="text-white px-8 py-4 rounded-lg font-medium" style={{ backgroundColor: '#005b42' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#004a35'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#005b42'; }}>
                     Start Searching
                 </Button>
                 </Link>
               </div>
             </div>
             <div className="relative">
-              <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center">
-                <div className="w-24 h-24 bg-green-50 rounded-full mx-auto mb-8 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-green-600 rounded-lg"></div>
+              <div className="rounded-2xl p-12 text-center" style={{ backgroundColor: '#005b42' }}>
+                <div className="w-40 h-40 mx-auto mb-8 flex items-center justify-center">
+                  <Image
+                    src="/student_first.png"
+                    alt="Student"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
-                <h3 className="text-2xl font-medium text-gray-900 mb-4">Student-First Design</h3>
-                <p className="text-gray-600 leading-relaxed font-light mb-8">
+                <h3 className="text-2xl font-medium text-white mb-4">Student-First Design</h3>
+                <p className="text-white/90 leading-relaxed font-light mb-8">
                   Every feature is designed with student needs and preferences in mind
                 </p>
                 <div className="flex justify-center space-x-12">
                   <div className="text-center">
-                    <div className="text-2xl font-light text-green-600">99%</div>
-                    <div className="text-sm text-gray-600 font-medium">Satisfaction</div>
+                    <div className="text-2xl font-light text-white">99%</div>
+                    <div className="text-sm text-white/80 font-medium">Satisfaction</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-light text-green-600">24/7</div>
-                    <div className="text-sm text-gray-600 font-medium">Support</div>
+                    <div className="text-2xl font-light text-white">24/7</div>
+                    <div className="text-sm text-white/80 font-medium">Support</div>
                   </div>
                 </div>
               </div>
@@ -265,7 +265,7 @@ export default function AboutPage() {
                       )}
                     </div>
                     <h3 className="text-2xl font-medium text-gray-900 mb-3">{member.name}</h3>
-                    <p className="text-lg text-green-600 font-medium">{member.role}</p>
+                    <p className="text-lg font-medium" style={{ color: '#005b42' }}>{member.role}</p>
                 </div>
                 );
               })}
@@ -279,19 +279,19 @@ export default function AboutPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-20" style={{ backgroundColor: '#005b42' }}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center bg-white border border-gray-200 rounded-2xl p-16">
-            <h2 className="text-4xl font-light text-gray-900 mb-6">
+          <div className="text-center rounded-2xl p-16">
+            <h2 className="text-4xl font-light text-white mb-6">
               Ready to Find Your Perfect Home?
             </h2>
-            <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto font-light">
+            <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light">
               Join thousands of Namibian students who've already found their dream accommodation. 
               Your perfect room is just a click away.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/search">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-medium">
+              <Button size="lg" className="text-gray-900 px-8 py-4 rounded-lg font-medium" style={{ backgroundColor: '#d6e25c' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#c4d04a'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#d6e25c'; }}>
                 Start Searching Now
               </Button>
               </Link>

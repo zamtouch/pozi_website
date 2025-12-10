@@ -165,7 +165,7 @@ function LoginForm() {
         <div className="mx-auto w-full max-w-md">
           <div className="mb-8">
             <Link href="/" className="inline-block mb-6">
-              <h1 className="text-2xl font-bold text-green-600">POZI</h1>
+              <h1 className="text-2xl font-bold" style={{ color: '#005b42' }}>POZI</h1>
             </Link>
             <h2 className="text-3xl font-light text-gray-900 mb-2">
               Welcome back
@@ -195,8 +195,16 @@ function LoginForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all"
                   placeholder="you@example.com"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#d1d5db';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
               />
             </div>
             
@@ -213,8 +221,16 @@ function LoginForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none transition-all"
                   placeholder="Enter your password"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#d1d5db';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                 />
                 <button
                   type="button"
@@ -237,7 +253,8 @@ function LoginForm() {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                  className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                  className="h-4 w-4 border-gray-300 rounded"
+                  style={{ accentColor: '#005b42' }}
               />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-600">
                 Remember me
@@ -245,7 +262,7 @@ function LoginForm() {
             </div>
 
             <div className="text-sm">
-                <Link href="/auth/forgot-password" className="font-medium text-green-600 hover:text-green-500">
+                <Link href="/auth/forgot-password" className="font-medium transition-colors" style={{ color: '#005b42' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#004a35'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#005b42'; }}>
                   Forgot password?
               </Link>
             </div>
@@ -255,7 +272,16 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundColor: '#005b42' }}
+                onMouseEnter={(e) => {
+                  if (!e.currentTarget.disabled) {
+                    e.currentTarget.style.backgroundColor = '#004a35';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#005b42';
+                }}
             >
                 {loading ? (
                   <span className="flex items-center">
@@ -274,7 +300,7 @@ function LoginForm() {
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}
-                <Link href="/auth/register" className="font-medium text-green-600 hover:text-green-500">
+                <Link href="/auth/register" className="font-medium transition-colors" style={{ color: '#005b42' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#004a35'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#005b42'; }}>
                   Sign up
                 </Link>
               </p>
@@ -294,7 +320,7 @@ function LoginForm() {
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-transparent"></div>
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0, 91, 66, 0.2), transparent)' }}></div>
         </div>
       </div>
     </div>
@@ -306,7 +332,7 @@ export default function LoginPage() {
     <Suspense fallback={
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#005b42' }}></div>
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>

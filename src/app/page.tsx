@@ -36,6 +36,13 @@ export default function Home() {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [isLoadingProperties, setIsLoadingProperties] = useState(true);
   const [currentPropertyIndex, setCurrentPropertyIndex] = useState(0);
+  
+  // App demo images from public folder
+  const appDemoImages = [
+    '/app_demo/pozi_demo1.webp',
+    '/app_demo/pozi_demo2.webp',
+  ];
+  const [currentAppImageIndex, setCurrentAppImageIndex] = useState(0);
 
   // Fetch home background image and featured properties from Directus
   useEffect(() => {
@@ -75,6 +82,16 @@ export default function Home() {
       return () => clearInterval(interval);
     }
   }, [featuredProperties]);
+
+  // Cycle through app demo images for mobile mockup
+  useEffect(() => {
+    if (appDemoImages.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentAppImageIndex((prev) => (prev + 1) % appDemoImages.length);
+      }, 3000); // Change every 3 seconds
+      return () => clearInterval(interval);
+    }
+  }, []);
 
   return (
     <main>
@@ -118,9 +135,12 @@ export default function Home() {
           )}
           
           <div className="text-center">
-            <Button asChild size="lg">
-              <a href="/search">View All Properties</a>
-            </Button>
+            <a 
+              href="/search" 
+              className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-gray-900 bg-white border-2 border-gray-900 rounded-xl transition-colors duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+            >
+              View All Properties
+            </a>
           </div>
         </div>
       </section>
@@ -130,9 +150,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid gap-12 lg:grid-cols-2 items-center">
             {/* App Preview */}
-            <div className="text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl font-semibold mb-6" style={{ color: '#005b42' }}>
-                Find your home on the go
+            <div className="text-center lg:text-left" style={{ paddingBottom: '100px' }}>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl mb-6" style={{ color: '#005b42' }}>
+                <span className="font-light">Find your home</span><br></br>{' '}
+                <span className="font-bold">on the go</span>
               </h2>
               <p className="text-lg text-gray-700 mb-8 leading-relaxed">
                 Download our mobile app for the best student housing experience. 
@@ -173,163 +194,36 @@ export default function Home() {
             
             {/* Phone Mockup */}
             <div className="relative flex justify-center">
-              <div className="relative">
-                {/* Phone Frame */}
-                <div className="w-80 h-[600px] bg-gray-900 rounded-[2.5rem] p-2 shadow-2xl">
-                  <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden">
-                    {/* Status Bar */}
-                    <div className="bg-gray-900 text-white text-xs px-4 py-2 flex justify-between items-center">
-                      <span>9:41</span>
-                      <div className="flex items-center gap-1">
-                        <div className="w-4 h-2 bg-white rounded-sm"></div>
-                        <div className="w-6 h-3 border border-white rounded-sm"></div>
-                      </div>
-                    </div>
+              <div className="relative inline-block">
+                {appDemoImages.length > 0 ? (
+                  <div className="relative inline-block" style={{ border: '10px solid #000000', borderRadius: '30px', overflow: 'hidden' }}>
+                    <img
+                      key={currentAppImageIndex}
+                      src={appDemoImages[currentAppImageIndex]}
+                      alt={`App demo screenshot ${currentAppImageIndex + 1}`}
+                      className="block"
+                      style={{ display: 'block', height: '85vh', width: 'auto' }}
+                    />
                     
-                    {/* App Content - Property Detail View */}
-                    <div className="h-full bg-white">
-                      {/* Property Image with Fade Effect */}
-                      <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                        {featuredProperties.length > 0 ? (
+                    {/* Image Carousel Dots */}
+                    {appDemoImages.length > 1 && (
+                      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-10">
+                        {appDemoImages.map((_, index) => (
                           <div 
-                            key={currentPropertyIndex}
-                            className="w-full h-full bg-cover bg-center animate-fadeIn" 
-                            style={{ 
-                              backgroundImage: `url(${featuredProperties[currentPropertyIndex]?.featured_image || '/placeholder-house.jpg'})` 
-                            }}>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-                            
-                            {/* Property Badge */}
-                            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-                              <span className="text-xs font-medium text-gray-900">Featured</span>
-                            </div>
-                            
-                            {/* Heart Icon */}
-                            <div className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
-                              <div className="w-4 h-4 bg-gray-300 rounded"></div>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                            <div className="w-16 h-16 bg-green-600 rounded-xl flex items-center justify-center">
-                              <div className="w-8 h-8 bg-white rounded-lg"></div>
-                            </div>
-                          </div>
-                        )}
-                        
-                        {/* Image Carousel Dots */}
-                        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
-                          {[0, 1, 2, 3].map((dot, index) => (
-                            <div 
-                              key={index}
-                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                index === 0 ? 'bg-white' : 'bg-white/40'
-                              }`}
-                            />
-                          ))}
-                        </div>
+                            key={index}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              index === currentAppImageIndex ? 'bg-white' : 'bg-white/40'
+                            }`}
+                          />
+                        ))}
                       </div>
-                      
-                      {/* Property Details Card */}
-                      <div className="p-5 bg-white">
-                        {/* Address with University */}
-                        <div className="mb-3">
-                          <h3 className="font-semibold text-gray-900 text-base mb-1 transition-all duration-500 animate-fadeIn">
-                            {featuredProperties.length > 0 ? featuredProperties[currentPropertyIndex]?.address : "123 Student Street, Windhoek"}
-                          </h3>
-                          <p className="text-sm text-gray-500 transition-all duration-500 animate-fadeIn">
-                            {featuredProperties.length > 0 ? featuredProperties[currentPropertyIndex]?.university?.name || "Near University" : "Near UNAM"}
-                          </p>
-                        </div>
-                        
-                        {/* Property Features - Modern Icons */}
-                        <div className="flex items-center gap-6 mb-5">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
-                              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                              </svg>
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">
-                                {featuredProperties.length > 0 ? featuredProperties[currentPropertyIndex]?.rooms_available : "2"}
-                              </div>
-                              <div className="text-xs text-gray-500">Beds</div>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
-                              <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clipRule="evenodd"/>
-                              </svg>
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">1</div>
-                              <div className="text-xs text-gray-500">Bath</div>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
-                              <svg className="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
-                                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z"/>
-                              </svg>
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">1</div>
-                              <div className="text-xs text-gray-500">Parking</div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Price Section - Clean Single Price */}
-                        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-4 mb-4 border border-green-100">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="text-sm font-semibold text-gray-900">Monthly Rent</h4>
-                            <div className="flex items-center gap-1">
-                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                              <span className="text-xs text-gray-600">Verified</span>
-                            </div>
-                          </div>
-                          
-                          <div className="text-center">
-                            <div className="text-3xl font-bold text-green-600 transition-all duration-500 animate-fadeIn">
-                              N${featuredProperties.length > 0 ? parseInt(featuredProperties[currentPropertyIndex]?.price_per_month || "0").toLocaleString() : "2,500"}
-                            </div>
-                            <div className="text-sm text-gray-500 mt-1">per month</div>
-                          </div>
-                        </div>
-                        
-                        {/* Action Buttons */}
-                        <div className="space-y-3">
-                          <button className="w-full bg-green-600 text-white py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-lg hover:bg-green-700 transition-all duration-200">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-                            </svg>
-                            Save Property
-                          </button>
-                          
-                          <button className="w-full bg-white border-2 border-green-600 text-green-600 py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:bg-green-50 transition-all duration-200">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd"/>
-                            </svg>
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
-                </div>
-                
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-green-600 text-sm animate-bounce shadow-lg">
-                  ✨
-                </div>
-                <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs animate-pulse shadow-lg">
-                  📱
-                </div>
+                ) : (
+                  <div className="bg-gray-200 flex items-center justify-center p-8" style={{ border: '10px solid #000000' }}>
+                    <p className="text-gray-500">No images available</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -338,9 +232,24 @@ export default function Home() {
 
       {/* Features Section - Why choose Pozi? */}
       <section 
-        className="py-16 md:py-20 lg:py-24 relative overflow-hidden"
-        style={{ backgroundColor: '#d6e25c' }} // Pozi Brand Pink/Yellow
+        className="py-16 md:py-20 lg:py-24 relative overflow-visible"
+        style={{ backgroundColor: '#fce7f3', marginTop: '-30vh' }} // Light pink background
       >
+        {/* Curved Top Edge - Creates wave effect that overlaps previous section */}
+        <div className="absolute top-0 left-0 w-full" style={{ height: '120px', marginTop: '-60px', zIndex: 1 }}>
+          <svg
+            viewBox="0 0 1440 120"
+            preserveAspectRatio="none"
+            className="w-full h-full"
+            style={{ display: 'block' }}
+          >
+            <path
+              d="M0,120 C240,60 480,60 720,80 C960,100 1200,60 1320,70 C1380,75 1410,70 1440,60 L1440,120 L0,120 Z"
+              fill="#fce7f3"
+            />
+          </svg>
+        </div>
+        
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center space-y-3 mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold" style={{ color: '#005b42' }}>Why choose Pozi?</h2>

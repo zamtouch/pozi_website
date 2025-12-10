@@ -162,13 +162,13 @@ function SearchPageContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid gap-8 grid-cols-1 lg:grid-cols-12 w-full">
+        <div className="grid gap-8 grid-cols-1 lg:grid-cols-12 w-full max-w-7xl mx-auto">
           {/* Filters Sidebar */}
-          <div className="lg:col-span-2 order-2 lg:order-1">
-            <Card className="sticky top-24">
-              <CardHeader>
+          <div className="lg:col-span-3 order-2 lg:order-1">
+            <Card className="sticky top-24 rounded-2xl shadow-2xl z-20 overflow-hidden" style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)' }}>
+              <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">Filters</CardTitle>
+                  <CardTitle className="text-xl font-semibold" style={{ color: '#005b42' }}>Filters</CardTitle>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -182,7 +182,7 @@ function SearchPageContent() {
               
               <CardContent className={`space-y-6 ${showFilters ? 'block' : 'hidden lg:block'}`}>
                 {/* Tabs */}
-                <div className="flex space-x-1 bg-gray-100 rounded-xl p-1">
+                <div className="flex space-x-1 mb-4 bg-gray-100 rounded-xl p-0.5">
                   <button
                     type="button"
                     onClick={() => {
@@ -190,11 +190,12 @@ function SearchPageContent() {
                       setSelectedTown('');
                       setSelectedResidential('');
                     }}
-                    className={`flex-1 px-4 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 ${
+                    className={`flex-1 px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ${
                       activeTab === 'student'
-                        ? 'bg-white text-blue-600 shadow-sm'
+                        ? 'bg-white shadow-md'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
+                    style={activeTab === 'student' ? { color: '#005b42' } : {}}
                   >
                     <span className="flex items-center justify-center gap-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,11 +210,12 @@ function SearchPageContent() {
                       setActiveTab('graduate');
                       setSelectedUniversity('');
                     }}
-                    className={`flex-1 px-4 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 ${
+                    className={`flex-1 px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ${
                       activeTab === 'graduate'
-                        ? 'bg-white text-purple-600 shadow-sm'
+                        ? 'bg-white shadow-md'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
+                    style={activeTab === 'graduate' ? { color: '#005b42' } : {}}
                   >
                     <span className="flex items-center justify-center gap-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -226,47 +228,68 @@ function SearchPageContent() {
 
                 {activeTab === 'student' ? (
                   /* University Filter */
-                  <div className="space-y-2">
-                    <label className="block text-sm font-semibold text-gray-700">
-                      <span className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                        University
-                      </span>
-                    </label>
-                    <Select
-                      options={[
-                        { value: '', label: 'All Universities' },
-                        ...universities.map(uni => ({
-                          value: uni.slug,
-                          label: uni.name
-                        }))
-                      ]}
-                      value={selectedUniversity}
-                      onChange={(e) => {
-                        setSelectedUniversity(e.target.value);
-                      }}
-                      className="w-full border-2 border-gray-200 hover:border-blue-400 focus:border-blue-500 transition-colors rounded-lg"
-                      disabled={isLoadingUniversities}
-                    />
-                  </div>
-                ) : (
-                  /* Town and Residential Filters */
                   <div className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700">
+                    <div className="relative">
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#005b42' }}>
                         <span className="flex items-center gap-2">
-                          <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#d6e25c' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                           </svg>
-                          Town
+                          Select University
                         </span>
                       </label>
                       <Select
                         options={[
-                          { value: '', label: 'All Towns' },
+                          { value: '', label: 'Choose a university...' },
+                          ...universities.map(uni => ({
+                            value: uni.slug,
+                            label: uni.name
+                          }))
+                        ]}
+                        value={selectedUniversity}
+                        onChange={(e) => {
+                          setSelectedUniversity(e.target.value);
+                        }}
+                        className="w-full bg-white border-2 border-gray-200 text-gray-900 transition-colors"
+                        style={{
+                          padding: '14px',
+                          borderRadius: '12px',
+                          fontSize: '15px',
+                        } as React.CSSProperties}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = '#d6e25c';
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = '#e5e7eb';
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = '#d6e25c';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (document.activeElement !== e.currentTarget) {
+                            e.currentTarget.style.borderColor = '#e5e7eb';
+                          }
+                        }}
+                        disabled={isLoadingUniversities}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  /* Town and Residential Filters */
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#005b42' }}>
+                        <span className="flex items-center gap-2">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#d6e25c' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          Select Town
+                        </span>
+                      </label>
+                      <Select
+                        options={[
+                          { value: '', label: 'Choose a town...' },
                           ...towns.map(town => ({
                             value: town.id.toString(),
                             label: town.town_name
@@ -276,14 +299,15 @@ function SearchPageContent() {
                         onChange={(e) => {
                           setSelectedTown(e.target.value);
                         }}
-                        className="w-full border-2 border-gray-200 hover:border-purple-400 focus:border-purple-500 transition-colors rounded-lg"
+                        className="w-full bg-white border-2 border-gray-200 text-gray-900 hover:border-yellow-400 focus:border-yellow-500 transition-colors"
+                        style={{ padding: '14px', borderRadius: '12px', fontSize: '15px' }}
                         disabled={isLoadingTowns}
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700">
+                    <div className="relative">
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#005b42' }}>
                         <span className="flex items-center gap-2">
-                          <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#d6e25c' }}>
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                           </svg>
                           Residential Area
@@ -291,7 +315,7 @@ function SearchPageContent() {
                       </label>
                       <Select
                         options={[
-                          { value: '', label: selectedTown ? 'All Residential Areas' : 'Select Town first' },
+                          { value: '', label: selectedTown ? 'Choose residential area...' : 'Select town first' },
                           ...residentials.map(residential => ({
                             value: residential.id.toString(),
                             label: typeof residential.residential_town === 'object' 
@@ -303,8 +327,9 @@ function SearchPageContent() {
                         onChange={(e) => {
                           setSelectedResidential(e.target.value);
                         }}
-                        className="w-full border-2 border-gray-200 hover:border-purple-400 focus:border-purple-500 transition-colors rounded-lg disabled:bg-gray-100"
-                        disabled={!selectedTown || residentials.length === 0}
+                        className="w-full bg-white border-2 border-gray-200 text-gray-900 hover:border-yellow-400 focus:border-yellow-500 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        style={{ padding: '14px', borderRadius: '12px', fontSize: '15px' }}
+                        disabled={!selectedTown || residentials.length === 0 || isLoadingTowns}
                       />
                     </div>
                   </div>
@@ -314,23 +339,39 @@ function SearchPageContent() {
                 <div className="space-y-3 pt-2">
                   <Button 
                     onClick={handleSearch} 
-                    className={`w-full h-12 font-semibold shadow-md hover:shadow-lg transition-all ${
-                      activeTab === 'student' 
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800' 
-                        : 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
-                    }`}
+                    className="w-full h-14 text-base font-semibold text-gray-900 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl font-bold" 
+                    style={{ 
+                      backgroundColor: '#d6e25c',
+                      border: 'none',
+                      opacity: 1
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#c4d04a';
+                      e.currentTarget.style.opacity = '1';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#d6e25c';
+                      e.currentTarget.style.opacity = '1';
+                    }}
                   >
                     <span className="flex items-center justify-center gap-2">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
-                      Apply Filters
+                      Search Properties
                     </span>
                   </Button>
                   <Button
                     variant="outline"
                     onClick={clearFilters}
                     className="w-full h-11 border-2 hover:bg-gray-50 font-medium"
+                    style={{ borderColor: '#005b42', color: '#005b42' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#f0f9d8';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                   >
                     Clear All
                   </Button>
@@ -340,7 +381,7 @@ function SearchPageContent() {
           </div>
 
           {/* Results */}
-          <div className="lg:col-span-10 w-full order-1 lg:order-2">
+          <div className="lg:col-span-9 w-full order-1 lg:order-2 relative z-0">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-4 sm:space-y-0">
               <div>
@@ -388,8 +429,8 @@ function SearchPageContent() {
 
             {/* Properties Grid */}
             {isLoading ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {[...Array(8)].map((_, index) => (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+                {[...Array(6)].map((_, index) => (
                   <div key={index} className="animate-pulse">
                     <div className="bg-gray-200 rounded-lg h-64 mb-4"></div>
                     <div className="space-y-2">
@@ -401,7 +442,7 @@ function SearchPageContent() {
                 ))}
               </div>
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {properties.map((property) => (
                   <PropertyCard 
                     key={property.id} 

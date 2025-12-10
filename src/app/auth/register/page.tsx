@@ -163,16 +163,16 @@ export default function RegisterPage() {
   const isStudent = formData.userType === 'student' || formData.userType === 'graduate';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
           <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold" style={{ color: '#005b42' }}>
               Create your account
             </h2>
             <p className="mt-3 text-gray-600">
               Or{' '}
-              <Link href="/auth/login" className="font-semibold text-teal-600 hover:text-teal-700 transition-colors">
+              <Link href="/auth/login" className="font-semibold transition-colors" style={{ color: '#005b42' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#004a35'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#005b42'; }}>
                 sign in to your existing account
               </Link>
             </p>
@@ -195,7 +195,16 @@ export default function RegisterPage() {
                 name="userType"
                 value={formData.userType}
                 onChange={handleChange}
-                className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-base transition-all"
+                className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 text-base transition-all"
+                style={{ '--tw-ring-color': '#d6e25c' } as React.CSSProperties}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = '#d6e25c';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = '#e5e7eb';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
               >
                 <option value="student">Student</option>
                 <option value="graduate">Graduate</option>
@@ -220,7 +229,15 @@ export default function RegisterPage() {
                   required
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                   placeholder="First name"
                 />
               </div>
@@ -236,7 +253,15 @@ export default function RegisterPage() {
                   required
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                   placeholder="Last name"
                 />
               </div>
@@ -254,8 +279,16 @@ export default function RegisterPage() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
-                placeholder="Enter your email"
+                  className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  placeholder="Enter your email"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
               />
             </div>
             
@@ -271,7 +304,15 @@ export default function RegisterPage() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="block w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                   placeholder="Create a password (min. 8 characters)"
                 />
                 <button
@@ -300,7 +341,15 @@ export default function RegisterPage() {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="block w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="block w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                   placeholder="Confirm your password"
                 />
                 <button
@@ -321,7 +370,7 @@ export default function RegisterPage() {
             {isStudent && (
               <>
                 <div className="border-t border-gray-200 pt-6 mt-6">
-                  <h3 className="text-lg font-semibold text-teal-700 mb-4">Person Responsible for Rent Details</h3>
+                  <h3 className="text-lg font-semibold mb-4" style={{ color: '#005b42' }}>Person Responsible for Rent Details</h3>
                   <p className="text-sm text-gray-600 mb-4">Please provide information about the person who will be responsible for rent payments.</p>
                 </div>
 
@@ -337,7 +386,15 @@ export default function RegisterPage() {
                       required={isStudent}
                       value={formData.responsibleFirstName}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                       placeholder="First name"
                     />
                   </div>
@@ -353,7 +410,15 @@ export default function RegisterPage() {
                       required={isStudent}
                       value={formData.responsibleLastName}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                       placeholder="Last name"
                     />
                   </div>
@@ -370,7 +435,15 @@ export default function RegisterPage() {
                     required={isStudent}
                     value={formData.responsibleRelationship}
                     onChange={handleChange}
-                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                     placeholder="Parent, Guardian, etc."
                   />
                 </div>
@@ -386,7 +459,15 @@ export default function RegisterPage() {
                     required={isStudent}
                     value={formData.responsibleEmail}
                     onChange={handleChange}
-                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                     placeholder="example@email.com"
                   />
                 </div>
@@ -403,7 +484,15 @@ export default function RegisterPage() {
                       required={isStudent}
                       value={formData.responsibleIdNumber}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                       placeholder="ID Number"
                     />
                   </div>
@@ -419,7 +508,15 @@ export default function RegisterPage() {
                       required={isStudent}
                       value={formData.responsibleCell}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                      className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                       placeholder="+264 81 000 0000"
                     />
                   </div>
@@ -436,14 +533,22 @@ export default function RegisterPage() {
                     required={isStudent}
                     value={formData.responsibleOccupation}
                     onChange={handleChange}
-                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                    className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                     placeholder="Occupation"
                   />
                 </div>
 
                 {/* Bank Account Information Section */}
                 <div className="border-t border-gray-200 pt-6 mt-6">
-                  <h3 className="text-lg font-semibold text-teal-700 mb-4">Bank Account Information</h3>
+                  <h3 className="text-lg font-semibold mb-4" style={{ color: '#005b42' }}>Bank Account Information</h3>
                   <p className="text-sm text-gray-600 mb-4">
                     Required for automatic rent payment collection via Collexia. Your bank account will be used to collect monthly rent payments.
                   </p>
@@ -459,7 +564,15 @@ export default function RegisterPage() {
                         required={isStudent}
                         value={formData.accountNumber}
                         onChange={handleChange}
-                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                         placeholder="e.g., 62001543455"
                       />
                     </div>
@@ -473,7 +586,15 @@ export default function RegisterPage() {
                         required={isStudent}
                         value={formData.bankId}
                         onChange={handleChange}
-                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                       >
                         <option value="">Select Bank</option>
                         <option value="64">Bank Windhoek</option>
@@ -496,7 +617,15 @@ export default function RegisterPage() {
                         name="accountType"
                         value={formData.accountType}
                         onChange={handleChange}
-                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                       >
                         <option value="1">Current (Cheque)</option>
                         <option value="2">Savings</option>
@@ -513,7 +642,15 @@ export default function RegisterPage() {
                         type="text"
                         value={formData.idNumber}
                         onChange={handleChange}
-                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                         placeholder="Your ID number"
                       />
                     </div>
@@ -526,7 +663,15 @@ export default function RegisterPage() {
                         name="idType"
                         value={formData.idType}
                         onChange={handleChange}
-                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                        className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#d6e25c';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e7eb';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                       >
                         <option value="1">RSA ID</option>
                         <option value="2">Passport</option>
@@ -549,15 +694,16 @@ export default function RegisterPage() {
               required
               checked={formData.agreeToTerms}
               onChange={handleChange}
-              className="mt-1 h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+              className="mt-1 h-4 w-4 border-gray-300 rounded"
+              style={{ accentColor: '#005b42' }}
             />
             <label htmlFor="agreeToTerms" className="block text-sm text-gray-700">
               I agree to the{' '}
-              <Link href="/terms" className="font-semibold text-teal-600 hover:text-teal-700">
+              <Link href="/terms" className="font-semibold transition-colors" style={{ color: '#005b42' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#004a35'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#005b42'; }}>
                 Terms of Service
               </Link>{' '}
               and{' '}
-              <Link href="/privacy" className="font-semibold text-teal-600 hover:text-teal-700">
+              <Link href="/privacy" className="font-semibold transition-colors" style={{ color: '#005b42' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#004a35'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#005b42'; }}>
                 Privacy Policy
               </Link>
             </label>
@@ -567,7 +713,17 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center gap-2 py-4 px-6 bg-gradient-to-r from-teal-600 to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:from-teal-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02]"
+              className="w-full flex justify-center items-center gap-2 py-4 px-6 text-white font-semibold rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02]"
+              style={{ 
+                backgroundColor: '#005b42',
+                '--tw-ring-color': '#d6e25c'
+              } as React.CSSProperties}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#004a35';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#005b42';
+              }}
             >
               {loading ? (
                 <>
@@ -600,10 +756,10 @@ export default function RegisterPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center">
-              <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-green-100 to-teal-100 mb-6">
-                <CheckCircleIcon className="h-12 w-12 text-green-600" />
+              <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full mb-6" style={{ backgroundColor: '#d6e25c' }}>
+                <CheckCircleIcon className="h-12 w-12" style={{ color: '#005b42' }} />
               </div>
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent mb-4">
+              <h3 className="text-3xl font-bold mb-4" style={{ color: '#005b42' }}>
                 Account Created!
               </h3>
               <p className="text-gray-600 mb-8 text-lg leading-relaxed">
@@ -614,7 +770,14 @@ export default function RegisterPage() {
                   setShowSuccessModal(false);
                   router.push('/auth/login');
                 }}
-                className="w-full bg-gradient-to-r from-teal-600 to-blue-600 text-white font-semibold py-4 px-6 rounded-xl hover:from-teal-700 hover:to-blue-700 transition-all transform hover:scale-[1.02] shadow-lg active:scale-[0.98]"
+                className="w-full text-white font-semibold py-4 px-6 rounded-xl transition-all transform hover:scale-[1.02] shadow-lg active:scale-[0.98]"
+                style={{ backgroundColor: '#005b42' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#004a35';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#005b42';
+                }}
               >
                 Continue to Login
               </button>
