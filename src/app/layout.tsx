@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import ConditionalLayout from '@/components/layout/conditional-layout';
 import { AuthProvider } from '@/lib/auth';
@@ -62,6 +63,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-white text-gray-900 antialiased">
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-X0870TDHVF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-X0870TDHVF');
+          `}
+        </Script>
         <AuthProvider>
           <CleanupOrphanedFiles />
           <ConditionalLayout>
