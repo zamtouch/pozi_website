@@ -280,7 +280,7 @@ export default function RegisterPage() {
                 value={formData.email}
                 onChange={handleChange}
                   className="block w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none transition-all"
-                  placeholder="Enter your email"
+                placeholder="Enter your email"
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor = '#d6e25c';
                     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(214, 226, 92, 0.1)';

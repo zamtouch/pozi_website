@@ -20,3 +20,4 @@ Allow: /property/
 # Sitemap location
 Sitemap: https://pozi.com.na/sitemap.xml
 
+

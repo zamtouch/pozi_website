@@ -95,50 +95,6 @@ export default function Home() {
 
   return (
     <main>
-      {/* Structured Data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'Pozi',
-            description: 'Student housing platform connecting students with verified accommodation near universities',
-            url: 'https://pozi.com.na',
-            logo: 'https://pozi.com.na/logo.png',
-            sameAs: [
-              'https://www.tiktok.com/@mypozi',
-              'https://www.instagram.com/mypozi_',
-              'https://x.com/mypozi_',
-              'https://www.linkedin.com/company/110116143',
-            ],
-            contactPoint: {
-              '@type': 'ContactPoint',
-              contactType: 'Customer Service',
-              availableLanguage: 'English',
-            },
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebSite',
-            name: 'Pozi',
-            url: 'https://pozi.com.na',
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: {
-                '@type': 'EntryPoint',
-                urlTemplate: 'https://pozi.com.na/search?q={search_term_string}',
-              },
-              'query-input': 'required name=search_term_string',
-            },
-          }),
-        }}
-      />
       {/* Hero Section */}
       <HeroSearch />
 
