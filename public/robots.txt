@@ -1,0 +1,22 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow admin and private routes
+Disallow: /auth/
+Disallow: /student/
+Disallow: /landlord/
+Disallow: /api/
+
+# Allow public pages
+Allow: /
+Allow: /about
+Allow: /contact
+Allow: /search
+Allow: /privacy
+Allow: /terms
+Allow: /property/
+
+# Sitemap location
+Sitemap: https://pozi.com.na/sitemap.xml
+

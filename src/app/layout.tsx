@@ -23,14 +23,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://studentrent.com'),
+  metadataBase: new URL('https://pozi.com.na'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Pozi | Your Campus. Your Crew. Your Pozi.',
     description: 'Discover verified student accommodation near universities. Simple search, direct applications, and student-first experience.',
-    url: 'https://studentrent.com',
+    url: 'https://pozi.com.na',
     siteName: 'Pozi',
     locale: 'en_US',
     type: 'website',

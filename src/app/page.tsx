@@ -36,7 +36,7 @@ export default function Home() {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [isLoadingProperties, setIsLoadingProperties] = useState(true);
   const [currentPropertyIndex, setCurrentPropertyIndex] = useState(0);
-  
+
   // App demo images from public folder
   const appDemoImages = [
     '/app_demo/pozi_demo1.webp',
@@ -95,6 +95,50 @@ export default function Home() {
 
   return (
     <main>
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Pozi',
+            description: 'Student housing platform connecting students with verified accommodation near universities',
+            url: 'https://pozi.com.na',
+            logo: 'https://pozi.com.na/logo.png',
+            sameAs: [
+              'https://www.tiktok.com/@mypozi',
+              'https://www.instagram.com/mypozi_',
+              'https://x.com/mypozi_',
+              'https://www.linkedin.com/company/110116143',
+            ],
+            contactPoint: {
+              '@type': 'ContactPoint',
+              contactType: 'Customer Service',
+              availableLanguage: 'English',
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'Pozi',
+            url: 'https://pozi.com.na',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: {
+                '@type': 'EntryPoint',
+                urlTemplate: 'https://pozi.com.na/search?q={search_term_string}',
+              },
+              'query-input': 'required name=search_term_string',
+            },
+          }),
+        }}
+      />
       {/* Hero Section */}
       <HeroSearch />
 
@@ -204,21 +248,21 @@ export default function Home() {
                       className="block"
                       style={{ display: 'block', height: '85vh', width: 'auto' }}
                     />
-                    
-                    {/* Image Carousel Dots */}
+                        
+                        {/* Image Carousel Dots */}
                     {appDemoImages.length > 1 && (
                       <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-10">
                         {appDemoImages.map((_, index) => (
-                          <div 
-                            key={index}
-                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            <div 
+                              key={index}
+                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
                               index === currentAppImageIndex ? 'bg-white' : 'bg-white/40'
-                            }`}
-                          />
-                        ))}
+                              }`}
+                            />
+                          ))}
                       </div>
                     )}
-                  </div>
+                        </div>
                 ) : (
                   <div className="bg-gray-200 flex items-center justify-center p-8" style={{ border: '10px solid #000000' }}>
                     <p className="text-gray-500">No images available</p>
