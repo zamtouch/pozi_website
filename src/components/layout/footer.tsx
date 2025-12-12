@@ -123,7 +123,7 @@ export default function Footer() {
           <div className="mt-12 pt-8 border-t border-gray-100">
             <div className="flex flex-col md:flex-row justify-center items-center gap-4">
               <p className="text-sm text-gray-500">
-                © 2024 Pozi. All rights reserved Bare Investments
+                © {new Date().getFullYear()} Pozi. All rights reserved Bare Investments
               </p>
             </div>
           </div>

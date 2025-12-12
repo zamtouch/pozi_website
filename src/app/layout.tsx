@@ -12,13 +12,6 @@ export const metadata: Metadata = {
   authors: [{ name: 'Pozi Team' }],
   creator: 'Pozi',
   publisher: 'Pozi',
-  icons: {
-    icon: [
-      { url: '/icon.png', type: 'image/png' },
-    ],
-    shortcut: '/icon.png',
-    apple: '/icon.png',
-  },
   formatDetection: {
     email: false,
     address: false,

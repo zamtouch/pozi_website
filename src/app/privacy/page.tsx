@@ -157,6 +157,9 @@ export default function PrivacyPolicyPage() {
                 <p className="mt-4">
                   <strong>Email:</strong> <a href="mailto:privacy@pozi.com.na" className="text-green-600 hover:underline">privacy@pozi.com.na</a>
                 </p>
+                <p className="mt-2">
+                  <strong>Address:</strong> 17 Parsival Street, Office 6. Windhoek
+                </p>
               </section>
 
             </div>

@@ -50,12 +50,14 @@ interface TeamMember {
   name: string;
   role: string;
   image: string | { id: string } | null;
+  team_photo?: string | { id: string } | null;
   order: number;
 }
 
 export default function AboutPage() {
   const [team, setTeam] = useState<TeamMember[]>([]);
   const [isLoadingTeam, setIsLoadingTeam] = useState(true);
+  const [teamPhoto, setTeamPhoto] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTeam = async () => {
@@ -68,6 +70,16 @@ export default function AboutPage() {
           const data = await response.json();
           if (data.success && data.data) {
             setTeam(data.data);
+            // Extract team photo from the first team item that has it
+            const itemWithPhoto = data.data.find((item: TeamMember) => item.team_photo);
+            if (itemWithPhoto?.team_photo) {
+              const photoId = typeof itemWithPhoto.team_photo === 'string' 
+                ? itemWithPhoto.team_photo 
+                : itemWithPhoto.team_photo?.id;
+              if (photoId) {
+                setTeamPhoto(photoId);
+              }
+            }
           }
         } else {
           console.error('Failed to fetch team members');
@@ -222,7 +234,30 @@ export default function AboutPage() {
       </div>
 
       {/* Group Photo Section */}
-  
+      {teamPhoto && (
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-white">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-light text-gray-900 mb-4">
+                Our Team
+              </h2>
+              <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto">
+                The passionate Namibians behind POZI
+              </p>
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src={getImageUrl(teamPhoto)}
+                alt="Pozi Team"
+                width={1200}
+                height={800}
+                className="w-full h-auto object-cover"
+                unoptimized
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Team Section */}
       <div className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-white">

@@ -148,15 +148,17 @@ export default function ContactPage() {
       name: 'Help Center',
       icon: QuestionMarkCircleIcon,
       description: 'Find answers to frequently asked questions and get help with common issues.',
-      action: () => openLink(defaults?.help_center_link),
+      action: () => {},
       color: 'from-green-500 to-emerald-500',
+      href: '/help-center',
     },
     {
       name: 'How It Works',
       icon: InformationCircleIcon,
       description: 'Learn how to use POZI Student Living to find and apply for properties.',
-      action: () => openLink(defaults?.how_it_works_link),
+      action: () => {},
       color: 'from-blue-500 to-cyan-500',
+      href: '/how-it-works',
     },
   ];
 
@@ -183,15 +185,6 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Contact Methods Grid */}
         <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Contact Us
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Pick the method that works best for you
-            </p>
-          </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {contactMethods.map((method, index) => {
               const Icon = method.icon;
@@ -292,12 +285,8 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {helpResources.map((resource, index) => {
               const Icon = resource.icon;
-              return (
-                <div
-                  key={index}
-                  onClick={resource.action}
-                  className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2 border border-gray-100"
-                >
+              const content = (
+                <>
                   {/* Gradient Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${resource.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
                   
@@ -318,6 +307,28 @@ export default function ContactPage() {
 
                   {/* Hover Effect Border */}
                   <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${resource.color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}></div>
+                </>
+              );
+
+              if (resource.href) {
+                return (
+                  <Link
+                    key={index}
+                    href={resource.href}
+                    className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2 border border-gray-100 block"
+                  >
+                    {content}
+                  </Link>
+                );
+              }
+
+              return (
+                <div
+                  key={index}
+                  onClick={resource.action}
+                  className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2 border border-gray-100"
+                >
+                  {content}
                 </div>
               );
             })}

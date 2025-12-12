@@ -116,7 +116,7 @@ export default function TermsConditionsPage() {
                   <strong>Email:</strong> <a href="mailto:support@pozi.com.na" className="text-green-600 hover:underline">support@pozi.com.na</a>
                 </p>
                 <p className="mt-2">
-                  <strong>Address:</strong> [Insert mailing address here]
+                  <strong>Address:</strong> 17 Parsival Street, Office 6. Windhoek
                 </p>
               </section>
 

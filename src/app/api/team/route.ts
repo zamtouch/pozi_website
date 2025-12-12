@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     // Only fetch published team members, sorted by order
     const teamParams = new URLSearchParams();
     teamParams.append('filter[status][_eq]', 'published');
-    teamParams.append('fields', '*,image.*');
+    teamParams.append('fields', '*,image.*,team_photo.*');
     teamParams.append('sort', 'order');
     
     const teamResponse = await httpJson(
